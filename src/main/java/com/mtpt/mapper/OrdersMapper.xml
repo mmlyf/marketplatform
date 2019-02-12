@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.Orders">
+    <id column="Id" jdbcType="CHAR" property="id" />
+    <result column="SerialNo" jdbcType="CHAR" property="serialno" />
+    <result column="ProductId" jdbcType="CHAR" property="productid" />
+    <result column="PurchaseTime" jdbcType="TIMESTAMP" property="purchasetime" />
+    <result column="ConfirmTime" jdbcType="TIMESTAMP" property="confirmtime" />
+    <result column="BssState" jdbcType="INTEGER" property="bssstate" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="BuyTime" jdbcType="BIGINT" property="buytime" />
+    <result column="UserId" jdbcType="CHAR" property="userid" />
+    <result column="TransactionId" jdbcType="CHAR" property="transactionid" />
+    <result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="DataState" jdbcType="INTEGER" property="datastate" />
+    <result column="Source" jdbcType="CHAR" property="source" />
+    <result column="UserFrom" jdbcType="CHAR" property="userfrom" />
+    <result column="Lsource" jdbcType="BIT" property="lsource" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mtpt.bean.Orders">
+    <result column="Mobile" jdbcType="LONGVARCHAR" property="mobile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, SerialNo, ProductId, PurchaseTime, ConfirmTime, BssState, Status, BuyTime, UserId, 
+    TransactionId, AddTime, ModifyTime, DataState, Source, UserFrom, Lsource
+  </sql>
+  <sql id="Blob_Column_List">
+    Mobile
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from orders
+    where Id = #{id,jdbcType=CHAR}
+  </select>
+  
+  <select id="selectByOrdersPage" parameterType="com.mtpt.bean.page.OrdersPage" resultMap="ResultMapWithBLOBs">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from orders
+    <where>
+    		<if test="dn!=null and dn!=''">
+    			and Mobile like '%${dn}%'
+    		</if>
+    		<if test="date_star!=null and date_star!='' and date_end!=null and date_end!=''">
+    			and AddTime between #{date_star} and #{date_end}
+    		</if>
+    		<if test="ddlx!=null and ddlx!='' and ddlx!='-1'" >
+    			and BssState=#{ddlx}
+    		</if>
+    		<if test="ddlx!=null and ddlx!='-1' and ddlx==''">
+    			and (BssState is null or BssState!='0')    			
+    		</if>
+    		<if test="qudao!=null and qudao!=''">
+    			and Lsource=#{qudao}
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==1">
+    			and ProductId In (select Id from products where ProductName like '%月包%' or ProductName like '%日包%' or ProductName like '%流量包%' or ProductName like '%闲时包%' or ProductName like '%流量月包%' or ProductName like '%天包%' or ProductName like '%特惠包%' or ProductName like '%半年包%')
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==2">
+    			and ProductId In (select Id from products where ProductName like '%低消%')
+    		</if>
+    </where>
+    order by AddTime DESC 
+    limit #{start},#{limit}
+  </select>
+  
+  <select id="selectByOrdersCount" parameterType="com.mtpt.bean.page.OrdersPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from orders
+  	 <where>
+    		<if test="dn!=null and dn!=''">
+    			and Mobile like '%${dn}%'
+    		</if>
+    		<if test="date_star!=null and date_star!='' and date_end!=null and date_end!=''">
+    			and AddTime between #{date_star} and #{date_end}
+    		</if>
+    		<if test="ddlx!=null and ddlx!='' and ddlx!='-1'" >
+    			and BssState=#{ddlx}
+    		</if>
+    		<if test="ddlx!=null and ddlx!=-1 and ddlx==''">
+    			and (BssState is null or BssState!='0')     			
+    		</if>
+    		<if test="qudao!=null and qudao!=''">
+    			and Lsource=#{qudao}
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==1">
+    			and ProductId In (select Id from products where ProductName like '%月包%' or ProductName like '%日包%' or ProductName like '%流量包%' or ProductName like '%闲时包%' or ProductName like '%流量月包%' or ProductName like '%天包%' or ProductName like '%特惠包%' or ProductName like '%半年包%')
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==2">
+    			and ProductId In (select Id from products where ProductName like '%低消%')
+    		</if>
+    </where>
+  	order by AddTime DESC
+  </select>
+  
+  <select id="selectCountAllByPage" parameterType="com.mtpt.bean.page.TotalPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from orders
+  	<where>
+  		<if test="adtime!=null and adtime!=''">
+  			and AddTime like '${adtime} %' 
+  		</if>
+  		<if test="state!=null and state!='' and state==1"><!-- 查找当前订购成功的总量 -->
+  			and BssState = 0
+  		</if>
+  		<if test="state!=null and state!='' and state==2"><!-- 查找低消订购成功 -->
+  			and BssState = 0 and ProductId in (SELECT id  FROM products WHERE ProductName LIKE '%低消%')
+  		</if>
+  		<if test="state!=null and state!='' and state==3"><!-- 查找低消订购不成功 -->
+  			and (BssState is null or BssState!='0') and ProductId in (SELECT id  FROM products WHERE ProductName LIKE '%低消%')
+  		</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from orders
+    where Id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.Orders">
+    insert into orders (Id, SerialNo, ProductId, 
+      PurchaseTime, ConfirmTime, BssState, 
+      Status, BuyTime, UserId, 
+      TransactionId, AddTime, ModifyTime, 
+      DataState, Source, UserFrom, 
+      Lsource, Mobile)
+    values (#{id,jdbcType=CHAR}, #{serialno,jdbcType=CHAR}, #{productid,jdbcType=CHAR}, 
+      #{purchasetime,jdbcType=TIMESTAMP}, #{confirmtime,jdbcType=TIMESTAMP}, #{bssstate,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{buytime,jdbcType=BIGINT}, #{userid,jdbcType=CHAR}, 
+      #{transactionid,jdbcType=CHAR}, #{addtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{datastate,jdbcType=INTEGER}, #{source,jdbcType=CHAR}, #{userfrom,jdbcType=CHAR}, 
+      #{lsource,jdbcType=BIT}, #{mobile,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.Orders">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="serialno != null">
+        SerialNo,
+      </if>
+      <if test="productid != null">
+        ProductId,
+      </if>
+      <if test="purchasetime != null">
+        PurchaseTime,
+      </if>
+      <if test="confirmtime != null">
+        ConfirmTime,
+      </if>
+      <if test="bssstate != null">
+        BssState,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="buytime != null">
+        BuyTime,
+      </if>
+      <if test="userid != null">
+        UserId,
+      </if>
+      <if test="transactionid != null">
+        TransactionId,
+      </if>
+      <if test="addtime != null">
+        AddTime,
+      </if>
+      <if test="modifytime != null">
+        ModifyTime,
+      </if>
+      <if test="datastate != null">
+        DataState,
+      </if>
+      <if test="source != null">
+        Source,
+      </if>
+      <if test="userfrom != null">
+        UserFrom,
+      </if>
+      <if test="lsource != null">
+        Lsource,
+      </if>
+      <if test="mobile != null">
+        Mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="serialno != null">
+        #{serialno,jdbcType=CHAR},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=CHAR},
+      </if>
+      <if test="purchasetime != null">
+        #{purchasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmtime != null">
+        #{confirmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bssstate != null">
+        #{bssstate,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="buytime != null">
+        #{buytime,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="transactionid != null">
+        #{transactionid,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datastate != null">
+        #{datastate,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=CHAR},
+      </if>
+      <if test="userfrom != null">
+        #{userfrom,jdbcType=CHAR},
+      </if>
+      <if test="lsource != null">
+        #{lsource,jdbcType=BIT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.Orders">
+    update orders
+    <set>
+      <if test="serialno != null">
+        SerialNo = #{serialno,jdbcType=CHAR},
+      </if>
+      <if test="productid != null">
+        ProductId = #{productid,jdbcType=CHAR},
+      </if>
+      <if test="purchasetime != null">
+        PurchaseTime = #{purchasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmtime != null">
+        ConfirmTime = #{confirmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bssstate != null">
+        BssState = #{bssstate,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="buytime != null">
+        BuyTime = #{buytime,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="transactionid != null">
+        TransactionId = #{transactionid,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datastate != null">
+        DataState = #{datastate,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        Source = #{source,jdbcType=CHAR},
+      </if>
+      <if test="userfrom != null">
+        UserFrom = #{userfrom,jdbcType=CHAR},
+      </if>
+      <if test="lsource != null">
+        Lsource = #{lsource,jdbcType=BIT},
+      </if>
+      <if test="mobile != null">
+        Mobile = #{mobile,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mtpt.bean.Orders">
+    update orders
+    set SerialNo = #{serialno,jdbcType=CHAR},
+      ProductId = #{productid,jdbcType=CHAR},
+      PurchaseTime = #{purchasetime,jdbcType=TIMESTAMP},
+      ConfirmTime = #{confirmtime,jdbcType=TIMESTAMP},
+      BssState = #{bssstate,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      BuyTime = #{buytime,jdbcType=BIGINT},
+      UserId = #{userid,jdbcType=CHAR},
+      TransactionId = #{transactionid,jdbcType=CHAR},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      DataState = #{datastate,jdbcType=INTEGER},
+      Source = #{source,jdbcType=CHAR},
+      UserFrom = #{userfrom,jdbcType=CHAR},
+      Lsource = #{lsource,jdbcType=BIT},
+      Mobile = #{mobile,jdbcType=LONGVARCHAR}
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.Orders">
+    update orders
+    set SerialNo = #{serialno,jdbcType=CHAR},
+      ProductId = #{productid,jdbcType=CHAR},
+      PurchaseTime = #{purchasetime,jdbcType=TIMESTAMP},
+      ConfirmTime = #{confirmtime,jdbcType=TIMESTAMP},
+      BssState = #{bssstate,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      BuyTime = #{buytime,jdbcType=BIGINT},
+      UserId = #{userid,jdbcType=CHAR},
+      TransactionId = #{transactionid,jdbcType=CHAR},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      DataState = #{datastate,jdbcType=INTEGER},
+      Source = #{source,jdbcType=CHAR},
+      UserFrom = #{userfrom,jdbcType=CHAR},
+      Lsource = #{lsource,jdbcType=BIT}
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

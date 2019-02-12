@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBCCTotalMapper">
+	<resultMap id="BaseResultMap" type="com.mtpt.alibean.TBCCTotal">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="b_pv" jdbcType="INTEGER" property="bPv" />
+		<result column="li_allbc" jdbcType="INTEGER" property="liAllbc" />
+		<result column="tan_seebc" jdbcType="INTEGER" property="tanSeebc" />
+		<result column="tan_seeicepv" jdbcType="INTEGER" property="tanSeeicepv" />
+		<result column="tan_seedxpv" jdbcType="INTEGER" property="tanSeedxpv" />
+		<result column="tanli_icebc" jdbcType="INTEGER" property="tanliIcebc" />
+		<result column="tanli_dxbc" jdbcType="INTEGER" property="tanliDxbc" />
+		<result column="ccc_pv" jdbcType="INTEGER" property="cccPv" />
+		<result column="li_npccpv" jdbcType="INTEGER" property="liNpccpv" />
+		<result column="see_icepv" jdbcType="INTEGER" property="seeIcepv" />
+		<result column="see_dxpv" jdbcType="INTEGER" property="seeDxpv" />
+		<result column="see_llbpv" jdbcType="INTEGER" property="seeLlbpv" />
+		<result column="six_orderc" jdbcType="INTEGER" property="sixOrderc" />
+		<result column="nine_orderc" jdbcType="INTEGER" property="nineOrderc" />
+		<result column="muti_bc" jdbcType="INTEGER" property="mutiBc" />
+		<result column="tehui_bc" jdbcType="INTEGER" property="tehuiBc" />
+		<result column="ice_bookc" jdbcType="INTEGER" property="iceBookc" />
+		<result column="dx_ordersucc" jdbcType="INTEGER" property="dxOrdersucc" />
+		<result column="dx_ordersunsucc" jdbcType="INTEGER" property="dxOrdersunsucc" />
+		<result column="sm_sendc" jdbcType="INTEGER" property="smSendc" />
+		<result column="addtime" jdbcType="VARCHAR" property="addtime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, b_pv, li_allbc, tan_seebc, tan_seeicepv, tan_seedxpv, tanli_icebc,
+		tanli_dxbc,
+		ccc_pv, li_npccpv, see_icepv, see_dxpv,see_llbpv, ice_bookc, dx_ordersucc,
+		dx_ordersunsucc,
+		six_orderc, nine_orderc,sm_sendc, muti_bc, tehui_bc, addtime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_cctotal
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectAllDataByPage" parameterType="com.mtpt.alibean.page.PublicPage"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_cctotal
+		ORDER BY addtime DESC
+		limit #{start},#{limit}
+	</select>
+
+	<select id="selectAllData" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_cctotal
+	</select>
+
+	<select id="selectAllDataCount" parameterType="com.mtpt.alibean.page.PublicPage"
+		resultType="java.lang.Integer">
+		select count(1)
+		from tb_cctotal
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tb_cctotal
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.mtpt.alibean.TBCCTotal">
+		insert into tb_cctotal (id, b_pv, li_allbc,
+		tan_seebc, tan_seeicepv, tan_seedxpv,
+		tanli_icebc, tanli_dxbc, ccc_pv,
+		li_npccpv, see_icepv, see_dxpv, see
+		ice_bookc, dx_ordersucc, dx_ordersunsucc,
+		sm_sendc, addtime)
+		values (#{id,jdbcType=INTEGER}, #{bPv,jdbcType=INTEGER},
+		#{liAllbc,jdbcType=INTEGER},
+		#{tanSeebc,jdbcType=INTEGER}, #{tanSeeicepv,jdbcType=INTEGER}, #{tanSeedxpv,jdbcType=INTEGER},
+		#{tanliIcebc,jdbcType=INTEGER}, #{tanliDxbc,jdbcType=INTEGER},
+		#{cccPv,jdbcType=INTEGER},
+		#{liNpccpv,jdbcType=INTEGER}, #{seeIcepv,jdbcType=INTEGER}, #{seeDxpv,jdbcType=INTEGER},
+		#{iceBookc,jdbcType=INTEGER}, #{dxOrdersucc,jdbcType=INTEGER},
+		#{dxOrdersunsucc,jdbcType=INTEGER},
+		#{smSendc,jdbcType=INTEGER}, #{addtime,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mtpt.alibean.TBCCTotal">
+		insert into tb_cctotal
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bPv != null">
+				b_pv,
+			</if>
+			<if test="liAllbc != null">
+				li_allbc,
+			</if>
+			<if test="tanSeebc != null">
+				tan_seebc,
+			</if>
+			<if test="tanSeeicepv != null">
+				tan_seeicepv,
+			</if>
+			<if test="tanSeedxpv != null">
+				tan_seedxpv,
+			</if>
+			<if test="tanliIcebc != null">
+				tanli_icebc,
+			</if>
+			<if test="tanliDxbc != null">
+				tanli_dxbc,
+			</if>
+			<if test="cccPv != null">
+				ccc_pv,
+			</if>
+			<if test="liNpccpv != null">
+				li_npccpv,
+			</if>
+			<if test="seeIcepv != null">
+				see_icepv,
+			</if>
+			<if test="seeDxpv != null">
+				see_dxpv,
+			</if>
+			<if test="iceBookc != null">
+				ice_bookc,
+			</if>
+			<if test="dxOrdersucc != null">
+				dx_ordersucc,
+			</if>
+			<if test="dxOrdersunsucc != null">
+				dx_ordersunsucc,
+			</if>
+			<if test="smSendc != null">
+				sm_sendc,
+			</if>
+			<if test="addtime != null">
+				addtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bPv != null">
+				#{bPv,jdbcType=INTEGER},
+			</if>
+			<if test="liAllbc != null">
+				#{liAllbc,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeebc != null">
+				#{tanSeebc,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeeicepv != null">
+				#{tanSeeicepv,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeedxpv != null">
+				#{tanSeedxpv,jdbcType=INTEGER},
+			</if>
+			<if test="tanliIcebc != null">
+				#{tanliIcebc,jdbcType=INTEGER},
+			</if>
+			<if test="tanliDxbc != null">
+				#{tanliDxbc,jdbcType=INTEGER},
+			</if>
+			<if test="cccPv != null">
+				#{cccPv,jdbcType=INTEGER},
+			</if>
+			<if test="liNpccpv != null">
+				#{liNpccpv,jdbcType=INTEGER},
+			</if>
+			<if test="seeIcepv != null">
+				#{seeIcepv,jdbcType=INTEGER},
+			</if>
+			<if test="seeDxpv != null">
+				#{seeDxpv,jdbcType=INTEGER},
+			</if>
+			<if test="iceBookc != null">
+				#{iceBookc,jdbcType=INTEGER},
+			</if>
+			<if test="dxOrdersucc != null">
+				#{dxOrdersucc,jdbcType=INTEGER},
+			</if>
+			<if test="dxOrdersunsucc != null">
+				#{dxOrdersunsucc,jdbcType=INTEGER},
+			</if>
+			<if test="smSendc != null">
+				#{smSendc,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBCCTotal">
+		update tb_cctotal
+		<set>
+			<if test="bPv != null">
+				b_pv = #{bPv,jdbcType=INTEGER},
+			</if>
+			<if test="liAllbc != null">
+				li_allbc = #{liAllbc,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeebc != null">
+				tan_seebc = #{tanSeebc,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeeicepv != null">
+				tan_seeicepv = #{tanSeeicepv,jdbcType=INTEGER},
+			</if>
+			<if test="tanSeedxpv != null">
+				tan_seedxpv = #{tanSeedxpv,jdbcType=INTEGER},
+			</if>
+			<if test="tanliIcebc != null">
+				tanli_icebc = #{tanliIcebc,jdbcType=INTEGER},
+			</if>
+			<if test="tanliDxbc != null">
+				tanli_dxbc = #{tanliDxbc,jdbcType=INTEGER},
+			</if>
+			<if test="cccPv != null">
+				ccc_pv = #{cccPv,jdbcType=INTEGER},
+			</if>
+			<if test="liNpccpv != null">
+				li_npccpv = #{liNpccpv,jdbcType=INTEGER},
+			</if>
+			<if test="seeIcepv != null">
+				see_icepv = #{seeIcepv,jdbcType=INTEGER},
+			</if>
+			<if test="seeDxpv != null">
+				see_dxpv = #{seeDxpv,jdbcType=INTEGER},
+			</if>
+			<if test="iceBookc != null">
+				ice_bookc = #{iceBookc,jdbcType=INTEGER},
+			</if>
+			<if test="dxOrdersucc != null">
+				dx_ordersucc = #{dxOrdersucc,jdbcType=INTEGER},
+			</if>
+			<if test="dxOrdersunsucc != null">
+				dx_ordersunsucc = #{dxOrdersunsucc,jdbcType=INTEGER},
+			</if>
+			<if test="smSendc != null">
+				sm_sendc = #{smSendc,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				addtime = #{addtime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBCCTotal">
+		update tb_cctotal
+		set b_pv = #{bPv,jdbcType=INTEGER},
+		li_allbc = #{liAllbc,jdbcType=INTEGER},
+		tan_seebc = #{tanSeebc,jdbcType=INTEGER},
+		tan_seeicepv = #{tanSeeicepv,jdbcType=INTEGER},
+		tan_seedxpv = #{tanSeedxpv,jdbcType=INTEGER},
+		tanli_icebc = #{tanliIcebc,jdbcType=INTEGER},
+		tanli_dxbc = #{tanliDxbc,jdbcType=INTEGER},
+		ccc_pv = #{cccPv,jdbcType=INTEGER},
+		li_npccpv = #{liNpccpv,jdbcType=INTEGER},
+		see_icepv = #{seeIcepv,jdbcType=INTEGER},
+		see_dxpv = #{seeDxpv,jdbcType=INTEGER},
+		ice_bookc = #{iceBookc,jdbcType=INTEGER},
+		dx_ordersucc = #{dxOrdersucc,jdbcType=INTEGER},
+		dx_ordersunsucc = #{dxOrdersunsucc,jdbcType=INTEGER},
+		sm_sendc = #{smSendc,jdbcType=INTEGER},
+		addtime = #{addtime,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

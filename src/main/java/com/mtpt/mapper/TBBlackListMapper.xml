@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBBlackListMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBBlackList">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dn" jdbcType="VARCHAR" property="dn" />
+    <result column="ad_time" jdbcType="TIMESTAMP" property="adTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dn, ad_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_blacklist
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByBlackPage" parameterType="com.mtpt.bean.page.BlackPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_blacklist
+  	<where>
+  		<if test="keyword!=null and keyword!='' and keytype=='dn'">
+  			and dn like "%"#{keyword}"%"
+  		</if>
+  	</where>
+  	order by id desc
+  	limit #{start},#{limit}
+  </select>
+  
+  <select id="selectByCount" parameterType="com.mtpt.bean.page.BlackPage" resultType="java.lang.Integer">
+  select count(1)
+  	from tb_blacklist
+  	<where>
+  		<if test="keyword!=null and keyword!='' and keytype=='dn'">
+  			and dn like "%"#{keyword}"%"
+  		</if>
+  	</where>
+  	order by id desc
+  </select>
+  
+  <select id="selectByAll" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from tb_blacklist
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_blacklist
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBBlackList">
+    insert into tb_blacklist (id, dn, ad_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{dn,jdbcType=VARCHAR}, #{adTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <insert id="insertByList" parameterType="java.util.List">
+  	insert into tb_blacklist(dn) 
+  	values
+  	<foreach collection="list" item="phone" index="index" separator=",">
+  		(#{phone})
+  	</foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBBlackList">
+    insert into tb_blacklist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dn != null">
+        dn,
+      </if>
+      <if test="adTime != null">
+        ad_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dn != null">
+        #{dn,jdbcType=VARCHAR},
+      </if>
+      <if test="adTime != null">
+        #{adTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBBlackList">
+    update tb_blacklist
+    <set>
+      <if test="dn != null">
+        dn = #{dn,jdbcType=VARCHAR},
+      </if>
+      <if test="adTime != null">
+        ad_time = #{adTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBBlackList">
+    update tb_blacklist
+    set dn = #{dn,jdbcType=VARCHAR},
+      ad_time = #{adTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

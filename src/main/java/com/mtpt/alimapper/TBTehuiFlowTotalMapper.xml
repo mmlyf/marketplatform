@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBTehuiFlowTotalMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBTehuiFlowTotal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="liji_bc" jdbcType="INTEGER" property="lijiBc" />
+    <result column="comfir_bc" jdbcType="INTEGER" property="comfirBc" />
+    <result column="tan_seebc" jdbcType="INTEGER" property="tanSeebc" />
+    <result column="3g_succount" jdbcType="INTEGER" property="_3gSuccount" />
+    <result column="8g_succount" jdbcType="INTEGER" property="_8gSuccount" />
+    <result column="12g_succount" jdbcType="INTEGER" property="_12gSuccount" />
+    <result column="25g_succount" jdbcType="INTEGER" property="_25gSuccount" />
+    <result column="40g_succount" jdbcType="INTEGER" property="_40gSuccount" />
+    <result column="3g_unsuccount" jdbcType="INTEGER" property="_3gUnsuccount" />
+    <result column="8g_unsuccount" jdbcType="INTEGER" property="_8gUnsuccount" />
+    <result column="12g_unsuccount" jdbcType="INTEGER" property="_12gUnsuccount" />
+    <result column="25g_unsuccount" jdbcType="INTEGER" property="_25gUnsuccount" />
+    <result column="40g_unsuccount" jdbcType="INTEGER" property="_40gUnsuccount" />
+    <result column="addtime" jdbcType="VARCHAR" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pv, liji_bc, comfir_bc, tan_seebc, 3g_succount, 8g_succount, 12g_succount, 25g_succount, 
+    40g_succount, 3g_unsuccount, 8g_unsuccount, 12g_unsuccount, 25g_unsuccount, 40g_unsuccount, 
+    addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_tehuiflow_total
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectDataByPublicPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_tehuiflow_total
+  	ORDER BY addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectAllDataCount" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_tehuiflow_total
+  </select>
+  
+  <select id="selectAllData" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_tehuiflow_total
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_tehuiflow_total
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBTehuiFlowTotal">
+    insert into tb_tehuiflow_total (id, pv, liji_bc, 
+      comfir_bc, tan_seebc, 3g_succount, 
+      8g_succount, 12g_succount, 25g_succount, 
+      40g_succount, 3g_unsuccount, 8g_unsuccount, 
+      12g_unsuccount, 25g_unsuccount, 40g_unsuccount, 
+      addtime)
+    values (#{id,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{lijiBc,jdbcType=INTEGER}, 
+      #{comfirBc,jdbcType=INTEGER}, #{tanSeebc,jdbcType=INTEGER}, #{3gSuccount,jdbcType=INTEGER}, 
+      #{8gSuccount,jdbcType=INTEGER}, #{12gSuccount,jdbcType=INTEGER}, #{25gSuccount,jdbcType=INTEGER}, 
+      #{40gSuccount,jdbcType=INTEGER}, #{3gUnsuccount,jdbcType=INTEGER}, #{8gUnsuccount,jdbcType=INTEGER}, 
+      #{12gUnsuccount,jdbcType=INTEGER}, #{25gUnsuccount,jdbcType=INTEGER}, #{40gUnsuccount,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBTehuiFlowTotal">
+    insert into tb_tehuiflow_total
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="lijiBc != null">
+        liji_bc,
+      </if>
+      <if test="comfirBc != null">
+        comfir_bc,
+      </if>
+      <if test="tanSeebc != null">
+        tan_seebc,
+      </if>
+      <if test="_3gSuccount != null">
+        3g_succount,
+      </if>
+      <if test="_8gSuccount != null">
+        8g_succount,
+      </if>
+      <if test="_12gSuccount != null">
+        12g_succount,
+      </if>
+      <if test="_25gSuccount != null">
+        25g_succount,
+      </if>
+      <if test="_40gSuccount != null">
+        40g_succount,
+      </if>
+      <if test="_3gUnsuccount != null">
+        3g_unsuccount,
+      </if>
+      <if test="_8gUnsuccount != null">
+        8g_unsuccount,
+      </if>
+      <if test="_12gUnsuccount != null">
+        12g_unsuccount,
+      </if>
+      <if test="_25gUnsuccount != null">
+        25g_unsuccount,
+      </if>
+      <if test="_40gUnsuccount != null">
+        40g_unsuccount,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="lijiBc != null">
+        #{lijiBc,jdbcType=INTEGER},
+      </if>
+      <if test="comfirBc != null">
+        #{comfirBc,jdbcType=INTEGER},
+      </if>
+      <if test="tanSeebc != null">
+        #{tanSeebc,jdbcType=INTEGER},
+      </if>
+      <if test="_3gSuccount != null">
+        #{3gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_8gSuccount != null">
+        #{8gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_12gSuccount != null">
+        #{12gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_25gSuccount != null">
+        #{25gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_40gSuccount != null">
+        #{40gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_3gUnsuccount != null">
+        #{3gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_8gUnsuccount != null">
+        #{8gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_12gUnsuccount != null">
+        #{12gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_25gUnsuccount != null">
+        #{25gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_40gUnsuccount != null">
+        #{40gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBTehuiFlowTotal">
+    update tb_tehuiflow_total
+    <set>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="lijiBc != null">
+        liji_bc = #{lijiBc,jdbcType=INTEGER},
+      </if>
+      <if test="comfirBc != null">
+        comfir_bc = #{comfirBc,jdbcType=INTEGER},
+      </if>
+      <if test="tanSeebc != null">
+        tan_seebc = #{tanSeebc,jdbcType=INTEGER},
+      </if>
+      <if test="_3gSuccount != null">
+        3g_succount = #{3gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_8gSuccount != null">
+        8g_succount = #{8gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_12gSuccount != null">
+        12g_succount = #{12gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_25gSuccount != null">
+        25g_succount = #{25gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_40gSuccount != null">
+        40g_succount = #{40gSuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_3gUnsuccount != null">
+        3g_unsuccount = #{3gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_8gUnsuccount != null">
+        8g_unsuccount = #{8gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_12gUnsuccount != null">
+        12g_unsuccount = #{12gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_25gUnsuccount != null">
+        25g_unsuccount = #{25gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="_40gUnsuccount != null">
+        40g_unsuccount = #{40gUnsuccount,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBTehuiFlowTotal">
+    update tb_tehuiflow_total
+    set pv = #{pv,jdbcType=INTEGER},
+      liji_bc = #{lijiBc,jdbcType=INTEGER},
+      comfir_bc = #{comfirBc,jdbcType=INTEGER},
+      tan_seebc = #{tanSeebc,jdbcType=INTEGER},
+      3g_succount = #{_3gSuccount,jdbcType=INTEGER},
+      8g_succount = #{_8gSuccount,jdbcType=INTEGER},
+      12g_succount = #{_12gSuccount,jdbcType=INTEGER},
+      25g_succount = #{_25gSuccount,jdbcType=INTEGER},
+      40g_succount = #{_40gSuccount,jdbcType=INTEGER},
+      3g_unsuccount = #{_3gUnsuccount,jdbcType=INTEGER},
+      8g_unsuccount = #{_8gUnsuccount,jdbcType=INTEGER},
+      12g_unsuccount = #{_12gUnsuccount,jdbcType=INTEGER},
+      25g_unsuccount = #{_25gUnsuccount,jdbcType=INTEGER},
+      40g_unsuccount = #{_40gUnsuccount,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

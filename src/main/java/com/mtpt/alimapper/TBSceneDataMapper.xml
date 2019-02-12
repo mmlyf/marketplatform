@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBSceneDataMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBSceneData">
+    <id column="label_id" jdbcType="VARCHAR" property="labelId" />
+    <id column="scene_dn" jdbcType="VARCHAR" property="sceneDn" />
+    <result column="scene_adtime" jdbcType="TIMESTAMP" property="sceneAdtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    label_id, scene_dn, scene_adtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.mtpt.alibean.TBSceneDataKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_scene_data
+    where label_id = #{labelId,jdbcType=VARCHAR}
+      and scene_dn = #{sceneDn,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectDataByLabel" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select
+   <include refid="Base_Column_List" />
+   from tb_scene_data
+   where label_id = #{labelId}
+  </select>
+  <select id="selectDataByPage" parameterType="com.mtpt.bean.page.SceneDataPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from tb_scene_data
+  	<where>
+  		<if test="bq!=null and bq!=''">
+  			AND label_id = #{bq}
+  		</if>
+  	</where>
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectDataCountByPage" parameterType="com.mtpt.bean.page.SceneDataPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_scene_data
+  	<where>
+  		<if test="bq!=null and bq!=''">
+  			AND label_id = #{bq}
+  		</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.mtpt.alibean.TBSceneDataKey">
+    delete from tb_scene_data
+    where label_id = #{labelId,jdbcType=VARCHAR}
+      and scene_dn = #{sceneDn,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBSceneData">
+    insert into tb_scene_data (label_id, scene_dn, scene_adtime
+      )
+    values (#{labelId,jdbcType=VARCHAR}, #{sceneDn,jdbcType=VARCHAR}, #{sceneAdtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <insert id="insertIntoSceneDataByList" parameterType="java.util.List">
+	insert into tb_scene_data(label_id,scene_dn) values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.labelId},#{item.sceneDn}
+		)
+	</foreach>
+	on duplicate key update `scene_dn`=scene_dn
+</insert>
+
+<insert id="updateIntoSceneDataByList" parameterType="java.util.List">
+	insert into tb_scene_data(label_id,scene_dn) values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.labelId},#{item.sceneDn}
+		)
+	</foreach>
+</insert>
+
+<delete id="deleteSceneDataByLabel" parameterType="java.lang.String" >
+	delete from tb_scene_data
+	where label_id=#{labelId}
+</delete>
+  
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBSceneData">
+    insert into tb_scene_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">
+        label_id,
+      </if>
+      <if test="sceneDn != null">
+        scene_dn,
+      </if>
+      <if test="sceneAdtime != null">
+        scene_adtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">
+        #{labelId,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneDn != null">
+        #{sceneDn,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneAdtime != null">
+        #{sceneAdtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBSceneData">
+    update tb_scene_data
+    <set>
+      <if test="sceneAdtime != null">
+        scene_adtime = #{sceneAdtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where label_id = #{labelId,jdbcType=VARCHAR}
+      and scene_dn = #{sceneDn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBSceneData">
+    update tb_scene_data
+    set scene_adtime = #{sceneAdtime,jdbcType=TIMESTAMP}
+    where label_id = #{labelId,jdbcType=VARCHAR}
+      and scene_dn = #{sceneDn,jdbcType=VARCHAR}
+  </update>
+</mapper>

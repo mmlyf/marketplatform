@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBPermission">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="per_id" jdbcType="INTEGER" property="perId" />
+    <result column="per_des" jdbcType="VARCHAR" property="perDes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, per_id, per_des
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPermissionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_permission
+    where per_id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectPermissionData" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_permission
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBPermission">
+    insert into tb_permission (id, per_id, per_des
+      )
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{perDes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBPermission">
+    insert into tb_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="perId != null">
+        per_id,
+      </if>
+      <if test="perDes != null">
+        per_des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null">
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="perDes != null">
+        #{perDes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBPermission">
+    update tb_permission
+    <set>
+      <if test="perId != null">
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="perDes != null">
+        per_des = #{perDes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBPermission">
+    update tb_permission
+    set per_id = #{perId,jdbcType=INTEGER},
+      per_des = #{perDes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

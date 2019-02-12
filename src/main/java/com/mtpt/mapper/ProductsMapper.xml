@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.ProductsMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.Products">
+    <id column="Id" jdbcType="CHAR" property="id" />
+    <result column="EntranceName" jdbcType="CHAR" property="entrancename" />
+    <result column="ProductCode23G" jdbcType="CHAR" property="productcode23g" />
+    <result column="ProductCode4G" jdbcType="CHAR" property="productcode4g" />
+    <result column="ProductName" jdbcType="CHAR" property="productname" />
+    <result column="Cost" jdbcType="REAL" property="cost" />
+    <result column="Amount" jdbcType="INTEGER" property="amount" />
+    <result column="VagabondizeType" jdbcType="INTEGER" property="vagabondizetype" />
+    <result column="PackageType" jdbcType="INTEGER" property="packagetype" />
+    <result column="EffectType" jdbcType="INTEGER" property="effecttype" />
+    <result column="Flag" jdbcType="CHAR" property="flag" />
+    <result column="Recommendation" jdbcType="BIT" property="recommendation" />
+    <result column="Province" jdbcType="CHAR" property="province" />
+    <result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="DataState" jdbcType="INTEGER" property="datastate" />
+    <result column="Direction" jdbcType="INTEGER" property="direction" />
+    <result column="Enabled" jdbcType="BIT" property="enabled" />
+    <result column="RecommendationOrder" jdbcType="INTEGER" property="recommendationorder" />
+    <result column="AmountDesc" jdbcType="CHAR" property="amountdesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, EntranceName, ProductCode23G, ProductCode4G, ProductName, Cost, Amount, VagabondizeType, 
+    PackageType, EffectType, Flag, Recommendation, Province, AddTime, ModifyTime, DataState, 
+    Direction, Enabled, RecommendationOrder, AmountDesc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from products
+    where Id = #{id,jdbcType=CHAR}
+  </select>
+  
+  <select id="selectByProductName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+  	 <include refid="Base_Column_List" />
+  	 from products
+  	 where ProductName like '%'#{proname}'%'
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from products
+    where Id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.Products">
+    insert into products (Id, EntranceName, ProductCode23G, 
+      ProductCode4G, ProductName, Cost, 
+      Amount, VagabondizeType, PackageType, 
+      EffectType, Flag, Recommendation, 
+      Province, AddTime, ModifyTime, 
+      DataState, Direction, Enabled, 
+      RecommendationOrder, AmountDesc)
+    values (#{id,jdbcType=CHAR}, #{entrancename,jdbcType=CHAR}, #{productcode23g,jdbcType=CHAR}, 
+      #{productcode4g,jdbcType=CHAR}, #{productname,jdbcType=CHAR}, #{cost,jdbcType=REAL}, 
+      #{amount,jdbcType=INTEGER}, #{vagabondizetype,jdbcType=INTEGER}, #{packagetype,jdbcType=INTEGER}, 
+      #{effecttype,jdbcType=INTEGER}, #{flag,jdbcType=CHAR}, #{recommendation,jdbcType=BIT}, 
+      #{province,jdbcType=CHAR}, #{addtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{datastate,jdbcType=INTEGER}, #{direction,jdbcType=INTEGER}, #{enabled,jdbcType=BIT}, 
+      #{recommendationorder,jdbcType=INTEGER}, #{amountdesc,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.Products">
+    insert into products
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="entrancename != null">
+        EntranceName,
+      </if>
+      <if test="productcode23g != null">
+        ProductCode23G,
+      </if>
+      <if test="productcode4g != null">
+        ProductCode4G,
+      </if>
+      <if test="productname != null">
+        ProductName,
+      </if>
+      <if test="cost != null">
+        Cost,
+      </if>
+      <if test="amount != null">
+        Amount,
+      </if>
+      <if test="vagabondizetype != null">
+        VagabondizeType,
+      </if>
+      <if test="packagetype != null">
+        PackageType,
+      </if>
+      <if test="effecttype != null">
+        EffectType,
+      </if>
+      <if test="flag != null">
+        Flag,
+      </if>
+      <if test="recommendation != null">
+        Recommendation,
+      </if>
+      <if test="province != null">
+        Province,
+      </if>
+      <if test="addtime != null">
+        AddTime,
+      </if>
+      <if test="modifytime != null">
+        ModifyTime,
+      </if>
+      <if test="datastate != null">
+        DataState,
+      </if>
+      <if test="direction != null">
+        Direction,
+      </if>
+      <if test="enabled != null">
+        Enabled,
+      </if>
+      <if test="recommendationorder != null">
+        RecommendationOrder,
+      </if>
+      <if test="amountdesc != null">
+        AmountDesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="entrancename != null">
+        #{entrancename,jdbcType=CHAR},
+      </if>
+      <if test="productcode23g != null">
+        #{productcode23g,jdbcType=CHAR},
+      </if>
+      <if test="productcode4g != null">
+        #{productcode4g,jdbcType=CHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=CHAR},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=REAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="vagabondizetype != null">
+        #{vagabondizetype,jdbcType=INTEGER},
+      </if>
+      <if test="packagetype != null">
+        #{packagetype,jdbcType=INTEGER},
+      </if>
+      <if test="effecttype != null">
+        #{effecttype,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="recommendation != null">
+        #{recommendation,jdbcType=BIT},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datastate != null">
+        #{datastate,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+      <if test="recommendationorder != null">
+        #{recommendationorder,jdbcType=INTEGER},
+      </if>
+      <if test="amountdesc != null">
+        #{amountdesc,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.Products">
+    update products
+    <set>
+      <if test="entrancename != null">
+        EntranceName = #{entrancename,jdbcType=CHAR},
+      </if>
+      <if test="productcode23g != null">
+        ProductCode23G = #{productcode23g,jdbcType=CHAR},
+      </if>
+      <if test="productcode4g != null">
+        ProductCode4G = #{productcode4g,jdbcType=CHAR},
+      </if>
+      <if test="productname != null">
+        ProductName = #{productname,jdbcType=CHAR},
+      </if>
+      <if test="cost != null">
+        Cost = #{cost,jdbcType=REAL},
+      </if>
+      <if test="amount != null">
+        Amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="vagabondizetype != null">
+        VagabondizeType = #{vagabondizetype,jdbcType=INTEGER},
+      </if>
+      <if test="packagetype != null">
+        PackageType = #{packagetype,jdbcType=INTEGER},
+      </if>
+      <if test="effecttype != null">
+        EffectType = #{effecttype,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
+        Flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="recommendation != null">
+        Recommendation = #{recommendation,jdbcType=BIT},
+      </if>
+      <if test="province != null">
+        Province = #{province,jdbcType=CHAR},
+      </if>
+      <if test="addtime != null">
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datastate != null">
+        DataState = #{datastate,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null">
+        Direction = #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        Enabled = #{enabled,jdbcType=BIT},
+      </if>
+      <if test="recommendationorder != null">
+        RecommendationOrder = #{recommendationorder,jdbcType=INTEGER},
+      </if>
+      <if test="amountdesc != null">
+        AmountDesc = #{amountdesc,jdbcType=CHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.Products">
+    update products
+    set EntranceName = #{entrancename,jdbcType=CHAR},
+      ProductCode23G = #{productcode23g,jdbcType=CHAR},
+      ProductCode4G = #{productcode4g,jdbcType=CHAR},
+      ProductName = #{productname,jdbcType=CHAR},
+      Cost = #{cost,jdbcType=REAL},
+      Amount = #{amount,jdbcType=INTEGER},
+      VagabondizeType = #{vagabondizetype,jdbcType=INTEGER},
+      PackageType = #{packagetype,jdbcType=INTEGER},
+      EffectType = #{effecttype,jdbcType=INTEGER},
+      Flag = #{flag,jdbcType=CHAR},
+      Recommendation = #{recommendation,jdbcType=BIT},
+      Province = #{province,jdbcType=CHAR},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      DataState = #{datastate,jdbcType=INTEGER},
+      Direction = #{direction,jdbcType=INTEGER},
+      Enabled = #{enabled,jdbcType=BIT},
+      RecommendationOrder = #{recommendationorder,jdbcType=INTEGER},
+      AmountDesc = #{amountdesc,jdbcType=CHAR}
+    where Id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

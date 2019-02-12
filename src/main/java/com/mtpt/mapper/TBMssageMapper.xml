@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBMssageMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBMssage">
+    <id column="mis_id" jdbcType="INTEGER" property="misId" />
+    <result column="mis_title" jdbcType="VARCHAR" property="misTitle" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mtpt.bean.TBMssage">
+    <result column="mis_content" jdbcType="LONGVARCHAR" property="misContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mis_id, mis_title
+  </sql>
+  <sql id="Blob_Column_List">
+    mis_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_mssage
+    where mis_id = #{misId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCustom" parameterType="com.mtpt.bean.page.TBMessagePage" resultMap="ResultMapWithBLOBs">
+  	select
+  	<include refid="Base_Column_List" />
+  	,
+  	<include refid="Blob_Column_List" />
+  	from tb_mssage
+  	<where>
+		<if test="keyword!=null and keyword!='' and keytype=='mis_title'">
+			AND mis_title like '%${keyword}%'
+		</if>
+	</where>
+order by mis_id desc
+limit #{start},#{limit}
+  	
+  </select>
+  
+  <select id="selectByCount" parameterType="com.mtpt.bean.page.TBMessagePage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_mssage
+  	<where>
+		<if test="keyword!=null and keyword!='' and keytype=='mis_title'">
+			AND mis_title like '%' #{keyword} '%'
+		</if>
+	</where>
+order by mis_id desc
+  	
+  </select>
+  
+  <select id="selectByAll" resultMap="ResultMapWithBLOBs">
+  	select
+  	<include refid="Base_Column_List" />
+  	,
+  	<include refid="Blob_Column_List" />
+  	from tb_mssage
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_mssage
+    where mis_id = #{misId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBMssage">
+    insert into tb_mssage (mis_id, mis_title, mis_content
+      )
+    values (#{misId,jdbcType=INTEGER}, #{misTitle,jdbcType=VARCHAR}, #{misContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBMssage">
+    insert into tb_mssage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="misId != null">
+        mis_id,
+      </if>
+      <if test="misTitle != null">
+        mis_title,
+      </if>
+      <if test="misContent != null">
+        mis_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="misId != null">
+        #{misId,jdbcType=INTEGER},
+      </if>
+      <if test="misTitle != null">
+        #{misTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="misContent != null">
+        #{misContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBMssage">
+    update tb_mssage
+    <set>
+      <if test="misTitle != null">
+        mis_title = #{misTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="misContent != null">
+        mis_content = #{misContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mis_id = #{misId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mtpt.bean.TBMssage">
+    update tb_mssage
+    set mis_title = #{misTitle,jdbcType=VARCHAR},
+      mis_content = #{misContent,jdbcType=LONGVARCHAR}
+    where mis_id = #{misId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBMssage">
+    update tb_mssage
+    set mis_title = #{misTitle,jdbcType=VARCHAR}
+    where mis_id = #{misId,jdbcType=INTEGER}
+  </update>
+</mapper>

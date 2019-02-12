@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.CustomServiceMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.CustomService">
+    <id column="dx_id" jdbcType="INTEGER" property="dxId" />
+    <result column="dx_city" jdbcType="VARCHAR" property="dxCity" />
+    <result column="dx_dn" jdbcType="VARCHAR" property="dxDn" />
+    <result column="dx_ap" jdbcType="VARCHAR" property="dxAp" />
+    <result column="dx_sys" jdbcType="VARCHAR" property="dxSys" />
+    <result column="dx_inn" jdbcType="VARCHAR" property="dxInn" />
+    <result column="dx_rh" jdbcType="VARCHAR" property="dxRh" />
+    <result column="dx_rhlx" jdbcType="VARCHAR" property="dxRhlx" />
+    <result column="dx_firp" jdbcType="VARCHAR" property="dxFirp" />
+    <result column="dx_firdw" jdbcType="VARCHAR" property="dxFirdw" />
+    <result column="dx_addtime" jdbcType="TIMESTAMP" property="dxAddtime" />
+    <result column="dx_ifdx" jdbcType="VARCHAR" property="dxIfdx" />
+    <result column="dx_qd" jdbcType="BIT" property="dxQd" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    dx_id, dx_city, dx_dn, dx_ap, dx_sys, dx_inn, dx_rh, dx_rhlx, dx_firp, dx_firdw, 
+    dx_addtime, dx_ifdx, dx_qd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom_service
+    where dx_id = #{dxId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllCsDataByPage" parameterType="com.mtpt.bean.page.IceBookPage" resultMap="BaseResultMap">
+  	select
+  	 <include refid="Base_Column_List" />
+  	 from custom_service
+  	 <where>
+  	 	<if test="dn!=null and dn!=''">
+  	 		AND dx_dn =  #{dn}
+  	 	</if>
+  	 	<if test="date_star!=null and date_end!=null and date_star!='' and date_end!=''">
+  	 		AND dx_addtime <![CDATA[>=]]> #{date_star} AND dx_addtime <![CDATA[<=]]> #{date_end}
+  	 	</if>
+  	 	<if test="systype!=null and systype!=''">
+  	 		AND	dx_sys = #{systype}
+  	 	</if>
+  	 	<if test="qudao!=null and qudao!=''">
+  	 		AND dx_qd = #{qudao}
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==0">
+  	 		AND dx_ifdx = '是'
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==1">
+  	 		AND (dx_ifdx = '否' or dx_ifdx is null)
+  	 	</if>
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==0">
+  	 		AND dx_rh = '是'
+  	 	</if>  	 	
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==1">
+  	 		AND (dx_rh = '否' or dx_rh is null)
+  	 	</if>
+  	 </where>
+  </select>
+  
+  <select id="selectIceDataByPage" parameterType="com.mtpt.bean.page.IceBookPage" resultMap="BaseResultMap">
+  	select
+  	 <include refid="Base_Column_List" />
+  	 from custom_service
+  	 <where>
+  	 	<if test="dn!=null and dn!=''">
+  	 		AND dx_dn =  #{dn}
+  	 	</if>
+  	 	<if test="date_star!=null and date_end!=null and date_star!='' and date_end!=''">
+  	 		AND dx_addtime <![CDATA[>=]]> #{date_star} AND dx_addtime <![CDATA[<=]]> #{date_end}
+  	 	</if>
+  	 	<if test="systype!=null and systype!=''">
+  	 		AND	dx_sys = #{systype}
+  	 	</if>
+  	 	<if test="qudao!=null and qudao!=''">
+  	 		AND dx_qd = #{qudao}
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==0">
+  	 		AND dx_ifdx = '是'
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==1">
+  	 		AND (dx_ifdx = '否' or dx_ifdx is null)
+  	 	</if>
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==0">
+  	 		AND dx_rh = '是'
+  	 	</if>  	 	
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==1">
+  	 		AND (dx_rh = '否' or dx_rh is null)
+  	 	</if>
+  	 </where>
+  	 order by dx_addtime DESC
+  	 LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectIceDataCountByPage" parameterType="com.mtpt.bean.page.IceBookPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from custom_service
+  	<where>
+  	 	<if test="dn!=null and dn!=''">
+  	 		AND dx_dn =  #{dn}
+  	 	</if>
+  	 	<if test="date_star!=null and date_end!=null and date_star!='' and date_end!=''">
+  	 		AND dx_addtime <![CDATA[>=]]> #{date_star} AND dx_addtime <![CDATA[<=]]> #{date_end}
+  	 	</if>
+  	 	<if test="systype!=null and systype!=''">
+  	 		AND	dx_sys = #{systype}
+  	 	</if>
+  	 	<if test="qudao!=null and qudao!=''">
+  	 		AND dx_qd = #{qudao}
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==0">
+  	 		AND dx_ifdx = '是'
+  	 	</if>
+  	 	<if test="ifdx!=null and ifdx!='' and ifdx==1">
+  	 		AND (dx_ifdx = '否' or dx_ifdx is null)
+  	 	</if>
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==0">
+  	 		AND dx_rh = '是'
+  	 	</if>  	 	
+  	 	<if test="ifrh!=null and ifrh!='' and ifrh==1">
+  	 		AND (dx_rh = '否' or dx_rh is null)
+  	 	</if>
+  	 </where>
+  	 order by dx_addtime DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from custom_service
+    where dx_id = #{dxId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.CustomService">
+    insert into custom_service (dx_id, dx_city, dx_dn, 
+      dx_ap, dx_sys, dx_inn, 
+      dx_rh, dx_rhlx, dx_firp, 
+      dx_firdw, dx_addtime, dx_ifdx, 
+      dx_qd)
+    values (#{dxId,jdbcType=INTEGER}, #{dxCity,jdbcType=VARCHAR}, #{dxDn,jdbcType=VARCHAR}, 
+      #{dxAp,jdbcType=VARCHAR}, #{dxSys,jdbcType=VARCHAR}, #{dxInn,jdbcType=VARCHAR}, 
+      #{dxRh,jdbcType=VARCHAR}, #{dxRhlx,jdbcType=VARCHAR}, #{dxFirp,jdbcType=VARCHAR}, 
+      #{dxFirdw,jdbcType=VARCHAR}, #{dxAddtime,jdbcType=TIMESTAMP}, #{dxIfdx,jdbcType=VARCHAR}, 
+      #{dxQd,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.CustomService">
+    insert into custom_service
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dxId != null">
+        dx_id,
+      </if>
+      <if test="dxCity != null">
+        dx_city,
+      </if>
+      <if test="dxDn != null">
+        dx_dn,
+      </if>
+      <if test="dxAp != null">
+        dx_ap,
+      </if>
+      <if test="dxSys != null">
+        dx_sys,
+      </if>
+      <if test="dxInn != null">
+        dx_inn,
+      </if>
+      <if test="dxRh != null">
+        dx_rh,
+      </if>
+      <if test="dxRhlx != null">
+        dx_rhlx,
+      </if>
+      <if test="dxFirp != null">
+        dx_firp,
+      </if>
+      <if test="dxFirdw != null">
+        dx_firdw,
+      </if>
+      <if test="dxAddtime != null">
+        dx_addtime,
+      </if>
+      <if test="dxIfdx != null">
+        dx_ifdx,
+      </if>
+      <if test="dxQd != null">
+        dx_qd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dxId != null">
+        #{dxId,jdbcType=INTEGER},
+      </if>
+      <if test="dxCity != null">
+        #{dxCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dxDn != null">
+        #{dxDn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAp != null">
+        #{dxAp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxSys != null">
+        #{dxSys,jdbcType=VARCHAR},
+      </if>
+      <if test="dxInn != null">
+        #{dxInn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRh != null">
+        #{dxRh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRhlx != null">
+        #{dxRhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirp != null">
+        #{dxFirp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirdw != null">
+        #{dxFirdw,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAddtime != null">
+        #{dxAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dxIfdx != null">
+        #{dxIfdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxQd != null">
+        #{dxQd,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.CustomService">
+    update custom_service
+    <set>
+      <if test="dxCity != null">
+        dx_city = #{dxCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dxDn != null">
+        dx_dn = #{dxDn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAp != null">
+        dx_ap = #{dxAp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxSys != null">
+        dx_sys = #{dxSys,jdbcType=VARCHAR},
+      </if>
+      <if test="dxInn != null">
+        dx_inn = #{dxInn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRh != null">
+        dx_rh = #{dxRh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRhlx != null">
+        dx_rhlx = #{dxRhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirp != null">
+        dx_firp = #{dxFirp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirdw != null">
+        dx_firdw = #{dxFirdw,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAddtime != null">
+        dx_addtime = #{dxAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dxIfdx != null">
+        dx_ifdx = #{dxIfdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxQd != null">
+        dx_qd = #{dxQd,jdbcType=BIT},
+      </if>
+    </set>
+    where dx_id = #{dxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.CustomService">
+    update custom_service
+    set dx_city = #{dxCity,jdbcType=VARCHAR},
+      dx_dn = #{dxDn,jdbcType=VARCHAR},
+      dx_ap = #{dxAp,jdbcType=VARCHAR},
+      dx_sys = #{dxSys,jdbcType=VARCHAR},
+      dx_inn = #{dxInn,jdbcType=VARCHAR},
+      dx_rh = #{dxRh,jdbcType=VARCHAR},
+      dx_rhlx = #{dxRhlx,jdbcType=VARCHAR},
+      dx_firp = #{dxFirp,jdbcType=VARCHAR},
+      dx_firdw = #{dxFirdw,jdbcType=VARCHAR},
+      dx_addtime = #{dxAddtime,jdbcType=TIMESTAMP},
+      dx_ifdx = #{dxIfdx,jdbcType=VARCHAR},
+      dx_qd = #{dxQd,jdbcType=BIT}
+    where dx_id = #{dxId,jdbcType=INTEGER}
+  </update>
+</mapper>

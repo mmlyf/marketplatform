@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.ProduceMapper">
+
+	<resultMap id="DxResultMap" type="com.mtpt.bean.TBDsjDxAll">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dx_city" jdbcType="VARCHAR" property="dxCity" />
+    <result column="dx_dn" jdbcType="VARCHAR" property="dxDn" />
+    <result column="dx_ap" jdbcType="VARCHAR" property="dxAp" />
+    <result column="dx_sys" jdbcType="VARCHAR" property="dxSys" />
+    <result column="dx_inn" jdbcType="VARCHAR" property="dxInn" />
+    <result column="dx_rh" jdbcType="VARCHAR" property="dxRh" />
+    <result column="dx_rhlx" jdbcType="VARCHAR" property="dxRhlx" />
+    <result column="dx_firp" jdbcType="VARCHAR" property="dxFirp" />
+    <result column="dx_firdw" jdbcType="VARCHAR" property="dxFirdw" />
+    <result column="dx_ifdx" jdbcType="VARCHAR" property="dxIfdx" />
+    <result column="dx_adtime" jdbcType="TIMESTAMP" property="dxAdtime" />
+    <collection property="orders" javaType="java.util.List"
+			ofType="com.mtpt.bean.Orders">
+			 <id column="Id" jdbcType="CHAR" property="id" />
+    <result column="SerialNo" jdbcType="CHAR" property="serialno" />
+    <result column="ProductId" jdbcType="CHAR" property="productid" />
+    <result column="PurchaseTime" jdbcType="TIMESTAMP" property="purchasetime" />
+    <result column="ConfirmTime" jdbcType="TIMESTAMP" property="confirmtime" />
+    <result column="BssState" jdbcType="INTEGER" property="bssstate" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="BuyTime" jdbcType="BIGINT" property="buytime" />
+    <result column="UserId" jdbcType="CHAR" property="userid" />
+    <result column="TransactionId" jdbcType="CHAR" property="transactionid" />
+    <result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="DataState" jdbcType="INTEGER" property="datastate" />
+    <result column="Source" jdbcType="CHAR" property="source" />
+    <result column="UserFrom" jdbcType="CHAR" property="userfrom" />
+    <result column="Lsource" jdbcType="BIT" property="lsource" />
+     <result column="Mobile" jdbcType="LONGVARCHAR" property="mobile" />
+		</collection>
+  </resultMap>
+
+  <resultMap type="com.mtpt.bean.TBDsjIceAll" id="IceResultMap">
+  	 <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dx_city" jdbcType="VARCHAR" property="dxCity" />
+    <result column="dx_dn" jdbcType="VARCHAR" property="dxDn" />
+    <result column="dx_ap" jdbcType="VARCHAR" property="dxAp" />
+    <result column="dx_sys" jdbcType="VARCHAR" property="dxSys" />
+    <result column="dx_inn" jdbcType="VARCHAR" property="dxInn" />
+    <result column="dx_rh" jdbcType="VARCHAR" property="dxRh" />
+    <result column="dx_rhlx" jdbcType="VARCHAR" property="dxRhlx" />
+    <result column="dx_firp" jdbcType="VARCHAR" property="dxFirp" />
+    <result column="dx_firdw" jdbcType="VARCHAR" property="dxFirdw" />
+    <result column="dx_ifdx" jdbcType="VARCHAR" property="dxIfdx" />
+    <result column="dx_adtime" jdbcType="TIMESTAMP" property="dxAdtime" />
+  </resultMap>
+  
+    <sql id="Base_Column_List">
+  	 dx_city, dx_dn, dx_ap, dx_sys, dx_inn, dx_rh, dx_rhlx, dx_firp, dx_firdw, dx_ifdx, 
+    dx_adtime,SerialNo, ProductId, PurchaseTime, ConfirmTime, BssState, Status, BuyTime, UserId, 
+    TransactionId, AddTime, ModifyTime, DataState, Source, UserFrom, Lsource,Mobile
+  </sql>
+  <sql id="Ice_Column_List">
+   id, dx_city, dx_dn, dx_ap, dx_sys, dx_inn, dx_rh, dx_rhlx, dx_firp, dx_firdw, dx_ifdx, 
+    dx_adtime
+  </sql>
+	<select id="selectModelCount" parameterType="com.mtpt.bean.Review" resultType="java.lang.Integer">
+		{CALL selectCount(
+			#{dbname,jdbcType=VARCHAR,mode=IN},
+			#{dangw,jdbcType=VARCHAR,mode=IN},
+			#{product,jdbcType=VARCHAR,mode=IN},
+			#{city,jdbcType=VARCHAR,mode=IN},
+			#{sourceType,jdbcType=VARCHAR,mode=IN},
+			#{ifdx,jdbcType=VARCHAR,mode=IN},
+			#{ifrh,jdbcType=VARCHAR,mode=IN},
+			#{secTime,jdbcType=VARCHAR,mode=IN}
+		)}
+	</select>
+	
+	<select id="selectThreeday" parameterType="com.mtpt.bean.RepeatOpera" resultType="java.lang.String">
+		{CALL selectthreeday(
+			#{datain,jdbcType=VARCHAR,mode=IN},
+			#{days,jdbcType=INTEGER,mode=IN}
+		)}
+	</select>
+	
+	<select id="selectDxByPhoneDetails" parameterType="java.lang.String" resultMap="DxResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		FROM dsj_dx_all d,orders o
+		where d.dx_dn=#{phonenum} and d.dx_dn=o.Mobile
+	</select>
+	
+	<select id="selectDxCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1)
+		FROM dsj_dx_all d,orders o
+		where d.dx_dn=#{phonenum} and d.dx_dn=o.Mobile
+	</select>
+	
+	<select id="selectIceByPhoneDetails" parameterType="java.lang.String" resultMap="IceResultMap">
+		select 
+		<include refid="Ice_Column_List"/>
+		From dsj_ice_all
+		where dx_dn=#{phonenum}
+	</select>
+	
+	<select id="selectIceCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1)
+		From dsj_ice_all
+		where dx_dn=#{phonenum}
+	</select>
+</mapper>

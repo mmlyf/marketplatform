@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBProdDwMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBProdDw">
+    <id column="dw_id" jdbcType="INTEGER" property="dwId" />
+    <result column="pro_id" jdbcType="INTEGER" property="proId" />
+    <result column="pro_dw" jdbcType="INTEGER" property="proDw" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dw_id, pro_id, pro_dw
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_proddw
+    where dw_id = #{dwId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByProid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from tb_proddw
+    where pro_id = #{proid,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_proddw
+    where dw_id = #{dwId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBProdDw">
+    insert into tb_proddw (dw_id, pro_id, pro_dw
+      )
+    values (#{dwId,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{proDw,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBProdDw">
+    insert into tb_proddw
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dwId != null">
+        dw_id,
+      </if>
+      <if test="proId != null">
+        pro_id,
+      </if>
+      <if test="proDw != null">
+        pro_dw,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dwId != null">
+        #{dwId,jdbcType=INTEGER},
+      </if>
+      <if test="proId != null">
+        #{proId,jdbcType=INTEGER},
+      </if>
+      <if test="proDw != null">
+        #{proDw,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBProdDw">
+    update tb_proddw
+    <set>
+      <if test="proId != null">
+        pro_id = #{proId,jdbcType=INTEGER},
+      </if>
+      <if test="proDw != null">
+        pro_dw = #{proDw,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dw_id = #{dwId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBProdDw">
+    update tb_proddw
+    set pro_id = #{proId,jdbcType=INTEGER},
+      pro_dw = #{proDw,jdbcType=INTEGER}
+    where dw_id = #{dwId,jdbcType=INTEGER}
+  </update>
+</mapper>
