@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 <script type="text/javascript" src="../layui/layui.js"></script>
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body" style="height:800px">
 	<div class="layui-fluid">
 		<div class="layui-row ">
 			<div class="layui-tab layui-tab-card" lay-filter="demo">

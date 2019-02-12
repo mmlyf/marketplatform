@@ -1,28 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.market.platform</groupId>
-  <artifactId>HSDT_Market_Platform</artifactId>
-  <packaging>war</packaging>
-  <version>v1.0</version>
-  <name>HSDT_Market_Platform Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  
-  
-  
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    		<groupId>javax</groupId>
-    		<artifactId>javaee-api</artifactId>
-    		<version>7.0</version>
-    </dependency>
-    <dependency>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.market.platform</groupId>
+	<artifactId>HSDT_Market_Platform</artifactId>
+	<packaging>war</packaging>
+	<version>v1.0</version>
+	<name>HSDT_Market_Platform Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>5.0.9.RELEASE</version>
@@ -167,10 +164,10 @@
 			<artifactId>xml-apis</artifactId>
 			<version>1.4.01</version>
 		</dependency>
-  </dependencies>
-  <build>
-    <finalName>HSDT_NMMarket_Platform</finalName>
-    <plugins>
+	</dependencies>
+	<build>
+		<finalName>HSDT_NMMarket_Platform</finalName>
+		<plugins>
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -182,6 +179,6 @@
 					<overwrite>true</overwrite>
 				</configuration>
 			</plugin>
-		</plugins> 
-  </build>
+		</plugins>
+	</build>
 </project>
