@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBHfcsMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBHfcs">
+    <id column="hf_id" jdbcType="INTEGER" property="hfId" />
+    <result column="hf_spv" jdbcType="INTEGER" property="hfSpv" />
+    <result column="hf_csks" jdbcType="INTEGER" property="hfCsks" />
+    <result column="hf_vercode" jdbcType="INTEGER" property="hfVercode" />
+    <result column="hf_checkresult" jdbcType="INTEGER" property="hfCheckresult" />
+    <result column="hf_orderpv" jdbcType="INTEGER" property="hfOrderpv" />
+    <result column="hf_sgnum" jdbcType="INTEGER" property="hfSgnum" />
+    <result column="hf_egnum" jdbcType="INTEGER" property="hfEgnum" />
+    <result column="hf_tgnum" jdbcType="INTEGER" property="hfTgnum" />
+    <result column="hf_fgnum" jdbcType="INTEGER" property="hfFgnum" />
+    <result column="hf_qgnum" jdbcType="INTEGER" property="hfQgnum" />
+    <result column="hf_ygnum" jdbcType="INTEGER" property="hfYgnum" />
+    <result column="hf_esnum" jdbcType="INTEGER" property="hfEsnum" />
+    <result column="hf_tsnum" jdbcType="INTEGER" property="hfTsnum" />
+    <result column="hf_fsnum" jdbcType="INTEGER" property="hfFsnum" />
+    <result column="hf_ybsnum" jdbcType="INTEGER" property="hfYbsnum" />
+    <result column="hf_qrnums" jdbcType="INTEGER" property="hfQrnums" />
+    <result column="hf_qrnume" jdbcType="INTEGER" property="hfQrnume" />
+    <result column="hf_qrnumt" jdbcType="INTEGER" property="hfQrnumt" />
+    <result column="hf_qrnumf" jdbcType="INTEGER" property="hfQrnumf" />
+    <result column="hf_qrnumq" jdbcType="INTEGER" property="hfQrnumq" />
+    <result column="hf_qrnumyb" jdbcType="INTEGER" property="hfQrnumyb" />
+    <result column="hf_qrnumse" jdbcType="INTEGER" property="hfQrnumse" />
+    <result column="hf_qrnumss" jdbcType="INTEGER" property="hfQrnumss" />
+    <result column="hf_qrnumsf" jdbcType="INTEGER" property="hfQrnumsf" />
+    <result column="hf_qrnumsyb" jdbcType="INTEGER" property="hfQrnumsyb" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    hf_id, hf_spv, hf_csks, hf_vercode, hf_checkresult, hf_orderpv, hf_sgnum, hf_egnum, 
+    hf_tgnum, hf_fgnum, hf_qgnum, hf_ygnum, hf_esnum, hf_tsnum, hf_fsnum, hf_ybsnum, 
+    hf_qrnums, hf_qrnume, hf_qrnumt, hf_qrnumf, hf_qrnumq, hf_qrnumyb, hf_qrnumse, hf_qrnumss, 
+    hf_qrnumsf, hf_qrnumsyb
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_hfcs
+    where hf_id = #{hfId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_hfcs
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_hfcs
+    where hf_id = #{hfId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBHfcs">
+    insert into tb_hfcs (hf_id, hf_spv, hf_csks, 
+      hf_vercode, hf_checkresult, hf_orderpv, 
+      hf_sgnum, hf_egnum, hf_tgnum, 
+      hf_fgnum, hf_qgnum, hf_ygnum, 
+      hf_esnum, hf_tsnum, hf_fsnum, 
+      hf_ybsnum, hf_qrnums, hf_qrnume, 
+      hf_qrnumt, hf_qrnumf, hf_qrnumq, 
+      hf_qrnumyb, hf_qrnumse, hf_qrnumss, 
+      hf_qrnumsf, hf_qrnumsyb)
+    values (#{hfId,jdbcType=INTEGER}, #{hfSpv,jdbcType=INTEGER}, #{hfCsks,jdbcType=INTEGER}, 
+      #{hfVercode,jdbcType=INTEGER}, #{hfCheckresult,jdbcType=INTEGER}, #{hfOrderpv,jdbcType=INTEGER}, 
+      #{hfSgnum,jdbcType=INTEGER}, #{hfEgnum,jdbcType=INTEGER}, #{hfTgnum,jdbcType=INTEGER}, 
+      #{hfFgnum,jdbcType=INTEGER}, #{hfQgnum,jdbcType=INTEGER}, #{hfYgnum,jdbcType=INTEGER}, 
+      #{hfEsnum,jdbcType=INTEGER}, #{hfTsnum,jdbcType=INTEGER}, #{hfFsnum,jdbcType=INTEGER}, 
+      #{hfYbsnum,jdbcType=INTEGER}, #{hfQrnums,jdbcType=INTEGER}, #{hfQrnume,jdbcType=INTEGER}, 
+      #{hfQrnumt,jdbcType=INTEGER}, #{hfQrnumf,jdbcType=INTEGER}, #{hfQrnumq,jdbcType=INTEGER}, 
+      #{hfQrnumyb,jdbcType=INTEGER}, #{hfQrnumse,jdbcType=INTEGER}, #{hfQrnumss,jdbcType=INTEGER}, 
+      #{hfQrnumsf,jdbcType=INTEGER}, #{hfQrnumsyb,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBHfcs">
+    insert into tb_hfcs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hfId != null">
+        hf_id,
+      </if>
+      <if test="hfSpv != null">
+        hf_spv,
+      </if>
+      <if test="hfCsks != null">
+        hf_csks,
+      </if>
+      <if test="hfVercode != null">
+        hf_vercode,
+      </if>
+      <if test="hfCheckresult != null">
+        hf_checkresult,
+      </if>
+      <if test="hfOrderpv != null">
+        hf_orderpv,
+      </if>
+      <if test="hfSgnum != null">
+        hf_sgnum,
+      </if>
+      <if test="hfEgnum != null">
+        hf_egnum,
+      </if>
+      <if test="hfTgnum != null">
+        hf_tgnum,
+      </if>
+      <if test="hfFgnum != null">
+        hf_fgnum,
+      </if>
+      <if test="hfQgnum != null">
+        hf_qgnum,
+      </if>
+      <if test="hfYgnum != null">
+        hf_ygnum,
+      </if>
+      <if test="hfEsnum != null">
+        hf_esnum,
+      </if>
+      <if test="hfTsnum != null">
+        hf_tsnum,
+      </if>
+      <if test="hfFsnum != null">
+        hf_fsnum,
+      </if>
+      <if test="hfYbsnum != null">
+        hf_ybsnum,
+      </if>
+      <if test="hfQrnums != null">
+        hf_qrnums,
+      </if>
+      <if test="hfQrnume != null">
+        hf_qrnume,
+      </if>
+      <if test="hfQrnumt != null">
+        hf_qrnumt,
+      </if>
+      <if test="hfQrnumf != null">
+        hf_qrnumf,
+      </if>
+      <if test="hfQrnumq != null">
+        hf_qrnumq,
+      </if>
+      <if test="hfQrnumyb != null">
+        hf_qrnumyb,
+      </if>
+      <if test="hfQrnumse != null">
+        hf_qrnumse,
+      </if>
+      <if test="hfQrnumss != null">
+        hf_qrnumss,
+      </if>
+      <if test="hfQrnumsf != null">
+        hf_qrnumsf,
+      </if>
+      <if test="hfQrnumsyb != null">
+        hf_qrnumsyb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hfId != null">
+        #{hfId,jdbcType=INTEGER},
+      </if>
+      <if test="hfSpv != null">
+        #{hfSpv,jdbcType=INTEGER},
+      </if>
+      <if test="hfCsks != null">
+        #{hfCsks,jdbcType=INTEGER},
+      </if>
+      <if test="hfVercode != null">
+        #{hfVercode,jdbcType=INTEGER},
+      </if>
+      <if test="hfCheckresult != null">
+        #{hfCheckresult,jdbcType=INTEGER},
+      </if>
+      <if test="hfOrderpv != null">
+        #{hfOrderpv,jdbcType=INTEGER},
+      </if>
+      <if test="hfSgnum != null">
+        #{hfSgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfEgnum != null">
+        #{hfEgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfTgnum != null">
+        #{hfTgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfFgnum != null">
+        #{hfFgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfQgnum != null">
+        #{hfQgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfYgnum != null">
+        #{hfYgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfEsnum != null">
+        #{hfEsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfTsnum != null">
+        #{hfTsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfFsnum != null">
+        #{hfFsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfYbsnum != null">
+        #{hfYbsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnums != null">
+        #{hfQrnums,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnume != null">
+        #{hfQrnume,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumt != null">
+        #{hfQrnumt,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumf != null">
+        #{hfQrnumf,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumq != null">
+        #{hfQrnumq,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumyb != null">
+        #{hfQrnumyb,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumse != null">
+        #{hfQrnumse,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumss != null">
+        #{hfQrnumss,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumsf != null">
+        #{hfQrnumsf,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumsyb != null">
+        #{hfQrnumsyb,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBHfcs">
+    update tb_hfcs
+    <set>
+      <if test="hfSpv != null">
+        hf_spv = #{hfSpv,jdbcType=INTEGER},
+      </if>
+      <if test="hfCsks != null">
+        hf_csks = #{hfCsks,jdbcType=INTEGER},
+      </if>
+      <if test="hfVercode != null">
+        hf_vercode = #{hfVercode,jdbcType=INTEGER},
+      </if>
+      <if test="hfCheckresult != null">
+        hf_checkresult = #{hfCheckresult,jdbcType=INTEGER},
+      </if>
+      <if test="hfOrderpv != null">
+        hf_orderpv = #{hfOrderpv,jdbcType=INTEGER},
+      </if>
+      <if test="hfSgnum != null">
+        hf_sgnum = #{hfSgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfEgnum != null">
+        hf_egnum = #{hfEgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfTgnum != null">
+        hf_tgnum = #{hfTgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfFgnum != null">
+        hf_fgnum = #{hfFgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfQgnum != null">
+        hf_qgnum = #{hfQgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfYgnum != null">
+        hf_ygnum = #{hfYgnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfEsnum != null">
+        hf_esnum = #{hfEsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfTsnum != null">
+        hf_tsnum = #{hfTsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfFsnum != null">
+        hf_fsnum = #{hfFsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfYbsnum != null">
+        hf_ybsnum = #{hfYbsnum,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnums != null">
+        hf_qrnums = #{hfQrnums,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnume != null">
+        hf_qrnume = #{hfQrnume,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumt != null">
+        hf_qrnumt = #{hfQrnumt,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumf != null">
+        hf_qrnumf = #{hfQrnumf,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumq != null">
+        hf_qrnumq = #{hfQrnumq,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumyb != null">
+        hf_qrnumyb = #{hfQrnumyb,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumse != null">
+        hf_qrnumse = #{hfQrnumse,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumss != null">
+        hf_qrnumss = #{hfQrnumss,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumsf != null">
+        hf_qrnumsf = #{hfQrnumsf,jdbcType=INTEGER},
+      </if>
+      <if test="hfQrnumsyb != null">
+        hf_qrnumsyb = #{hfQrnumsyb,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hf_id = #{hfId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBHfcs">
+    update tb_hfcs
+    set hf_spv = #{hfSpv,jdbcType=INTEGER},
+      hf_csks = #{hfCsks,jdbcType=INTEGER},
+      hf_vercode = #{hfVercode,jdbcType=INTEGER},
+      hf_checkresult = #{hfCheckresult,jdbcType=INTEGER},
+      hf_orderpv = #{hfOrderpv,jdbcType=INTEGER},
+      hf_sgnum = #{hfSgnum,jdbcType=INTEGER},
+      hf_egnum = #{hfEgnum,jdbcType=INTEGER},
+      hf_tgnum = #{hfTgnum,jdbcType=INTEGER},
+      hf_fgnum = #{hfFgnum,jdbcType=INTEGER},
+      hf_qgnum = #{hfQgnum,jdbcType=INTEGER},
+      hf_ygnum = #{hfYgnum,jdbcType=INTEGER},
+      hf_esnum = #{hfEsnum,jdbcType=INTEGER},
+      hf_tsnum = #{hfTsnum,jdbcType=INTEGER},
+      hf_fsnum = #{hfFsnum,jdbcType=INTEGER},
+      hf_ybsnum = #{hfYbsnum,jdbcType=INTEGER},
+      hf_qrnums = #{hfQrnums,jdbcType=INTEGER},
+      hf_qrnume = #{hfQrnume,jdbcType=INTEGER},
+      hf_qrnumt = #{hfQrnumt,jdbcType=INTEGER},
+      hf_qrnumf = #{hfQrnumf,jdbcType=INTEGER},
+      hf_qrnumq = #{hfQrnumq,jdbcType=INTEGER},
+      hf_qrnumyb = #{hfQrnumyb,jdbcType=INTEGER},
+      hf_qrnumse = #{hfQrnumse,jdbcType=INTEGER},
+      hf_qrnumss = #{hfQrnumss,jdbcType=INTEGER},
+      hf_qrnumsf = #{hfQrnumsf,jdbcType=INTEGER},
+      hf_qrnumsyb = #{hfQrnumsyb,jdbcType=INTEGER}
+    where hf_id = #{hfId,jdbcType=INTEGER}
+  </update>
+</mapper>

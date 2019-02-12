@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.DataTotalMapper">
+	<resultMap id="BaseResultMap" type="com.mtpt.bean.DataTotal">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="mtall" jdbcType="INTEGER" property="mtall" />
+		<result column="mtsuc" jdbcType="INTEGER" property="mtsuc" />
+		<result column="mtdissuc" jdbcType="INTEGER" property="mtdissuc" />
+		<result column="moall" jdbcType="INTEGER" property="moall" />
+		<result column="moable" jdbcType="INTEGER" property="moable" />
+		<result column="moableice" jdbcType="INTEGER" property="moableice" />
+		<result column="moabledx" jdbcType="INTEGER" property="moabledx" />
+		<result column="moablellb" jdbcType="INTEGER" property="moablellb" />
+		<result column="modisable" jdbcType="INTEGER" property="modisable" />
+		<result column="orderall" jdbcType="INTEGER" property="orderall" />
+		<result column="ordersuc" jdbcType="INTEGER" property="ordersuc" />
+		<result column="ordersucdx" jdbcType="INTEGER" property="ordersucdx" />
+		<result column="ordersucllb" jdbcType="INTEGER" property="ordersucllb" />
+		<result column="orderdissuc" jdbcType="INTEGER" property="orderdissuc" />
+		<result column="orderdissucdx" jdbcType="INTEGER" property="orderdissucdx" />
+		<result column="orderdissucllb" jdbcType="INTEGER" property="orderdissucllb" />
+		<result column="icesuc" jdbcType="INTEGER" property="icesuc" />
+		<result column="mtrate" jdbcType="REAL" property="mtrate" />
+		<result column="morate" jdbcType="REAL" property="morate" />
+		<result column="modxrate" jdbcType="REAL" property="modxrate" />
+		<result column="mollbrate" jdbcType="REAL" property="mollbrate" />
+		<result column="moicerate" jdbcType="REAL" property="moicerate" />
+		<result column="orderrate" jdbcType="REAL" property="orderrate" />
+		<result column="resorderrate" jdbcType="REAL" property="resorderrate" />
+		<result column="ordersucrate" jdbcType="REAL" property="ordersucrate" />
+		<result column="ordersucdxrate" jdbcType="REAL" property="ordersucdxrate" />
+		<result column="ordersucllbrate" jdbcType="REAL" property="ordersucllbrate" />
+		<result column="add_time" jdbcType="VARCHAR" property="addTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, mtall, mtsuc, mtdissuc, moall, moable, moableice, moabledx,
+		moablellb, modisable,
+		orderall, ordersuc, ordersucdx, ordersucllb, orderdissuc, orderdissucdx,
+		orderdissucllb,
+		icesuc, mtrate, morate, modxrate, mollbrate, moicerate, orderrate,
+		resorderrate,
+		ordersucrate, ordersucdxrate, ordersucllbrate, add_time
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByAddTime" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		where add_time like '${adtime}%'
+	</select>
+
+	<select id="selectDataTotalByDelayPage" parameterType="com.mtpt.bean.page.TotalPage"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		where date_sub(CURRENT_DATE,interval #{delay} day)<![CDATA[<]]>date(add_time)
+		order by add_time DESC
+		limit #{start},#{limit}
+	</select>
+
+	<select id="selectCountByDelay" parameterType="com.mtpt.bean.page.TotalPage"
+		resultType="java.lang.Integer">
+		select count(1)
+		from data_total
+		where date_sub(CURRENT_DATE,interval #{delay} day)<![CDATA[<]]>date(add_time)
+	</select>
+
+	<select id="selectDataTotalMonth" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		WHERE DATE_FORMAT( add_time, '%Y%m' ) = DATE_FORMAT(#{sectime}, '%Y%m' )
+	</select>
+
+	<select id="selectDataTotalWeek" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		WHERE YEARWEEK(add_time)=YEARWEEK(NOW())-#{delay}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from data_total
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.mtpt.bean.DataTotal">
+		insert into data_total (id, mtall, mtsuc,
+		mtdissuc, moall, moable,
+		moableice, moabledx, moablellb,
+		modisable, orderall, ordersuc,
+		ordersucdx, ordersucllb, orderdissuc,
+		orderdissucdx, orderdissucllb, icesuc,
+		mtrate, morate, modxrate, mollbrate,
+		moicerate, orderrate, resorderrate,
+		ordersucrate, ordersucdxrate, ordersucllbrate,
+		add_time)
+		values (#{id,jdbcType=INTEGER}, #{mtall,jdbcType=INTEGER},
+		#{mtsuc,jdbcType=INTEGER},
+		#{mtdissuc,jdbcType=INTEGER}, #{moall,jdbcType=INTEGER}, #{moable,jdbcType=INTEGER},
+		#{moableice,jdbcType=INTEGER}, #{moabledx,jdbcType=INTEGER},
+		#{moablellb,jdbcType=INTEGER},
+		#{modisable,jdbcType=INTEGER}, #{orderall,jdbcType=INTEGER}, #{ordersuc,jdbcType=INTEGER},
+		#{ordersucdx,jdbcType=INTEGER}, #{ordersucllb,jdbcType=INTEGER},
+		#{orderdissuc,jdbcType=INTEGER},
+		#{orderdissucdx,jdbcType=INTEGER}, #{orderdissucllb,jdbcType=INTEGER}, #{icesuc,jdbcType=INTEGER},
+		#{mtrate,jdbcType=REAL}, #{morate,jdbcType=REAL},
+		#{modxrate,jdbcType=REAL}, #{mollbrate,jdbcType=REAL},
+		#{moicerate,jdbcType=REAL}, #{orderrate,jdbcType=REAL},
+		#{resorderrate,jdbcType=REAL},
+		#{ordersucrate,jdbcType=REAL}, #{ordersucdxrate,jdbcType=REAL}, #{ordersucllbrate,jdbcType=REAL},
+		#{addTime,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mtpt.bean.DataTotal">
+		insert into data_total
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="mtall != null">
+				mtall,
+			</if>
+			<if test="mtsuc != null">
+				mtsuc,
+			</if>
+			<if test="mtdissuc != null">
+				mtdissuc,
+			</if>
+			<if test="moall != null">
+				moall,
+			</if>
+			<if test="moable != null">
+				moable,
+			</if>
+			<if test="moableice != null">
+				moableice,
+			</if>
+			<if test="moabledx != null">
+				moabledx,
+			</if>
+			<if test="moablellb != null">
+				moablellb,
+			</if>
+			<if test="modisable != null">
+				modisable,
+			</if>
+			<if test="orderall != null">
+				orderall,
+			</if>
+			<if test="ordersuc != null">
+				ordersuc,
+			</if>
+			<if test="ordersucdx != null">
+				ordersucdx,
+			</if>
+			<if test="ordersucllb != null">
+				ordersucllb,
+			</if>
+			<if test="orderdissuc != null">
+				orderdissuc,
+			</if>
+			<if test="orderdissucdx != null">
+				orderdissucdx,
+			</if>
+			<if test="orderdissucllb != null">
+				orderdissucllb,
+			</if>
+			<if test="icesuc != null">
+				icesuc,
+			</if>
+			<if test="mtrate != null">
+				mtrate,
+			</if>
+			<if test="morate != null">
+				morate,
+			</if>
+			<if test="modxrate != null">
+				modxrate,
+			</if>
+			<if test="mollbrate != null">
+				mollbrate,
+			</if>
+			<if test="moicerate != null">
+				moicerate,
+			</if>
+			<if test="orderrate != null">
+				orderrate,
+			</if>
+			<if test="resorderrate != null">
+				resorderrate,
+			</if>
+			<if test="ordersucrate != null">
+				ordersucrate,
+			</if>
+			<if test="ordersucdxrate != null">
+				ordersucdxrate,
+			</if>
+			<if test="ordersucllbrate != null">
+				ordersucllbrate,
+			</if>
+			<if test="addTime != null">
+				add_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="mtall != null">
+				#{mtall,jdbcType=INTEGER},
+			</if>
+			<if test="mtsuc != null">
+				#{mtsuc,jdbcType=INTEGER},
+			</if>
+			<if test="mtdissuc != null">
+				#{mtdissuc,jdbcType=INTEGER},
+			</if>
+			<if test="moall != null">
+				#{moall,jdbcType=INTEGER},
+			</if>
+			<if test="moable != null">
+				#{moable,jdbcType=INTEGER},
+			</if>
+			<if test="moableice != null">
+				#{moableice,jdbcType=INTEGER},
+			</if>
+			<if test="moabledx != null">
+				#{moabledx,jdbcType=INTEGER},
+			</if>
+			<if test="moablellb != null">
+				#{moablellb,jdbcType=INTEGER},
+			</if>
+			<if test="modisable != null">
+				#{modisable,jdbcType=INTEGER},
+			</if>
+			<if test="orderall != null">
+				#{orderall,jdbcType=INTEGER},
+			</if>
+			<if test="ordersuc != null">
+				#{ordersuc,jdbcType=INTEGER},
+			</if>
+			<if test="ordersucdx != null">
+				#{ordersucdx,jdbcType=INTEGER},
+			</if>
+			<if test="ordersucllb != null">
+				#{ordersucllb,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissuc != null">
+				#{orderdissuc,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissucdx != null">
+				#{orderdissucdx,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissucllb != null">
+				#{orderdissucllb,jdbcType=INTEGER},
+			</if>
+			<if test="icesuc != null">
+				#{icesuc,jdbcType=INTEGER},
+			</if>
+			<if test="mtrate != null">
+				#{mtrate,jdbcType=REAL},
+			</if>
+			<if test="morate != null">
+				#{morate,jdbcType=REAL},
+			</if>
+			<if test="modxrate != null">
+				#{modxrate,jdbcType=REAL},
+			</if>
+			<if test="mollbrate != null">
+				#{mollbrate,jdbcType=REAL},
+			</if>
+			<if test="moicerate != null">
+				#{moicerate,jdbcType=REAL},
+			</if>
+			<if test="orderrate != null">
+				#{orderrate,jdbcType=REAL},
+			</if>
+			<if test="resorderrate != null">
+				#{resorderrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucrate != null">
+				#{ordersucrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucdxrate != null">
+				#{ordersucdxrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucllbrate != null">
+				#{ordersucllbrate,jdbcType=REAL},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.DataTotal">
+		update data_total
+		<set>
+			<if test="mtall != null">
+				mtall = #{mtall,jdbcType=INTEGER},
+			</if>
+			<if test="mtsuc != null">
+				mtsuc = #{mtsuc,jdbcType=INTEGER},
+			</if>
+			<if test="mtdissuc != null">
+				mtdissuc = #{mtdissuc,jdbcType=INTEGER},
+			</if>
+			<if test="moall != null">
+				moall = #{moall,jdbcType=INTEGER},
+			</if>
+			<if test="moable != null">
+				moable = #{moable,jdbcType=INTEGER},
+			</if>
+			<if test="moableice != null">
+				moableice = #{moableice,jdbcType=INTEGER},
+			</if>
+			<if test="moabledx != null">
+				moabledx = #{moabledx,jdbcType=INTEGER},
+			</if>
+			<if test="moablellb != null">
+				moablellb = #{moablellb,jdbcType=INTEGER},
+			</if>
+			<if test="modisable != null">
+				modisable = #{modisable,jdbcType=INTEGER},
+			</if>
+			<if test="orderall != null">
+				orderall = #{orderall,jdbcType=INTEGER},
+			</if>
+			<if test="ordersuc != null">
+				ordersuc = #{ordersuc,jdbcType=INTEGER},
+			</if>
+			<if test="ordersucdx != null">
+				ordersucdx = #{ordersucdx,jdbcType=INTEGER},
+			</if>
+			<if test="ordersucllb != null">
+				ordersucllb = #{ordersucllb,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissuc != null">
+				orderdissuc = #{orderdissuc,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissucdx != null">
+				orderdissucdx = #{orderdissucdx,jdbcType=INTEGER},
+			</if>
+			<if test="orderdissucllb != null">
+				orderdissucllb = #{orderdissucllb,jdbcType=INTEGER},
+			</if>
+			<if test="icesuc != null">
+				icesuc = #{icesuc,jdbcType=INTEGER},
+			</if>
+			<if test="mtrate != null">
+				mtrate = #{mtrate,jdbcType=REAL},
+			</if>
+			<if test="morate != null">
+				morate = #{morate,jdbcType=REAL},
+			</if>
+			<if test="modxrate != null">
+				modxrate = #{modxrate,jdbcType=REAL},
+			</if>
+			<if test="mollbrate != null">
+				mollbrate = #{mollbrate,jdbcType=REAL},
+			</if>
+			<if test="moicerate != null">
+				moicerate = #{moicerate,jdbcType=REAL},
+			</if>
+			<if test="orderrate != null">
+				orderrate = #{orderrate,jdbcType=REAL},
+			</if>
+			<if test="resorderrate != null">
+				resorderrate = #{resorderrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucrate != null">
+				ordersucrate = #{ordersucrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucdxrate != null">
+				ordersucdxrate = #{ordersucdxrate,jdbcType=REAL},
+			</if>
+			<if test="ordersucllbrate != null">
+				ordersucllbrate = #{ordersucllbrate,jdbcType=REAL},
+			</if>
+			<if test="addTime != null">
+				add_time = #{addTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mtpt.bean.DataTotal">
+		update data_total
+		set mtall = #{mtall,jdbcType=INTEGER},
+		mtsuc = #{mtsuc,jdbcType=INTEGER},
+		mtdissuc = #{mtdissuc,jdbcType=INTEGER},
+		moall = #{moall,jdbcType=INTEGER},
+		moable = #{moable,jdbcType=INTEGER},
+		moableice = #{moableice,jdbcType=INTEGER},
+		moabledx = #{moabledx,jdbcType=INTEGER},
+		moablellb = #{moablellb,jdbcType=INTEGER},
+		modisable = #{modisable,jdbcType=INTEGER},
+		orderall = #{orderall,jdbcType=INTEGER},
+		ordersuc = #{ordersuc,jdbcType=INTEGER},
+		ordersucdx = #{ordersucdx,jdbcType=INTEGER},
+		ordersucllb = #{ordersucllb,jdbcType=INTEGER},
+		orderdissuc = #{orderdissuc,jdbcType=INTEGER},
+		orderdissucdx = #{orderdissucdx,jdbcType=INTEGER},
+		orderdissucllb = #{orderdissucllb,jdbcType=INTEGER},
+		icesuc = #{icesuc,jdbcType=INTEGER},
+		mtrate = #{mtrate,jdbcType=REAL},
+		morate = #{morate,jdbcType=REAL},
+		modxrate = #{modxrate,jdbcType=REAL},
+		mollbrate = #{mollbrate,jdbcType=REAL},
+		moicerate = #{moicerate,jdbcType=REAL},
+		orderrate = #{orderrate,jdbcType=REAL},
+		resorderrate = #{resorderrate,jdbcType=REAL},
+		ordersucrate = #{ordersucrate,jdbcType=REAL},
+		ordersucdxrate = #{ordersucdxrate,jdbcType=REAL},
+		ordersucllbrate = #{ordersucllbrate,jdbcType=REAL},
+		add_time = #{addTime,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

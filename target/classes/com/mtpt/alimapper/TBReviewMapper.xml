@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBReviewMapper">
+	<resultMap id="BaseResultMap" type="com.mtpt.alibean.TBReview">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+		<result column="prelx" jdbcType="VARCHAR" property="prelx" />
+		<result column="product" jdbcType="VARCHAR" property="product" />
+		<result column="dangw" jdbcType="VARCHAR" property="dangw" />
+		<result column="ifrh" jdbcType="VARCHAR" property="ifrh" />
+		<result column="ifdx" jdbcType="VARCHAR" property="ifdx" />
+		<result column="mig_id" jdbcType="INTEGER" property="migId" />
+		<result column="rd_user" jdbcType="VARCHAR" property="rdUser" />
+		<result column="count" jdbcType="INTEGER" property="count" />
+		<result column="sec_time" jdbcType="DATE" property="secTime" />
+		<result column="state" jdbcType="INTEGER" property="state" />
+		<result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+		<result column="isdelblack" jdbcType="VARCHAR" property="isdelblack" />
+		<result column="deldays" jdbcType="INTEGER" property="deldays" />
+		<result column="isitmework" jdbcType="VARCHAR" property="isitmework" />
+		<result column="worktime" jdbcType="TIMESTAMP" property="worktime" />
+		<result column="isdeldays" jdbcType="VARCHAR" property="isdeldays" />
+		<result column="re_user" jdbcType="VARCHAR" property="reUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, city, source_type, prelx, product, dangw, ifrh, ifdx, mig_id,
+		rd_user, count,
+		sec_time, state, add_time, isdelblack, deldays, isitmework, worktime,
+		isdeldays,
+		re_user
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_review
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByReviewPage" resultMap="BaseResultMap"
+		parameterType="com.mtpt.alibean.page.TBRecordPage">
+		select
+		<include refid="Base_Column_List" />
+		from tb_review
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='re_user'">
+				and re_user=#{keyword}
+			</if>
+			<if test="keyword!=null and keyword!='' and keytype=='rd_user'">
+				and rd_user = #{keyword}
+			</if>
+			<if test="keyword!=null and keyword!='' and keytype=='id'">
+				and id = #{keyword}
+			</if>
+			<if test="keyid!=null and keyid!='' and keyidtype=='id'">
+				and id = #{keyid}
+			</if>
+		</where>
+
+		order by id desc
+		limit #{start},#{limit}
+	</select>
+	
+	<select id="selectTaskByAddTime" parameterType="com.mtpt.alibean.page.TBRecordPage"
+	resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from tb_review
+	<where>
+		<if test="keyword!=null and keyword!='' and keytype =='rd_user'">
+			and rd_user like '%' #{keyword} '%'
+		</if>
+		<if test="keyid!=null and keyid!='' and keyidtype=='add_time'">
+			AND add_time like '${keyid}%'
+		</if>
+		<if test="keystate!=null and keystate!=''">
+			AND	state=#{keystate}
+		</if>
+	</where>
+</select>
+	
+	<select id="selectCountAll" resultType="java.lang.Integer"
+		parameterType="com.mtpt.alibean.page.TBRecordPage">
+		select count(1)
+		from tb_review
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='re_user'">
+				and re_user=#{keyword}
+			</if>
+			<if test="keyword!=null and keyword!='' and keytype=='rd_user'">
+				and rd_user = #{keyword}
+			</if>
+			<if test="keyword!=null and keyword!='' and keytype=='id'">
+				and id = #{keyword}
+			</if>
+		</where>
+		order by id desc
+	</select>
+
+	
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tb_review
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.mtpt.alibean.TBReview">
+		insert into tb_review (id, city, source_type,
+		prelx, product, dangw,
+		ifrh, ifdx, mig_id,
+		rd_user, count, sec_time,
+		state, add_time, isdelblack,
+		deldays, isitmework, worktime,
+		isdeldays, re_user)
+		values (#{id,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR},
+		#{sourceType,jdbcType=VARCHAR},
+		#{prelx,jdbcType=VARCHAR}, #{product,jdbcType=VARCHAR}, #{dangw,jdbcType=VARCHAR},
+		#{ifrh,jdbcType=VARCHAR}, #{ifdx,jdbcType=VARCHAR},
+		#{migId,jdbcType=INTEGER},
+		#{rdUser,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{secTime,jdbcType=DATE},
+		#{state,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP},
+		#{isdelblack,jdbcType=VARCHAR},
+		#{deldays,jdbcType=INTEGER}, #{isitmework,jdbcType=VARCHAR}, #{worktime,jdbcType=TIMESTAMP},
+		#{isdeldays,jdbcType=VARCHAR}, #{reUser,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mtpt.alibean.TBReview">
+		insert into tb_review
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="sourceType != null">
+				source_type,
+			</if>
+			<if test="prelx != null">
+				prelx,
+			</if>
+			<if test="product != null">
+				product,
+			</if>
+			<if test="dangw != null">
+				dangw,
+			</if>
+			<if test="ifrh != null">
+				ifrh,
+			</if>
+			<if test="ifdx != null">
+				ifdx,
+			</if>
+			<if test="migId != null">
+				mig_id,
+			</if>
+			<if test="rdUser != null">
+				rd_user,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="secTime != null">
+				sec_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="addTime != null">
+				add_time,
+			</if>
+			<if test="isdelblack != null">
+				isdelblack,
+			</if>
+			<if test="deldays != null">
+				deldays,
+			</if>
+			<if test="isitmework != null">
+				isitmework,
+			</if>
+			<if test="worktime != null">
+				worktime,
+			</if>
+			<if test="isdeldays != null">
+				isdeldays,
+			</if>
+			<if test="reUser != null">
+				re_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceType != null">
+				#{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="prelx != null">
+				#{prelx,jdbcType=VARCHAR},
+			</if>
+			<if test="product != null">
+				#{product,jdbcType=VARCHAR},
+			</if>
+			<if test="dangw != null">
+				#{dangw,jdbcType=VARCHAR},
+			</if>
+			<if test="ifrh != null">
+				#{ifrh,jdbcType=VARCHAR},
+			</if>
+			<if test="ifdx != null">
+				#{ifdx,jdbcType=VARCHAR},
+			</if>
+			<if test="migId != null">
+				#{migId,jdbcType=INTEGER},
+			</if>
+			<if test="rdUser != null">
+				#{rdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=INTEGER},
+			</if>
+			<if test="secTime != null">
+				#{secTime,jdbcType=DATE},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdelblack != null">
+				#{isdelblack,jdbcType=VARCHAR},
+			</if>
+			<if test="deldays != null">
+				#{deldays,jdbcType=INTEGER},
+			</if>
+			<if test="isitmework != null">
+				#{isitmework,jdbcType=VARCHAR},
+			</if>
+			<if test="worktime != null">
+				#{worktime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdeldays != null">
+				#{isdeldays,jdbcType=VARCHAR},
+			</if>
+			<if test="reUser != null">
+				#{reUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBReview">
+		update tb_review
+		<set>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceType != null">
+				source_type = #{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="prelx != null">
+				prelx = #{prelx,jdbcType=VARCHAR},
+			</if>
+			<if test="product != null">
+				product = #{product,jdbcType=VARCHAR},
+			</if>
+			<if test="dangw != null">
+				dangw = #{dangw,jdbcType=VARCHAR},
+			</if>
+			<if test="ifrh != null">
+				ifrh = #{ifrh,jdbcType=VARCHAR},
+			</if>
+			<if test="ifdx != null">
+				ifdx = #{ifdx,jdbcType=VARCHAR},
+			</if>
+			<if test="migId != null">
+				mig_id = #{migId,jdbcType=INTEGER},
+			</if>
+			<if test="rdUser != null">
+				rd_user = #{rdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="secTime != null">
+				sec_time = #{secTime,jdbcType=DATE},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="addTime != null">
+				add_time = #{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdelblack != null">
+				isdelblack = #{isdelblack,jdbcType=VARCHAR},
+			</if>
+			<if test="deldays != null">
+				deldays = #{deldays,jdbcType=INTEGER},
+			</if>
+			<if test="isitmework != null">
+				isitmework = #{isitmework,jdbcType=VARCHAR},
+			</if>
+			<if test="worktime != null">
+				worktime = #{worktime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdeldays != null">
+				isdeldays = #{isdeldays,jdbcType=VARCHAR},
+			</if>
+			<if test="reUser != null">
+				re_user = #{reUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBReview">
+		update tb_review
+		set city = #{city,jdbcType=VARCHAR},
+		source_type = #{sourceType,jdbcType=VARCHAR},
+		prelx = #{prelx,jdbcType=VARCHAR},
+		product = #{product,jdbcType=VARCHAR},
+		dangw = #{dangw,jdbcType=VARCHAR},
+		ifrh = #{ifrh,jdbcType=VARCHAR},
+		ifdx = #{ifdx,jdbcType=VARCHAR},
+		mig_id = #{migId,jdbcType=INTEGER},
+		rd_user = #{rdUser,jdbcType=VARCHAR},
+		count = #{count,jdbcType=INTEGER},
+		sec_time = #{secTime,jdbcType=DATE},
+		state = #{state,jdbcType=INTEGER},
+		add_time = #{addTime,jdbcType=TIMESTAMP},
+		isdelblack = #{isdelblack,jdbcType=VARCHAR},
+		deldays = #{deldays,jdbcType=INTEGER},
+		isitmework = #{isitmework,jdbcType=VARCHAR},
+		worktime = #{worktime,jdbcType=TIMESTAMP},
+		isdeldays = #{isdeldays,jdbcType=VARCHAR},
+		re_user = #{reUser,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

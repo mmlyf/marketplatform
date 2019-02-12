@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBDsjDxAllMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBDsjDxAll">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dx_city" jdbcType="VARCHAR" property="dxCity" />
+    <result column="dx_dn" jdbcType="VARCHAR" property="dxDn" />
+    <result column="dx_ap" jdbcType="VARCHAR" property="dxAp" />
+    <result column="dx_sys" jdbcType="VARCHAR" property="dxSys" />
+    <result column="dx_inn" jdbcType="VARCHAR" property="dxInn" />
+    <result column="dx_rh" jdbcType="VARCHAR" property="dxRh" />
+    <result column="dx_rhlx" jdbcType="VARCHAR" property="dxRhlx" />
+    <result column="dx_firp" jdbcType="VARCHAR" property="dxFirp" />
+    <result column="dx_firdw" jdbcType="VARCHAR" property="dxFirdw" />
+    <result column="dx_ifdx" jdbcType="VARCHAR" property="dxIfdx" />
+    <result column="dx_adtime" jdbcType="TIMESTAMP" property="dxAdtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dx_city, dx_dn, dx_ap, dx_sys, dx_inn, dx_rh, dx_rhlx, dx_firp, dx_firdw, dx_ifdx, 
+    dx_adtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dsj_dx_all
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByReview" parameterType="com.mtpt.bean.Review" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from dsj_dx_all
+  	<where>
+  		<if test="secTime!=null and secTime!=''">
+  			AND dx_adtime like #{secTime}" %"
+  		</if>
+  		<if test="city!=null and city!='all'">
+  			AND dx_city = #{city}
+  		</if>
+  		<if test="sourceType!=null and sourceType!='all'">
+  			and dx_sys = #{sourceType}
+  		</if>
+  		<if test="product!=null and product!='all'">
+  			and dx_firp = #{product}
+  		</if>
+  		<if test="dangw!=null and dangw!='all'">
+  			and dx_firdw = #{dangw}
+  		</if>
+  		<if test="ifrh!=null and ifrh!='all'">
+  			and dx_rh = #{ifrh}
+  		</if>
+  		<if test="ifdx!=null and ifdx!='all'">
+  			and dx_ifdx = #{ifdx}
+  		</if>
+  	</where>
+  </select>
+  
+    <select id="selectCountByReview" parameterType="com.mtpt.bean.Review" resultType="java.lang.Integer">
+  	select count(1)
+  	from dsj_dx_all
+  	<where>
+  		<if test="secTime!=null ">
+  		<![CDATA[
+  			AND dx_adtime >= CONCAT(date_format(#{secTime},'%y-%m-%d'),'00:00:00') AND dx_adtime<= CONCAT(date_format(#{secTime},'%y-%m-%d'),'23:59:59')
+  			]]>
+  		</if>
+  		<if test="city!=null and city!='all'">
+  			AND dx_city = #{city}
+  		</if>
+  		<if test="sourceType!=null and sourceType!='all'">
+  			and dx_sys = #{sourceType}
+  		</if>
+  		<if test="product!=null and product!='all'">
+  			and dx_firp = #{product}
+  		</if>
+  		<if test="dangw!=null and dangw!='all'">
+  			and dx_firdw = #{dangw}
+  		</if>
+  		<if test="ifrh!=null and ifrh!='all'">
+  			and dx_rh = #{ifrh}
+  		</if>
+  		<if test="ifdx!=null and ifdx!='all'">
+  			and dx_ifdx = #{ifdx}
+  		</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dsj_dx_all
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBDsjDxAll">
+    insert into dsj_dx_all (id, dx_city, dx_dn, 
+      dx_ap, dx_sys, dx_inn, 
+      dx_rh, dx_rhlx, dx_firp, 
+      dx_firdw, dx_ifdx, dx_adtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{dxCity,jdbcType=VARCHAR}, #{dxDn,jdbcType=VARCHAR}, 
+      #{dxAp,jdbcType=VARCHAR}, #{dxSys,jdbcType=VARCHAR}, #{dxInn,jdbcType=VARCHAR}, 
+      #{dxRh,jdbcType=VARCHAR}, #{dxRhlx,jdbcType=VARCHAR}, #{dxFirp,jdbcType=VARCHAR}, 
+      #{dxFirdw,jdbcType=VARCHAR}, #{dxIfdx,jdbcType=VARCHAR}, #{dxAdtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBDsjDxAll">
+    insert into dsj_dx_all
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dxCity != null">
+        dx_city,
+      </if>
+      <if test="dxDn != null">
+        dx_dn,
+      </if>
+      <if test="dxAp != null">
+        dx_ap,
+      </if>
+      <if test="dxSys != null">
+        dx_sys,
+      </if>
+      <if test="dxInn != null">
+        dx_inn,
+      </if>
+      <if test="dxRh != null">
+        dx_rh,
+      </if>
+      <if test="dxRhlx != null">
+        dx_rhlx,
+      </if>
+      <if test="dxFirp != null">
+        dx_firp,
+      </if>
+      <if test="dxFirdw != null">
+        dx_firdw,
+      </if>
+      <if test="dxIfdx != null">
+        dx_ifdx,
+      </if>
+      <if test="dxAdtime != null">
+        dx_adtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dxCity != null">
+        #{dxCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dxDn != null">
+        #{dxDn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAp != null">
+        #{dxAp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxSys != null">
+        #{dxSys,jdbcType=VARCHAR},
+      </if>
+      <if test="dxInn != null">
+        #{dxInn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRh != null">
+        #{dxRh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRhlx != null">
+        #{dxRhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirp != null">
+        #{dxFirp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirdw != null">
+        #{dxFirdw,jdbcType=VARCHAR},
+      </if>
+      <if test="dxIfdx != null">
+        #{dxIfdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAdtime != null">
+        #{dxAdtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBDsjDxAll">
+    update dsj_dx_all
+    <set>
+      <if test="dxCity != null">
+        dx_city = #{dxCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dxDn != null">
+        dx_dn = #{dxDn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAp != null">
+        dx_ap = #{dxAp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxSys != null">
+        dx_sys = #{dxSys,jdbcType=VARCHAR},
+      </if>
+      <if test="dxInn != null">
+        dx_inn = #{dxInn,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRh != null">
+        dx_rh = #{dxRh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxRhlx != null">
+        dx_rhlx = #{dxRhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirp != null">
+        dx_firp = #{dxFirp,jdbcType=VARCHAR},
+      </if>
+      <if test="dxFirdw != null">
+        dx_firdw = #{dxFirdw,jdbcType=VARCHAR},
+      </if>
+      <if test="dxIfdx != null">
+        dx_ifdx = #{dxIfdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dxAdtime != null">
+        dx_adtime = #{dxAdtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBDsjDxAll">
+    update dsj_dx_all
+    set dx_city = #{dxCity,jdbcType=VARCHAR},
+      dx_dn = #{dxDn,jdbcType=VARCHAR},
+      dx_ap = #{dxAp,jdbcType=VARCHAR},
+      dx_sys = #{dxSys,jdbcType=VARCHAR},
+      dx_inn = #{dxInn,jdbcType=VARCHAR},
+      dx_rh = #{dxRh,jdbcType=VARCHAR},
+      dx_rhlx = #{dxRhlx,jdbcType=VARCHAR},
+      dx_firp = #{dxFirp,jdbcType=VARCHAR},
+      dx_firdw = #{dxFirdw,jdbcType=VARCHAR},
+      dx_ifdx = #{dxIfdx,jdbcType=VARCHAR},
+      dx_adtime = #{dxAdtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

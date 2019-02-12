@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.ActivityListMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.ActivityList">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="act_name" jdbcType="VARCHAR" property="actName" />
+    <result column="act_starttime" jdbcType="TIMESTAMP" property="actStarttime" />
+    <result column="act_endtime" jdbcType="TIMESTAMP" property="actEndtime" />
+    <result column="act_page" jdbcType="VARCHAR" property="actPage" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, act_name, act_starttime, act_endtime, act_page, addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activity_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectActiCount" parameterType="com.mtpt.alibean.page.TBRecordPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from activity_list
+  	order by addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectActiByPage" parameterType="com.mtpt.alibean.page.TBRecordPage" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from activity_list
+  	ORDER BY addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.ActivityList">
+    insert into activity_list (id, act_name, act_starttime, 
+      act_endtime, datadb, act_page, 
+      addtime)
+    values (#{id,jdbcType=INTEGER}, #{actName,jdbcType=VARCHAR}, #{actStarttime,jdbcType=TIMESTAMP}, 
+      #{actEndtime,jdbcType=TIMESTAMP}, #{actPage,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.ActivityList">
+    insert into activity_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="actName != null">
+        act_name,
+      </if>
+      <if test="actStarttime != null">
+        act_starttime,
+      </if>
+      <if test="actEndtime != null">
+        act_endtime,
+      </if>
+      <if test="actPage != null">
+        act_page,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="actName != null">
+        #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actStarttime != null">
+        #{actStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actEndtime != null">
+        #{actEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actPage != null">
+        #{actPage,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.ActivityList">
+    update activity_list
+    <set>
+      <if test="actName != null">
+        act_name = #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actStarttime != null">
+        act_starttime = #{actStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actEndtime != null">
+        act_endtime = #{actEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actPage != null">
+        act_page = #{actPage,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.ActivityList">
+    update activity_list
+    set act_name = #{actName,jdbcType=VARCHAR},
+      act_starttime = #{actStarttime,jdbcType=TIMESTAMP},
+      act_endtime = #{actEndtime,jdbcType=TIMESTAMP},
+      act_page = #{actPage,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

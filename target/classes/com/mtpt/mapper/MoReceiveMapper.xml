@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.MoReceiveMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.MoReceive">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="ad_time" jdbcType="TIMESTAMP" property="adTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mtpt.bean.MoReceive">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, phone_num, ad_time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mo_receive
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCountAllByPage" parameterType="com.mtpt.bean.page.TotalPage" resultType="java.lang.Integer">
+  	select count(1) 
+  	from mo_receive
+  	<where>
+  		<if test="adtime!=null and adtime!=''">
+  			and ad_time like '${adtime} %'
+  		</if>
+  		<if test="state!=null and state!='' and state==1"><!-- 查找上行有效数据 -->
+  			and (UPPER(message_content) IN ('Y5','Y8','Y13','Y18','Y23','Y28','Y33','Y38','Y43','Y48','Y53','Y58','Y63','Y68','Y73','Y78','Y83','Y88','Y93','Y98','Y108','Y118','Y128','Y138','Y148','Y158','Y168','Y178','Y188','Y198','Y208','Y228','Y258','Y288','Y318','Y350','Y400','Y466' ) 
+  			OR UPPER(message_content) IN ('L5','L8','L13','L18','L23','L28','L33','L38','L43','L48','L53','L58','L63','L68','L73','L78','L83','L88','L93','L98','L108','L118','L128','L138','L148','L158','L168','L178','L188','L198','L208','L228','L258','L288','L318','L350','L400','L466' )
+			 OR UPPER(message_content) IN ('B38','B48','B58','B68','B78','B88','B98','B108','B118','B128','B138','B148','B158','B168','B178','B188','B198','B218','B238','B258','B278','B298','B318','B358','B398')
+			 OR message_content IN ('12','13','14'))
+  		</if>
+  		<if test="state!=null and state!='' and state==2"><!-- 查找低消上行有效 -->
+  			and (UPPER(message_content) IN ('Y5','Y8','Y13','Y18','Y23','Y28','Y33','Y38','Y43','Y48','Y53','Y58','Y63','Y68','Y73','Y78','Y83','Y88','Y93','Y98','Y108','Y118','Y128','Y138','Y148','Y158','Y168','Y178','Y188','Y198','Y208','Y228','Y258','Y288','Y318','Y350','Y400','Y466' ) 
+  			OR UPPER(message_content) IN ('L5','L8','L13','L18','L23','L28','L33','L38','L43','L48','L53','L58','L63','L68','L73','L78','L83','L88','L93','L98','L108','L118','L128','L138','L148','L158','L168','L178','L188','L198','L208','L228','L258','L288','L318','L350','L400','L466' ))
+  		</if>
+  		<if test="state!=null and state!='' and state==3"><!-- 查找冰激凌上行有效 -->
+  			and UPPER(message_content) IN ('B38','B48','B58','B68','B78','B88','B98','B108','B118','B128','B138','B148','B158','B168','B178','B188','B198','B218','B238','B258','B278','B298','B318','B358','B398')
+  		</if>
+  	</where>
+  </select>
+
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mo_receive
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.MoReceive">
+    insert into mo_receive (id, phone_num, ad_time, 
+      message_content)
+    values (#{id,jdbcType=INTEGER}, #{phoneNum,jdbcType=VARCHAR}, #{adTime,jdbcType=TIMESTAMP}, 
+      #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.MoReceive">
+    insert into mo_receive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="adTime != null">
+        ad_time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adTime != null">
+        #{adTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.MoReceive">
+    update mo_receive
+    <set>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adTime != null">
+        ad_time = #{adTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mtpt.bean.MoReceive">
+    update mo_receive
+    set phone_num = #{phoneNum,jdbcType=VARCHAR},
+      ad_time = #{adTime,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.MoReceive">
+    update mo_receive
+    set phone_num = #{phoneNum,jdbcType=VARCHAR},
+      ad_time = #{adTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

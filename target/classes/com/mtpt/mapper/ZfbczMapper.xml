@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.ZfbczMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.Zfbcz">
+    <result column="py_id" jdbcType="CHAR" property="pyId" />
+    <result column="py_dn" jdbcType="VARCHAR" property="pyDn" />
+    <result column="py_seno" jdbcType="VARCHAR" property="pySeno" />
+    <result column="py_creatime" jdbcType="TIMESTAMP" property="pyCreatime" />
+    <result column="py_lastday" jdbcType="VARCHAR" property="pyLastday" />
+    <result column="py_totalmoey" jdbcType="DECIMAL" property="pyTotalmoey" />
+    <result column="py_zfqd" jdbcType="BIT" property="pyZfqd" />
+    <result column="py_ifpay" jdbcType="BIT" property="pyIfpay" />
+    <result column="py_oftime" jdbcType="TIMESTAMP" property="pyOftime" />
+    <result column="py_ofcode" jdbcType="TINYINT" property="pyOfcode" />
+    <result column="py_ofspid" jdbcType="VARCHAR" property="pyOfspid" />
+    <result column="py_oftitle" jdbcType="VARCHAR" property="pyOftitle" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  py_id, py_dn, py_seno, py_creatime, py_lastday, py_totalmoey,py_zfqd, py_ifpay, py_oftime,py_ofcode, py_ofspid, py_oftitle
+  </sql>
+  <insert id="insert" parameterType="com.mtpt.bean.Zfbcz">
+    insert into zfbcz (py_id, py_dn, py_seno, 
+      py_creatime, py_lastday, py_totalmoey, 
+      py_zfqd, py_ifpay, py_oftime, 
+      py_ofcode, py_ofspid, py_oftitle
+      )
+    values (#{pyId,jdbcType=CHAR}, #{pyDn,jdbcType=VARCHAR}, #{pySeno,jdbcType=VARCHAR}, 
+      #{pyCreatime,jdbcType=TIMESTAMP}, #{pyLastday,jdbcType=VARCHAR}, #{pyTotalmoey,jdbcType=DECIMAL}, 
+      #{pyZfqd,jdbcType=BIT}, #{pyIfpay,jdbcType=BIT}, #{pyOftime,jdbcType=TIMESTAMP}, 
+      #{pyOfcode,jdbcType=TINYINT}, #{pyOfspid,jdbcType=VARCHAR}, #{pyOftitle,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <select id="selectAllData" parameterType="com.mtpt.bean.page.ZfbczPage" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from zfbcz
+  	<where>
+  		<if test="dn!=null and dn!=''">
+  			AND py_dn=#{dn}
+  		</if>
+  		<if test="startime!=null and startime!='' and endtime!=null and endtime!=''">
+  			AND py_creatime<![CDATA[>=]]>#{startime} AND py_creatime<![CDATA[<=]]>#{endtime}
+  		</if>
+  		<if test="orderno!=null and orderno!=''">
+  			AND py_seno like '%${orderno}%'
+  		</if>
+  	</where>
+  	ORDER BY py_creatime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectAllDataCount" resultType="java.lang.Integer">
+   	select count(1)
+   	from zfbcz
+   </select>
+   
+  <insert id="insertSelective" parameterType="com.mtpt.bean.Zfbcz">
+    insert into zfbcz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pyId != null">
+        py_id,
+      </if>
+      <if test="pyDn != null">
+        py_dn,
+      </if>
+      <if test="pySeno != null">
+        py_seno,
+      </if>
+      <if test="pyCreatime != null">
+        py_creatime,
+      </if>
+      <if test="pyLastday != null">
+        py_lastday,
+      </if>
+      <if test="pyTotalmoey != null">
+        py_totalmoey,
+      </if>
+      <if test="pyZfqd != null">
+        py_zfqd,
+      </if>
+      <if test="pyIfpay != null">
+        py_ifpay,
+      </if>
+      <if test="pyOftime != null">
+        py_oftime,
+      </if>
+      <if test="pyOfcode != null">
+        py_ofcode,
+      </if>
+      <if test="pyOfspid != null">
+        py_ofspid,
+      </if>
+      <if test="pyOftitle != null">
+        py_oftitle,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pyId != null">
+        #{pyId,jdbcType=CHAR},
+      </if>
+      <if test="pyDn != null">
+        #{pyDn,jdbcType=VARCHAR},
+      </if>
+      <if test="pySeno != null">
+        #{pySeno,jdbcType=VARCHAR},
+      </if>
+      <if test="pyCreatime != null">
+        #{pyCreatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pyLastday != null">
+        #{pyLastday,jdbcType=VARCHAR},
+      </if>
+      <if test="pyTotalmoey != null">
+        #{pyTotalmoey,jdbcType=DECIMAL},
+      </if>
+      <if test="pyZfqd != null">
+        #{pyZfqd,jdbcType=BIT},
+      </if>
+      <if test="pyIfpay != null">
+        #{pyIfpay,jdbcType=BIT},
+      </if>
+      <if test="pyOftime != null">
+        #{pyOftime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pyOfcode != null">
+        #{pyOfcode,jdbcType=TINYINT},
+      </if>
+      <if test="pyOfspid != null">
+        #{pyOfspid,jdbcType=VARCHAR},
+      </if>
+      <if test="pyOftitle != null">
+        #{pyOftitle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

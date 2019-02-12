@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBCBRecordMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBCBRecord">
+    <id column="cd_id" jdbcType="INTEGER" property="cdId" />
+    <result column="rd_id" jdbcType="INTEGER" property="rdId" />
+    <result column="cd_tell" jdbcType="VARCHAR" property="cdTell" />
+    <result column="cd_sendtime" jdbcType="TIMESTAMP" property="cdSendtime" />
+    <result column="cd_sendstat" jdbcType="BIT" property="cdSendstat" />
+    <result column="sendflag" jdbcType="INTEGER" property="sendflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cd_id, rd_id, cd_tell, cd_sendtime, cd_sendstat, sendflag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_cbrecord
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCountByPage" parameterType="com.mtpt.bean.page.TotalPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_cbrecord
+  	<where>
+  		<if test="adtime!=null and adtime!=''">
+  			and cd_sendtime like '${adtime} %'
+  		</if>
+  		<if test="state!=null and state!='' and state==1"><!-- 查找下行成功的数量 -->
+  			and cd_sendstat = 1
+  		</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_cbrecord
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBCBRecord">
+    insert into tb_cbrecord (cd_id, rd_id, cd_tell, 
+      cd_sendtime, cd_sendstat, sendflag
+      )
+    values (#{cdId,jdbcType=INTEGER}, #{rdId,jdbcType=INTEGER}, #{cdTell,jdbcType=VARCHAR}, 
+      #{cdSendtime,jdbcType=TIMESTAMP}, #{cdSendstat,jdbcType=BIT}, #{sendflag,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertByList" parameterType="java.util.List">
+  	insert into tb_cbrecord(rd_id,cd_tell,cd_sendtime,cd_sendstat,sendflag)
+  	values
+  	<foreach collection="list" item="listitem" index="index" separator=",">
+  		(
+  			#{listitem.rdId},#{listitem.cdTell},
+  			#{listitem.cdSendtime},
+  			#{listitem.cdSendstat},#{listitem.sendflag}
+  		)
+  	</foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBCBRecord">
+    insert into tb_cbrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        cd_id,
+      </if>
+      <if test="rdId != null">
+        rd_id,
+      </if>
+      <if test="cdTell != null">
+        cd_tell,
+      </if>
+      <if test="cdSendtime != null">
+        cd_sendtime,
+      </if>
+      <if test="cdSendstat != null">
+        cd_sendstat,
+      </if>
+      <if test="sendflag != null">
+        sendflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        #{cdId,jdbcType=INTEGER},
+      </if>
+      <if test="rdId != null">
+        #{rdId,jdbcType=INTEGER},
+      </if>
+      <if test="cdTell != null">
+        #{cdTell,jdbcType=VARCHAR},
+      </if>
+      <if test="cdSendtime != null">
+        #{cdSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdSendstat != null">
+        #{cdSendstat,jdbcType=BIT},
+      </if>
+      <if test="sendflag != null">
+        #{sendflag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBCBRecord">
+    update tb_cbrecord
+    <set>
+      <if test="rdId != null">
+        rd_id = #{rdId,jdbcType=INTEGER},
+      </if>
+      <if test="cdTell != null">
+        cd_tell = #{cdTell,jdbcType=VARCHAR},
+      </if>
+      <if test="cdSendtime != null">
+        cd_sendtime = #{cdSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdSendstat != null">
+        cd_sendstat = #{cdSendstat,jdbcType=BIT},
+      </if>
+      <if test="sendflag != null">
+        sendflag = #{sendflag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBCBRecord">
+    update tb_cbrecord
+    set rd_id = #{rdId,jdbcType=INTEGER},
+      cd_tell = #{cdTell,jdbcType=VARCHAR},
+      cd_sendtime = #{cdSendtime,jdbcType=TIMESTAMP},
+      cd_sendstat = #{cdSendstat,jdbcType=BIT},
+      sendflag = #{sendflag,jdbcType=INTEGER}
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </update>
+</mapper>

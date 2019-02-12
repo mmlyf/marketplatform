@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBSceneJobMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBSceneJob">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scene_bq" jdbcType="VARCHAR" property="sceneBq" />
+    <result column="bq_opera" jdbcType="VARCHAR" property="bqOpera" />
+    <result column="is_timework" jdbcType="VARCHAR" property="isTimework" />
+    <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
+    <result column="is_delblack" jdbcType="VARCHAR" property="isDelblack" />
+    <result column="is_deldays" jdbcType="VARCHAR" property="isDeldays" />
+    <result column="deldays" jdbcType="INTEGER" property="deldays" />
+    <result column="data_count" jdbcType="INTEGER" property="dataCount" />
+    <result column="add_man" jdbcType="VARCHAR" property="addMan" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="review_man" jdbcType="VARCHAR" property="reviewMan" />
+    <result column="mis_id" jdbcType="INTEGER" property="misId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="last_opera" jdbcType="VARCHAR" property="lastOpera" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, scene_bq, bq_opera, is_timework, work_time, is_delblack, is_deldays, deldays, 
+    data_count, add_man, add_time, review_man, mis_id, state, last_opera
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_scene_job
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectSceneJobByPage" parameterType="com.mtpt.alibean.page.SceneJobPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_scene_job
+  	<where>
+  		<if test="keyword!=null and keyword!='' and keytype=='id'">
+  			AND id = #{keyword}
+  		</if>
+  		<if test="keyword!=null and keyword!='' and keytype=='add_man'">
+  			AND add_man = #{keyword}
+  		</if>
+  		<if test="keyword!=null and keyword!='' and keytype=='review_man'">
+  			AND review_man = #{keyword}
+  		</if>
+  	</where>
+  	ORDER BY add_time DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectSceneJobCountByPage" parameterType="com.mtpt.alibean.page.SceneJobPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_scene_job
+  	<where>
+  		<if test="keyword!=null and keyword!='' and keytype=='id'">
+  			AND id = #{keyword}
+  		</if>
+  	</where>
+  	ORDER BY add_time DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_scene_job
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBSceneJob">
+    insert into tb_scene_job (id, scene_bq, bq_opera, 
+      is_timework, work_time, is_delblack, 
+      is_deldays, deldays, data_count, 
+      add_man, add_time, review_man, 
+      mis_id, state, last_opera
+      )
+    values (#{id,jdbcType=INTEGER}, #{sceneBq,jdbcType=VARCHAR}, #{bqOpera,jdbcType=VARCHAR}, 
+      #{isTimework,jdbcType=VARCHAR}, #{workTime,jdbcType=TIMESTAMP}, #{isDelblack,jdbcType=VARCHAR}, 
+      #{isDeldays,jdbcType=VARCHAR}, #{deldays,jdbcType=INTEGER}, #{dataCount,jdbcType=INTEGER}, 
+      #{addMan,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{reviewMan,jdbcType=VARCHAR}, 
+      #{misId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{lastOpera,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBSceneJob">
+    insert into tb_scene_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sceneBq != null">
+        scene_bq,
+      </if>
+      <if test="bqOpera != null">
+        bq_opera,
+      </if>
+      <if test="isTimework != null">
+        is_timework,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="isDelblack != null">
+        is_delblack,
+      </if>
+      <if test="isDeldays != null">
+        is_deldays,
+      </if>
+      <if test="deldays != null">
+        deldays,
+      </if>
+      <if test="dataCount != null">
+        data_count,
+      </if>
+      <if test="addMan != null">
+        add_man,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="reviewMan != null">
+        review_man,
+      </if>
+      <if test="misId != null">
+        mis_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="lastOpera != null">
+        last_opera,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sceneBq != null">
+        #{sceneBq,jdbcType=VARCHAR},
+      </if>
+      <if test="bqOpera != null">
+        #{bqOpera,jdbcType=VARCHAR},
+      </if>
+      <if test="isTimework != null">
+        #{isTimework,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelblack != null">
+        #{isDelblack,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeldays != null">
+        #{isDeldays,jdbcType=VARCHAR},
+      </if>
+      <if test="deldays != null">
+        #{deldays,jdbcType=INTEGER},
+      </if>
+      <if test="dataCount != null">
+        #{dataCount,jdbcType=INTEGER},
+      </if>
+      <if test="addMan != null">
+        #{addMan,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewMan != null">
+        #{reviewMan,jdbcType=VARCHAR},
+      </if>
+      <if test="misId != null">
+        #{misId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="lastOpera != null">
+        #{lastOpera,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBSceneJob">
+    update tb_scene_job
+    <set>
+      <if test="sceneBq != null">
+        scene_bq = #{sceneBq,jdbcType=VARCHAR},
+      </if>
+      <if test="bqOpera != null">
+        bq_opera = #{bqOpera,jdbcType=VARCHAR},
+      </if>
+      <if test="isTimework != null">
+        is_timework = #{isTimework,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelblack != null">
+        is_delblack = #{isDelblack,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeldays != null">
+        is_deldays = #{isDeldays,jdbcType=VARCHAR},
+      </if>
+      <if test="deldays != null">
+        deldays = #{deldays,jdbcType=INTEGER},
+      </if>
+      <if test="dataCount != null">
+        data_count = #{dataCount,jdbcType=INTEGER},
+      </if>
+      <if test="addMan != null">
+        add_man = #{addMan,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewMan != null">
+        review_man = #{reviewMan,jdbcType=VARCHAR},
+      </if>
+      <if test="misId != null">
+        mis_id = #{misId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="lastOpera != null">
+        last_opera = #{lastOpera,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBSceneJob">
+    update tb_scene_job
+    set scene_bq = #{sceneBq,jdbcType=VARCHAR},
+      bq_opera = #{bqOpera,jdbcType=VARCHAR},
+      is_timework = #{isTimework,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=TIMESTAMP},
+      is_delblack = #{isDelblack,jdbcType=VARCHAR},
+      is_deldays = #{isDeldays,jdbcType=VARCHAR},
+      deldays = #{deldays,jdbcType=INTEGER},
+      data_count = #{dataCount,jdbcType=INTEGER},
+      add_man = #{addMan,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      review_man = #{reviewMan,jdbcType=VARCHAR},
+      mis_id = #{misId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      last_opera = #{lastOpera,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

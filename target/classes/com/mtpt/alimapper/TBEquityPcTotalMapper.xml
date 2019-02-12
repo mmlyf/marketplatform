@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBEquityPcTotalMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBEquityPcTotal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pv_count" jdbcType="INTEGER" property="pvCount" />
+    <result column="bc_count" jdbcType="INTEGER" property="bcCount" />
+    <result column="youku_count" jdbcType="INTEGER" property="youkuCount" />
+    <result column="aqiy_count" jdbcType="INTEGER" property="aqiyCount" />
+    <result column="mg_count" jdbcType="INTEGER" property="mgCount" />
+    <result column="tx_count" jdbcType="INTEGER" property="txCount" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pv_count, bc_count, youku_count, aqiy_count, mg_count, tx_count, addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_equity_pctotal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllTotalData" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_equity_pctotal
+  	ORDER BY addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectAllCount" parameterType="com.mtpt.alibean.page.PublicPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_equity_pctotal
+  	ORDER BY addtime DESC
+  </select>
+  
+  <select id="selectAllData" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_equity_pctotal
+  	ORDER BY addtime DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_equity_pctotal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBEquityPcTotal">
+    insert into tb_equity_pctotal (id, pv_count, bc_count, 
+      youku_count, aqiy_count, mg_count, 
+      tx_count, addtime)
+    values (#{id,jdbcType=INTEGER}, #{pvCount,jdbcType=INTEGER}, #{bcCount,jdbcType=INTEGER}, 
+      #{youkuCount,jdbcType=INTEGER}, #{aqiyCount,jdbcType=INTEGER}, #{mgCount,jdbcType=INTEGER}, 
+      #{txCount,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBEquityPcTotal">
+    insert into tb_equity_pctotal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pvCount != null">
+        pv_count,
+      </if>
+      <if test="bcCount != null">
+        bc_count,
+      </if>
+      <if test="youkuCount != null">
+        youku_count,
+      </if>
+      <if test="aqiyCount != null">
+        aqiy_count,
+      </if>
+      <if test="mgCount != null">
+        mg_count,
+      </if>
+      <if test="txCount != null">
+        tx_count,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pvCount != null">
+        #{pvCount,jdbcType=INTEGER},
+      </if>
+      <if test="bcCount != null">
+        #{bcCount,jdbcType=INTEGER},
+      </if>
+      <if test="youkuCount != null">
+        #{youkuCount,jdbcType=INTEGER},
+      </if>
+      <if test="aqiyCount != null">
+        #{aqiyCount,jdbcType=INTEGER},
+      </if>
+      <if test="mgCount != null">
+        #{mgCount,jdbcType=INTEGER},
+      </if>
+      <if test="txCount != null">
+        #{txCount,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBEquityPcTotal">
+    update tb_equity_pctotal
+    <set>
+      <if test="pvCount != null">
+        pv_count = #{pvCount,jdbcType=INTEGER},
+      </if>
+      <if test="bcCount != null">
+        bc_count = #{bcCount,jdbcType=INTEGER},
+      </if>
+      <if test="youkuCount != null">
+        youku_count = #{youkuCount,jdbcType=INTEGER},
+      </if>
+      <if test="aqiyCount != null">
+        aqiy_count = #{aqiyCount,jdbcType=INTEGER},
+      </if>
+      <if test="mgCount != null">
+        mg_count = #{mgCount,jdbcType=INTEGER},
+      </if>
+      <if test="txCount != null">
+        tx_count = #{txCount,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBEquityPcTotal">
+    update tb_equity_pctotal
+    set pv_count = #{pvCount,jdbcType=INTEGER},
+      bc_count = #{bcCount,jdbcType=INTEGER},
+      youku_count = #{youkuCount,jdbcType=INTEGER},
+      aqiy_count = #{aqiyCount,jdbcType=INTEGER},
+      mg_count = #{mgCount,jdbcType=INTEGER},
+      tx_count = #{txCount,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

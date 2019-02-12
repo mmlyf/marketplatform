@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBProdLxMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.bean.TBProdLx">
+    <id column="lxid" jdbcType="INTEGER" property="lxid" />
+    <result column="lxname" jdbcType="VARCHAR" property="lxname" />
+    <result column="lxvalue" jdbcType="VARCHAR" property="lxvalue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lxid, lxname, lxvalue
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_prodlx
+    where lxid = #{lxid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByAll" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tb_prodlx
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_prodlx
+    where lxid = #{lxid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.bean.TBProdLx">
+    insert into tb_prodlx (lxid, lxname, lxvalue
+      )
+    values (#{lxid,jdbcType=INTEGER}, #{lxname,jdbcType=VARCHAR}, #{lxvalue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.bean.TBProdLx">
+    insert into tb_prodlx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lxid != null">
+        lxid,
+      </if>
+      <if test="lxname != null">
+        lxname,
+      </if>
+      <if test="lxvalue != null">
+        lxvalue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lxid != null">
+        #{lxid,jdbcType=INTEGER},
+      </if>
+      <if test="lxname != null">
+        #{lxname,jdbcType=VARCHAR},
+      </if>
+      <if test="lxvalue != null">
+        #{lxvalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBProdLx">
+    update tb_prodlx
+    <set>
+      <if test="lxname != null">
+        lxname = #{lxname,jdbcType=VARCHAR},
+      </if>
+      <if test="lxvalue != null">
+        lxvalue = #{lxvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where lxid = #{lxid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBProdLx">
+    update tb_prodlx
+    set lxname = #{lxname,jdbcType=VARCHAR},
+      lxvalue = #{lxvalue,jdbcType=VARCHAR}
+    where lxid = #{lxid,jdbcType=INTEGER}
+  </update>
+</mapper>

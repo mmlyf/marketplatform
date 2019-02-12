@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.FTPDetailsMapper">
+	<resultMap id="BaseResultMap" type="com.mtpt.bean.FTPDetails">
+		<id column="Id" jdbcType="CHAR" property="id" />
+		<result column="Mobile" jdbcType="CHAR" property="mobile" />
+		<result column="Amount" jdbcType="INTEGER" property="amount" />
+		<result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+		<result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+		<result column="DataState" jdbcType="INTEGER" property="datastate" />
+		<result column="Status" jdbcType="INTEGER" property="status" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.mtpt.bean.FTPDetails">
+		<result column="FlowType" jdbcType="LONGVARCHAR" property="flowtype" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Id, Mobile, Amount, AddTime, ModifyTime, DataState, Status
+	</sql>
+	<sql id="Blob_Column_List">
+		FlowType
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from ftpdetails
+		where Id = #{id,jdbcType=CHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ftpdetails
+		where Id = #{id,jdbcType=CHAR}
+	</delete>
+
+	<select id="selectByAlipayPage" parameterType="com.mtpt.bean.page.AlipayPage"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from ftpdetails
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='Mobile'">
+				and Mobile like "%"#{keyword}"%"
+			</if>
+		</where>
+		order by Id DESC
+		LIMIT #{start},#{limit}
+	</select>
+
+	<select id="selectByCount" parameterType="com.mtpt.bean.page.AlipayPage"
+		resultType="java.lang.Integer">
+		select count(1)
+		from ftpdetails
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='Mobile'">
+				and Mobile like "%"#{keyword}"%"
+			</if>
+		</where>
+		order by Id DESC
+	</select>
+
+	<insert id="insert" parameterType="com.mtpt.bean.FTPDetails">
+		insert into ftpdetails (Id, Mobile, Amount,
+		AddTime, ModifyTime, DataState,
+		Status, FlowType)
+		values (#{id,jdbcType=CHAR}, #{mobile,jdbcType=CHAR},
+		#{amount,jdbcType=INTEGER},
+		#{addtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, #{datastate,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{flowtype,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mtpt.bean.FTPDetails">
+		insert into ftpdetails
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				Id,
+			</if>
+			<if test="mobile != null">
+				Mobile,
+			</if>
+			<if test="amount != null">
+				Amount,
+			</if>
+			<if test="addtime != null">
+				AddTime,
+			</if>
+			<if test="modifytime != null">
+				ModifyTime,
+			</if>
+			<if test="datastate != null">
+				DataState,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="flowtype != null">
+				FlowType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=CHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="datastate != null">
+				#{datastate,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="flowtype != null">
+				#{flowtype,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.FTPDetails">
+		update ftpdetails
+		<set>
+			<if test="mobile != null">
+				Mobile = #{mobile,jdbcType=CHAR},
+			</if>
+			<if test="amount != null">
+				Amount = #{amount,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				AddTime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="datastate != null">
+				DataState = #{datastate,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="flowtype != null">
+				FlowType = #{flowtype,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where Id = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mtpt.bean.FTPDetails">
+		update ftpdetails
+		set Mobile = #{mobile,jdbcType=CHAR},
+		Amount = #{amount,jdbcType=INTEGER},
+		AddTime = #{addtime,jdbcType=TIMESTAMP},
+		ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+		DataState = #{datastate,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		FlowType = #{flowtype,jdbcType=LONGVARCHAR}
+		where Id = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mtpt.bean.FTPDetails">
+		update ftpdetails
+		set Mobile = #{mobile,jdbcType=CHAR},
+		Amount = #{amount,jdbcType=INTEGER},
+		AddTime = #{addtime,jdbcType=TIMESTAMP},
+		ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+		DataState = #{datastate,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER}
+		where Id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>

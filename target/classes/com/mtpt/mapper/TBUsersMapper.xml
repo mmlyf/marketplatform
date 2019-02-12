@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.dao.TBUsersMapper">
+	<resultMap id="BaseResultMap" type="com.mtpt.bean.TBUsers">
+		<id column="Id" jdbcType="CHAR" property="id" />
+		<result column="NickName" jdbcType="VARCHAR" property="nickname" />
+		<result column="Name" jdbcType="VARCHAR" property="name" />
+		<result column="Mobile" jdbcType="CHAR" property="mobile" />
+		<result column="Sex" jdbcType="INTEGER" property="sex" />
+		<result column="Province" jdbcType="CHAR" property="province" />
+		<result column="City" jdbcType="CHAR" property="city" />
+		<result column="Country" jdbcType="CHAR" property="country" />
+		<result column="Headimgurl" jdbcType="CHAR" property="headimgurl" />
+		<result column="Unionid" jdbcType="CHAR" property="unionid" />
+		<result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+		<result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+		<result column="DataState" jdbcType="INTEGER" property="datastate" />
+		<result column="NetworkType" jdbcType="CHAR" property="networktype" />
+		<result column="RegistationLocation" jdbcType="CHAR"
+			property="registationlocation" />
+		<result column="OpenId" jdbcType="CHAR" property="openid" />
+		<result column="UserType" jdbcType="SMALLINT" property="usertype" />
+	</resultMap>
+
+	<resultMap id="ListResultMap" type="com.mtpt.bean.TBUsers">
+		<id column="Id" jdbcType="CHAR" property="id" />
+		<result column="NickName" jdbcType="VARCHAR" property="nickname" />
+		<result column="Name" jdbcType="VARCHAR" property="name" />
+		<result column="Mobile" jdbcType="CHAR" property="mobile" />
+		<result column="Sex" jdbcType="INTEGER" property="sex" />
+		<result column="Province" jdbcType="CHAR" property="province" />
+		<result column="City" jdbcType="CHAR" property="city" />
+		<result column="Country" jdbcType="CHAR" property="country" />
+		<result column="Headimgurl" jdbcType="CHAR" property="headimgurl" />
+		<result column="Unionid" jdbcType="CHAR" property="unionid" />
+		<result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+		<result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+		<result column="DataState" jdbcType="INTEGER" property="datastate" />
+		<result column="NetworkType" jdbcType="CHAR" property="networktype" />
+		<result column="RegistationLocation" jdbcType="CHAR"
+			property="registationlocation" />
+		<result column="OpenId" jdbcType="CHAR" property="openid" />
+		<result column="UserType" jdbcType="SMALLINT" property="usertype" />
+		<collection property="ftpDetails" javaType="java.util.List"
+			ofType="com.mtpt.bean.FTPDetails">
+			<id column="Id" jdbcType="CHAR" property="id" />
+			<result column="Mobile" jdbcType="CHAR" property="mobile" />
+			<result column="Amount" jdbcType="INTEGER" property="amount" />
+			<result column="AddTime" jdbcType="TIMESTAMP" property="addtime" />
+			<result column="ModifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+			<result column="DataState" jdbcType="INTEGER" property="datastate" />
+			<result column="Status" jdbcType="INTEGER" property="status" />
+		</collection>
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		Id, NickName, Name, Mobile, Sex, Province, City, Country, Headimgurl,
+		Unionid, AddTime,
+		ModifyTime, DataState, NetworkType, RegistationLocation, OpenId, UserType
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from users
+		where Id = #{id,jdbcType=CHAR}
+	</select>
+	
+	<select id="selectAllAlipayUser" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from users
+	</select>
+	
+	<select id="selectUnGiftFlowUser" parameterType="com.mtpt.bean.page.AlipayPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from users
+		where Mobile not in (select Mobile from ftpdetails)
+		order by Id DESC
+		LIMIT #{start},#{limit}
+	</select>
+	
+	<select id="selectByAlipayPage" parameterType="com.mtpt.bean.page.AlipayPage"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from users
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='Mobile'">
+				and Mobile like "%"#{keyword}"%"
+			</if>
+		</where>
+		order by Id DESC
+		LIMIT #{start},#{limit}
+	</select>
+
+	<select id="selectByCount" parameterType="com.mtpt.bean.page.AlipayPage"
+		resultType="java.lang.Integer">
+		select count(1)
+		from users
+		<where>
+			<if test="keyword!=null and keyword!='' and keytype=='Mobile'">
+				and Mobile like "%"#{keyword}"%"
+			</if>
+		</where>
+		order by Id DESC
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from users
+		where Id = #{id,jdbcType=CHAR}
+	</delete>
+	<insert id="insert" parameterType="com.mtpt.bean.TBUsers">
+		insert into users (Id, NickName, Name,
+		Mobile, Sex, Province, City,
+		Country, Headimgurl, Unionid,
+		AddTime, ModifyTime, DataState,
+		NetworkType, RegistationLocation, OpenId,
+		UserType)
+		values (#{id,jdbcType=CHAR}, #{nickname,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{mobile,jdbcType=CHAR}, #{sex,jdbcType=INTEGER}, #{province,jdbcType=CHAR},
+		#{city,jdbcType=CHAR},
+		#{country,jdbcType=CHAR}, #{headimgurl,jdbcType=CHAR}, #{unionid,jdbcType=CHAR},
+		#{addtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP},
+		#{datastate,jdbcType=INTEGER},
+		#{networktype,jdbcType=CHAR}, #{registationlocation,jdbcType=CHAR}, #{openid,jdbcType=CHAR},
+		#{usertype,jdbcType=SMALLINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mtpt.bean.TBUsers">
+		insert into users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				Id,
+			</if>
+			<if test="nickname != null">
+				NickName,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="mobile != null">
+				Mobile,
+			</if>
+			<if test="sex != null">
+				Sex,
+			</if>
+			<if test="province != null">
+				Province,
+			</if>
+			<if test="city != null">
+				City,
+			</if>
+			<if test="country != null">
+				Country,
+			</if>
+			<if test="headimgurl != null">
+				Headimgurl,
+			</if>
+			<if test="unionid != null">
+				Unionid,
+			</if>
+			<if test="addtime != null">
+				AddTime,
+			</if>
+			<if test="modifytime != null">
+				ModifyTime,
+			</if>
+			<if test="datastate != null">
+				DataState,
+			</if>
+			<if test="networktype != null">
+				NetworkType,
+			</if>
+			<if test="registationlocation != null">
+				RegistationLocation,
+			</if>
+			<if test="openid != null">
+				OpenId,
+			</if>
+			<if test="usertype != null">
+				UserType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=CHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=CHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=CHAR},
+			</if>
+			<if test="country != null">
+				#{country,jdbcType=CHAR},
+			</if>
+			<if test="headimgurl != null">
+				#{headimgurl,jdbcType=CHAR},
+			</if>
+			<if test="unionid != null">
+				#{unionid,jdbcType=CHAR},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="datastate != null">
+				#{datastate,jdbcType=INTEGER},
+			</if>
+			<if test="networktype != null">
+				#{networktype,jdbcType=CHAR},
+			</if>
+			<if test="registationlocation != null">
+				#{registationlocation,jdbcType=CHAR},
+			</if>
+			<if test="openid != null">
+				#{openid,jdbcType=CHAR},
+			</if>
+			<if test="usertype != null">
+				#{usertype,jdbcType=SMALLINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mtpt.bean.TBUsers">
+		update users
+		<set>
+			<if test="nickname != null">
+				NickName = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				Mobile = #{mobile,jdbcType=CHAR},
+			</if>
+			<if test="sex != null">
+				Sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="province != null">
+				Province = #{province,jdbcType=CHAR},
+			</if>
+			<if test="city != null">
+				City = #{city,jdbcType=CHAR},
+			</if>
+			<if test="country != null">
+				Country = #{country,jdbcType=CHAR},
+			</if>
+			<if test="headimgurl != null">
+				Headimgurl = #{headimgurl,jdbcType=CHAR},
+			</if>
+			<if test="unionid != null">
+				Unionid = #{unionid,jdbcType=CHAR},
+			</if>
+			<if test="addtime != null">
+				AddTime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifytime != null">
+				ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="datastate != null">
+				DataState = #{datastate,jdbcType=INTEGER},
+			</if>
+			<if test="networktype != null">
+				NetworkType = #{networktype,jdbcType=CHAR},
+			</if>
+			<if test="registationlocation != null">
+				RegistationLocation = #{registationlocation,jdbcType=CHAR},
+			</if>
+			<if test="openid != null">
+				OpenId = #{openid,jdbcType=CHAR},
+			</if>
+			<if test="usertype != null">
+				UserType = #{usertype,jdbcType=SMALLINT},
+			</if>
+		</set>
+		where Id = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mtpt.bean.TBUsers">
+		update users
+		set NickName = #{nickname,jdbcType=VARCHAR},
+		Name = #{name,jdbcType=VARCHAR},
+		Mobile = #{mobile,jdbcType=CHAR},
+		Sex = #{sex,jdbcType=INTEGER},
+		Province = #{province,jdbcType=CHAR},
+		City = #{city,jdbcType=CHAR},
+		Country = #{country,jdbcType=CHAR},
+		Headimgurl = #{headimgurl,jdbcType=CHAR},
+		Unionid = #{unionid,jdbcType=CHAR},
+		AddTime = #{addtime,jdbcType=TIMESTAMP},
+		ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+		DataState = #{datastate,jdbcType=INTEGER},
+		NetworkType = #{networktype,jdbcType=CHAR},
+		RegistationLocation = #{registationlocation,jdbcType=CHAR},
+		OpenId = #{openid,jdbcType=CHAR},
+		UserType = #{usertype,jdbcType=SMALLINT}
+		where Id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>
