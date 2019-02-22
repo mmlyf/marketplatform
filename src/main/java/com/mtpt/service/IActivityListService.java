@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mtpt.alibean.page.TBRecordPage;
 import com.mtpt.bean.ActivityList;
+import com.mtpt.bean.page.ActivityPage;
 
 public interface IActivityListService {
 	int deleteByPrimaryKey(Integer id);
@@ -18,7 +19,13 @@ public interface IActivityListService {
 
 	int updateByPrimaryKey(ActivityList record);
 
-	Integer selectActiCount(TBRecordPage page);
+	Integer selectActiUnEndCount(ActivityPage page);
 
-	List<ActivityList> selectActiByPage(TBRecordPage page);
+	Integer selectActiEndCount(ActivityPage page);
+
+	List<ActivityList> selectActiUnEndByPage(ActivityPage page);
+
+	List<ActivityList> selectActiEndByPage(ActivityPage page);
+	
+	ActivityList selectActiInfoById(Integer id);
 }

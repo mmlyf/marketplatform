@@ -133,7 +133,7 @@ public class SendModelIn {
 							if(!list.isEmpty()) {
 								Thread thread = new Thread(new HandlerSend(list, messageContent, tbReview.getId(),2));
 								thread.start();
-								Thread.currentThread().sleep(2000);
+								Thread.currentThread().sleep(3000);
 								list.removeAll(list);
 							}else {
 								log.debug("当前的发送的队列被筛选之后，无数据发送");

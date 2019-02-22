@@ -138,7 +138,7 @@ public class SendFileIn {
 							if(!list.isEmpty()) {
 								Thread thread = new Thread(new HandlerSend(list, messageContent, tbRecord.getId(),1));
 								thread.start();
-								Thread.currentThread().sleep(2000);
+								Thread.currentThread().sleep(3000);
 								list.removeAll(list);
 							}else {
 								log.info("当前发送批次均为黑名单或者限定时间间隔内已经发送！");

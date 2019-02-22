@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mtpt.alibean.page.TBRecordPage;
 import com.mtpt.bean.ActivityList;
+import com.mtpt.bean.page.ActivityPage;
 import com.mtpt.dao.ActivityListMapper;
 import com.mtpt.service.IActivityListService;
 
@@ -53,15 +54,35 @@ public class ActivityListService implements IActivityListService {
 	}
 
 	@Override
-	public Integer selectActiCount(TBRecordPage page) {
+	public Integer selectActiUnEndCount(ActivityPage page) {
 		// TODO Auto-generated method stub
-		return mapper.selectActiCount(page);
+		return mapper.selectActiUnEndCount(page);
 	}
 
 	@Override
-	public List<ActivityList> selectActiByPage(TBRecordPage page) {
+	public Integer selectActiEndCount(ActivityPage page) {
 		// TODO Auto-generated method stub
-		return mapper.selectActiByPage(page);
+		return mapper.selectActiEndCount(page);
 	}
+
+	@Override
+	public List<ActivityList> selectActiUnEndByPage(ActivityPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectActiUnEndByPage(page);
+	}
+
+	@Override
+	public List<ActivityList> selectActiEndByPage(ActivityPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectActiEndByPage(page);
+	}
+
+	@Override
+	public ActivityList selectActiInfoById(Integer id) {
+		// TODO Auto-generated method stub
+		return mapper.selectActiInfoById(id);
+	}
+
+	
 
 }

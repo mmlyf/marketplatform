@@ -132,7 +132,7 @@ public class SendSceneLabel {
 						if(!phones.isEmpty()) {
 							Thread thread = new Thread(new HandlerSend(phones, messageContent, sceneJob.getId(),3));
 							thread.start();
-							Thread.currentThread().sleep(2000);
+							Thread.currentThread().sleep(1000);
 							phones.removeAll(phones);
 						}
 					}

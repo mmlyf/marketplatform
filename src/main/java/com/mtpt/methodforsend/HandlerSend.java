@@ -31,7 +31,7 @@ public class HandlerSend implements Runnable{
 		this.flag = flag;
 	}
 
-	public void run() {
+	public synchronized void run() {
 		// TODO Auto-generated method stub
 		String strxml ="{<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<gwsmip>\n" + "  <message_header>\n"

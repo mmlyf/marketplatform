@@ -19,17 +19,57 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-    <select id="selectActiCount" parameterType="com.mtpt.alibean.page.TBRecordPage" resultType="java.lang.Integer">
+    <select id="selectActiUnEndCount" parameterType="com.mtpt.bean.page.ActivityPage" resultType="java.lang.Integer">
   	select count(1)
   	from activity_list
+  	<where>
+  		<if test="sectime!=null and sectime!=''">
+  			and act_endtime <![CDATA[>=]]> #{sectime}
+  		</if>
+  	</where>
   	order by addtime DESC
   	LIMIT #{start},#{limit}
   </select>
   
-  <select id="selectActiByPage" parameterType="com.mtpt.alibean.page.TBRecordPage" resultMap="BaseResultMap">
+  <select id="selectActiInfoById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from activity_list
+  	where id = #{id}
+  </select>
+  
+  <select id="selectActiEndCount" parameterType="com.mtpt.bean.page.ActivityPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from activity_list
+  	<where>
+  		<if test="sectime!=null and sectime!=''">
+  			and act_endtime <![CDATA[<]]> #{sectime}
+  		</if>
+  	</where>
+  	order by addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectActiUnEndByPage" parameterType="com.mtpt.bean.page.ActivityPage" resultMap="BaseResultMap">
   	select 
   	<include refid="Base_Column_List"/>
   	from activity_list
+  	<where>
+  		<if test="sectime!=null and sectime!=''">
+  			and act_endtime <![CDATA[>=]]> #{sectime}
+  		</if>
+  	</where>
+  	ORDER BY addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  
+  <select id="selectActiEndByPage" parameterType="com.mtpt.bean.page.ActivityPage" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from activity_list
+  	<where>
+  		and act_endtime <![CDATA[<]]> #{sectime}
+  	</where>
   	ORDER BY addtime DESC
   	LIMIT #{start},#{limit}
   </select>
