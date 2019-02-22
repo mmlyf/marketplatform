@@ -29,4 +29,6 @@ public interface DataTotalMapper {
 	List<DataTotal> selectDataTotalMonth(String sectime);
 
 	List<DataTotal> selectDataTotalWeek(Integer delay);
+	
+	List<DataTotal> selectDataTotalByDelay(TotalPage page);
 }

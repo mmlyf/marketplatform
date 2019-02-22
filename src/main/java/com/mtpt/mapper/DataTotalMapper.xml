@@ -66,6 +66,15 @@
 		order by add_time DESC
 		limit #{start},#{limit}
 	</select>
+	
+	<select id="selectDataTotalByDelay" parameterType="com.mtpt.bean.page.TotalPage"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from data_total
+		where date_sub(CURRENT_DATE,interval #{delay} day)<![CDATA[<]]>date(add_time)
+		order by add_time DESC
+	</select>
 
 	<select id="selectCountByDelay" parameterType="com.mtpt.bean.page.TotalPage"
 		resultType="java.lang.Integer">

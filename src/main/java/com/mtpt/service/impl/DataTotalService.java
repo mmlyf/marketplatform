@@ -71,5 +71,11 @@ public class DataTotalService implements IDataTotalService{
 		// TODO Auto-generated method stub
 		return mapper.selectCountByDelay(totalPage);
 	}
+
+	@Override
+	public List<DataTotal> selectDataTotalByDelay(TotalPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectDataTotalByDelay(page);
+	}
 	
 }

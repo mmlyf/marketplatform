@@ -68,7 +68,7 @@ public class HomeReadDataController {
 			ordersuc.put(datestr, 0);
 			orderdis.put(datestr, 0);
 		}
-		List<DataTotal> list = datatotalService.selectDataTotalByDelayPage(totalPage);
+		List<DataTotal> list = datatotalService.selectDataTotalByDelay(totalPage);
 		for(DataTotal dataTotal:list) {
 			try {
 				Date adtime = sdf.parse(dataTotal.getAddTime());
