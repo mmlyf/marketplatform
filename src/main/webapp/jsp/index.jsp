@@ -157,7 +157,7 @@
 						<li class="layui-nav-item">
 							<a href="javascript:;" title="扩展模块"><i class="layui-icon layui-icon-user"></i><cite>扩展模块</cite></a>
 							<dl class="layui-nav-child">
-								
+								<dd><a href="javascript:;" lay-href="../jsp/equitydataresshow.jsp">抽奖管理</a></dd>
 							</dl>
 						</li>
 					</ul>

@@ -56,5 +56,16 @@ public class TBEquityDataService implements ITBEquityDataService{
 		return mapper.selectDataByAddtime(sectime);
 	}
 
+	@Override
+	public List<TBEquityData> selectEquityAndResultData(EquityDataPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectEquityAndResultData(page);
+	}
+
+	@Override
+	public Integer selectDataAllCount() {
+		// TODO Auto-generated method stub
+		return mapper.selectDataAllCount();
+	}
 	
 }

@@ -14,6 +14,8 @@ public class TBEquityData {
     private Integer source;
 
     private Date addtime;
+    
+    private TBEquityResult resultdata;
 
     public Integer getId() {
         return id;
@@ -62,4 +64,14 @@ public class TBEquityData {
     public void setAddtime(Date addtime) {
         this.addtime = addtime;
     }
+
+	public TBEquityResult getResultdata() {
+		return resultdata;
+	}
+
+	public void setResultdata(TBEquityResult resultdata) {
+		this.resultdata = resultdata;
+	}
+    
+    
 }

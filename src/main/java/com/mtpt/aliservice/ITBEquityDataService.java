@@ -19,4 +19,8 @@ public interface ITBEquityDataService {
     int updateByPrimaryKey(TBEquityData record);
     
     List<TBEquityData> selectDataByAddtime(String sectime);
+    
+    List<TBEquityData> selectEquityAndResultData(EquityDataPage page);
+    
+    Integer selectDataAllCount();
 }

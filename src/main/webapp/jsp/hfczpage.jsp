@@ -30,7 +30,6 @@
 									<label class="layui-form-label">充值金额</label>
 									<div class="layui-input-block">
 										<input type="text" class="layui-input" name="pyTotalmoey" id="pyTotalmoey" required lay-verify="required" placeholder="输入需要充值的金额">
-										
 									</div>
 								</div>
 								<div class="layui-form-item">

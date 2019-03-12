@@ -18,6 +18,7 @@
 	<context:component-scan base-package="com.mtpt.controller"/>
 	<context:component-scan base-package="com.mtpt.alicontroller"/>
 	<context:component-scan base-package="com.mtpt.timework" />
+	<context:component-scan base-package="com.mtpt.config" />
 	
 	<!-- 扩充注解，可以将请求参数绑定到控制器参数 -->
 	<mvc:annotation-driven>
