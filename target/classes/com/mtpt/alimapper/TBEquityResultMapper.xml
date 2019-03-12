@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBEquityResultMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBEquityResult">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="qy_num" jdbcType="VARCHAR" property="qyNum" />
+    <result column="cj_dn" jdbcType="VARCHAR" property="cjDn" />
+    <result column="zs_time" jdbcType="VARCHAR" property="zsTime" />
+    <result column="zs_state" jdbcType="VARCHAR" property="zsState" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, qy_num, cj_dn, zs_time, zs_state, addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_equity_result
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_equity_result
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBEquityResult">
+    insert into tb_equity_result (id, qy_num, cj_dn, 
+      zs_time, zs_state, addtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{qyNum,jdbcType=VARCHAR}, #{cjDn,jdbcType=VARCHAR}, 
+      #{zsTime,jdbcType=VARCHAR}, #{zsState,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBEquityResult">
+    insert into tb_equity_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="qyNum != null">
+        qy_num,
+      </if>
+      <if test="cjDn != null">
+        cj_dn,
+      </if>
+      <if test="zsTime != null">
+        zs_time,
+      </if>
+      <if test="zsState != null">
+        zs_state,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="qyNum != null">
+        #{qyNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cjDn != null">
+        #{cjDn,jdbcType=VARCHAR},
+      </if>
+      <if test="zsTime != null">
+        #{zsTime,jdbcType=VARCHAR},
+      </if>
+      <if test="zsState != null">
+        #{zsState,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBEquityResult">
+    update tb_equity_result
+    <set>
+      <if test="qyNum != null">
+        qy_num = #{qyNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cjDn != null">
+        cj_dn = #{cjDn,jdbcType=VARCHAR},
+      </if>
+      <if test="zsTime != null">
+        zs_time = #{zsTime,jdbcType=VARCHAR},
+      </if>
+      <if test="zsState != null">
+        zs_state = #{zsState,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBEquityResult">
+    update tb_equity_result
+    set qy_num = #{qyNum,jdbcType=VARCHAR},
+      cj_dn = #{cjDn,jdbcType=VARCHAR},
+      zs_time = #{zsTime,jdbcType=VARCHAR},
+      zs_state = #{zsState,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -70,8 +70,8 @@ public class SendMail {
 		Session session = Session.getInstance(properties);
 		Message message = new MimeMessage(session);
 		try {
-			message.setSubject("汇视达通邮件下发通知");
-			message.setFrom(new InternetAddress(hostname, "汇视达通"));
+			message.setSubject("智能营销平台");
+			message.setFrom(new InternetAddress(hostname, "汇视达通网络科技有限公司"));
 			Multipart part = new MimeMultipart();
 			BodyPart bodyPart = new MimeBodyPart();
 			bodyPart.setContent(msg, "text/html;charset=utf-8");
@@ -100,6 +100,40 @@ public class SendMail {
 			default:
 				break;
 			}
+			transport.close();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean sendMailForToMailAddress(String msg,String filepath,String mailaddress) {
+		Properties properties = setProperties();
+		Session session = Session.getInstance(properties);
+		Message message = new MimeMessage(session);
+		try {
+			message.setSubject("智能营销平台");
+			message.setFrom(new InternetAddress(hostname, "汇视达通网络科技有限公司"));
+			Multipart part = new MimeMultipart();
+			BodyPart bodyPart = new MimeBodyPart();
+			bodyPart.setContent(msg, "text/html;charset=utf-8");
+			part.addBodyPart(bodyPart);
+			if (!"".equals(filepath)&&filepath!=null) {
+				BodyPart filebody = new MimeBodyPart();
+				FileDataSource fSource = new FileDataSource(filepath);
+				filebody.setDataHandler(new DataHandler(fSource));
+				String filename = MimeUtility.encodeWord(fSource.getFile().getName());
+				filebody.setFileName(filename);
+				part.addBodyPart(filebody);
+			}
+			message.setContent(part);
+			Transport transport = session.getTransport();
+			transport.connect(host, hostname, hostPassword);
+			transport.sendMessage(message, new Address[] {new InternetAddress(mailaddress)});
 			transport.close();
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block

@@ -33,6 +33,12 @@
 									</div>
 								</div>
 								<div class="layui-form-item">
+									<label class="layui-form-label">充值原因</label>
+									<div class="layui-input-block">
+										<input type="text" class="layui-input" name="reason" id="reason" required lay-verify="required" placeholder="输入充值的原因">
+									</div>
+								</div>
+								<div class="layui-form-item">
 									<div class="layui-input-block">
 										<button class="layui-btn" type="button" lay-submit
 											lay-filter="formDemo" id="submit">提交</button>
@@ -69,10 +75,8 @@ $(function(){
    			data:$('#msgedit').serialize(),
    			success:function(result){
    				if(result.code==0){
-   					layer.msg("充值成功");
-   					var seno = result.seno;
+   					/* var seno = result.seno;
    					console.log(seno);
-   					/* window.location.href="http://mobile99.uninforun.com/hst/index.php/api/hfcz/yycz?out_trade_no="+seno; */
    					$.ajax({
    						url:'http://mobile99.uninforun.com/hst/index.php/api/hfcz/yycz',
    						data:{
@@ -81,9 +85,11 @@ $(function(){
    						success:function(){
    							layer.msg("充值成功");
    						}
-   					})
+   					}) */
+   				}else if(result.code==2){
+   					layer.msg("当前金额过大已提交审核，审核结果可在我的提交中进行查看！");
    				}else{
-   					layer.msg("充值失败");
+   					layer.msg("提交失败。请重试！");
    				}
    			}
    		});

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBCCTotalTwoMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBCCTotalTwo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="bc" jdbcType="INTEGER" property="bc" />
+    <result column="see_dx" jdbcType="INTEGER" property="seeDx" />
+    <result column="see_llb" jdbcType="INTEGER" property="seeLlb" />
+    <result column="see_muti" jdbcType="INTEGER" property="seeMuti" />
+    <result column="see_tehui" jdbcType="INTEGER" property="seeTehui" />
+    <result column="addtime" jdbcType="VARCHAR" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pv, bc, see_dx, see_llb, see_muti, see_tehui, addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_cctotal_two
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllDataByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from tb_cctotal_two
+  	ORDER BY addtime DESC
+  	LIMIT #{start},#{limit}
+  </select>
+  <select id="selectAllDataCount" parameterType="com.mtpt.alibean.page.PublicPage" resultType="java.lang.Integer">
+  	select count(1)
+  	from tb_cctotal_two
+  </select>
+  <select id="selectAllData" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_cctotal_two
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_cctotal_two
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBCCTotalTwo">
+    insert into tb_cctotal_two (id, pv, bc, see_dx, 
+      see_llb, see_muti, see_tehui, 
+      addtime)
+    values (#{id,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{bc,jdbcType=INTEGER}, #{seeDx,jdbcType=INTEGER}, 
+      #{seeLlb,jdbcType=INTEGER}, #{seeMuti,jdbcType=INTEGER}, #{seeTehui,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBCCTotalTwo">
+    insert into tb_cctotal_two
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="bc != null">
+        bc,
+      </if>
+      <if test="seeDx != null">
+        see_dx,
+      </if>
+      <if test="seeLlb != null">
+        see_llb,
+      </if>
+      <if test="seeMuti != null">
+        see_muti,
+      </if>
+      <if test="seeTehui != null">
+        see_tehui,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="bc != null">
+        #{bc,jdbcType=INTEGER},
+      </if>
+      <if test="seeDx != null">
+        #{seeDx,jdbcType=INTEGER},
+      </if>
+      <if test="seeLlb != null">
+        #{seeLlb,jdbcType=INTEGER},
+      </if>
+      <if test="seeMuti != null">
+        #{seeMuti,jdbcType=INTEGER},
+      </if>
+      <if test="seeTehui != null">
+        #{seeTehui,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBCCTotalTwo">
+    update tb_cctotal_two
+    <set>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="bc != null">
+        bc = #{bc,jdbcType=INTEGER},
+      </if>
+      <if test="seeDx != null">
+        see_dx = #{seeDx,jdbcType=INTEGER},
+      </if>
+      <if test="seeLlb != null">
+        see_llb = #{seeLlb,jdbcType=INTEGER},
+      </if>
+      <if test="seeMuti != null">
+        see_muti = #{seeMuti,jdbcType=INTEGER},
+      </if>
+      <if test="seeTehui != null">
+        see_tehui = #{seeTehui,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBCCTotalTwo">
+    update tb_cctotal_two
+    set pv = #{pv,jdbcType=INTEGER},
+      bc = #{bc,jdbcType=INTEGER},
+      see_dx = #{seeDx,jdbcType=INTEGER},
+      see_llb = #{seeLlb,jdbcType=INTEGER},
+      see_muti = #{seeMuti,jdbcType=INTEGER},
+      see_tehui = #{seeTehui,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

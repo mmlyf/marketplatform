@@ -10,14 +10,18 @@ import javax.annotation.Resource;
 import javax.json.Json;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mtpt.alibean.TBHfczReview;
+import com.mtpt.aliservice.ITBHfczReviewService;
 import com.mtpt.bean.Zfbcz;
 import com.mtpt.extend.OtherMethod;
+import com.mtpt.extend.SendMail;
 import com.mtpt.service.IZfbczService;
 
 /**
@@ -32,8 +36,15 @@ import com.mtpt.service.IZfbczService;
 public class AliPayForPayController {
 	@Resource
 	private IZfbczService zfbczService;
+	@Resource
+	private ITBHfczReviewService hfczreviewService;
+	
 	@RequestMapping(value="/insert",method= {RequestMethod.POST,RequestMethod.GET})
-	private void insertAlipayOrders(Zfbcz zfbcz,String pyTotalmoey,HttpServletResponse response,HttpServletRequest request) {
+	private void insertAlipayOrders(Zfbcz zfbcz,String pyTotalmoey,String reason,HttpServletResponse response,HttpServletRequest request) {
+		TBHfczReview tbHfczReview = new TBHfczReview();
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		String emailaddress = "";
 		String id = OtherMethod.getUuid();
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -51,8 +62,36 @@ public class AliPayForPayController {
 		int result = zfbczService.insertSelective(zfbcz);
 		JSONObject json = new JSONObject();
 		if (result>0) {
-			json.put("code", 0);		
-			json.put("seno", py_peid);
+			if (totalmoney<20&&totalmoney>=1) {
+				json.put("code", 0);
+				json.put("seno", py_peid);
+			}else {
+				tbHfczReview.setSeNo(py_peid);
+				tbHfczReview.setCzDn(zfbcz.getPyDn());
+				tbHfczReview.setCzAmount(totalmoney);
+				tbHfczReview.setCzReason(reason);
+				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				tbHfczReview.setCzAddtime(sdf.format(date));
+				tbHfczReview.setCzReviewstate(0);
+				tbHfczReview.setCzAddman(username);
+				if (totalmoney>=20&&totalmoney<50) {
+					tbHfczReview.setCzReviewer("裴秋婷");
+					emailaddress = "32223815@qq.com";
+				}else if (totalmoney>=50) {
+					tbHfczReview.setCzReviewer("贲莉");
+					emailaddress = "benl@mobile99.cn";
+				}
+				int inhfczres = hfczreviewService.insertSelective(tbHfczReview);
+				if (inhfczres>0) {
+					SendMail.sendMailForToMailAddress("当前有充值订单需要审核，"
+							+ "请访问链接\"http://221.192.138.29:8089/HSDT_Market_Platform/jsp/login.jsp\"进行处理。谢谢！", 
+							"", emailaddress);
+					json.put("code", 2);
+				}else {
+					json.put("code", 1);
+					json.put("msg", "审核任务保存失败！");
+				}
+			}
 		}else {
 			json.put("code", 1);
 			json.put("seno", "");
