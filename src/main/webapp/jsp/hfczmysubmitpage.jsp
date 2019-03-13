@@ -102,7 +102,7 @@
 												page : true,
 												limit : 10,
 												where:{
-													addname:'<%=session.getAttribute("username")%>'	
+													addname:encodeURI('<%=session.getAttribute("username")%>')	
 												},
 												id : 'submitlist',
 												done : function(data) {

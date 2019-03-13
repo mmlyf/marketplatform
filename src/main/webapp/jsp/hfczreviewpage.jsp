@@ -107,7 +107,7 @@
 												page : true,
 												limit : 10,
 												where:{
-													reviewname:'<%=session.getAttribute("username")%>'	
+													reviewname:encodeURI('<%=session.getAttribute("username")%>')	
 												},
 												id : 'hfczlist',
 												done : function(data) {

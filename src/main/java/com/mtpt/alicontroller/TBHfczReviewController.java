@@ -2,7 +2,9 @@ package com.mtpt.alicontroller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +13,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,10 +26,12 @@ import com.mtpt.aliservice.ITBHfczReviewService;
 import com.mtpt.bean.Zfbcz;
 import com.mtpt.extend.OtherMethod;
 import com.mtpt.service.IZfbczService;
+import com.mysql.cj.log.Log;
 
 @Controller
 @RequestMapping("hfczreview")
 public class TBHfczReviewController {
+	private Logger log = Logger.getLogger(TBHfczReviewController.class);
 	@Resource 
 	private ITBHfczReviewService hfczReviewService;
 	@Resource 
@@ -35,9 +41,20 @@ public class TBHfczReviewController {
 	 * 查询审核数据
 	 * @param page
 	 * @param response
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/selhfczreview",method= {RequestMethod.GET,RequestMethod.POST})
-	private void selectHfczReviewDataByPage(HfczReviewPage page,HttpServletResponse response) {
+	private void selectHfczReviewDataByPage(HfczReviewPage page,HttpServletResponse response) throws UnsupportedEncodingException {
+		if (page.getAddname()!=null&&!page.getAddname().equals("")) {
+			String addman = URLDecoder.decode(page.getAddname(),"utf-8");
+			page.setAddname(addman);
+			log.debug("转码后的addman:"+addman);
+		}
+		if (page.getReviewname()!=null&&!page.getReviewname().equals("")) {
+			String reviewname = URLDecoder.decode(page.getReviewname(),"utf-8");
+			page.setReviewname(reviewname);
+			log.debug("转码后的reviewman:"+reviewname);
+		}
 		int totals = hfczReviewService.selectReviewCountByPage(page);
 		page.setTotalRecord(totals);
 		List<TBHfczReview> list = hfczReviewService.selectReviewDataByPage(page);
