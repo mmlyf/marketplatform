@@ -150,10 +150,12 @@
 							<dl class="layui-nav-child">
 								<% if(permission.indexOf("1")!=-1||permission.indexOf("43")!=-1){ %>
 									<dd><a href="javascript:;" lay-href="../jsp/hfczpage.jsp">话费充值</a></dd>
+									<dd><a href="javascript:;" lay-href="../jsp/hfczmysubmitpage.jsp">充值记录</a></dd>
 								<% } %>
 								<dd><a href="javascript:;" lay-href="../jsp/actiychfdetail.jsp">充值订单</a></dd>
+								<% if(permission.indexOf("1")!=-1||permission.indexOf("44")!=-1){ %>
 								<dd><a href="javascript:;" lay-href="../jsp/hfczreviewpage.jsp">充值审核</a></dd>
-								<dd><a href="javascript:;" lay-href="../jsp/hfczmysubmitpage.jsp">充值记录</a></dd>
+								<% } %>
 							</dl>
 						</li>
 						<li class="layui-nav-item">

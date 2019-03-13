@@ -24,20 +24,20 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">充值号码</label>
 									<div class="layui-input-block">
-										<label class="layui-form-label" id="czdn"></label>
+										<label class="layui-form-label" id="czdn" style="width:300px"></label>
 									</div>
 								</div>
 								
 								<div class="layui-form-item">
 									<label class="layui-form-label">充值金额</label>
 									<div class="layui-input-inline">
-										<label class="layui-form-label" id="czamount" style="width:500px"></label>
+										<label class="layui-form-label" id="czamount"></label>
 									</div>
 								</div>
 								<div class="layui-form-item">
 									<label class="layui-form-label">充值原因</label>
 									<div class="layui-input-block">
-										<label class="layui-form-label" id="czreason"></label>
+										<textarea class="layui-textarea" rows="5" cols="10" id="czreason" readonly="readonly"></textarea>
 									</div>
 								</div>
 								<div class="layui-form-item">
@@ -63,7 +63,7 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">添加时间</label>
 									<div class="layui-input-block">
-										<label class="layui-form-label" id="czaddtime"></label>
+										<label class="layui-form-label" id="czaddtime" style="width:300px"></label>
 									</div>
 								</div>
 								
@@ -109,9 +109,9 @@ $(function(){
     			},
     			success:function(result){
     				if(result.code==0){
-    					/* var seno = data[2];
+    					 var seno = result.seno;
        				console.log(seno);
-       					$.ajax({
+       				$.ajax({
        						url:'http://mobile99.uninforun.com/hst/index.php/api/hfcz/yycz',
        						data:{
        							out_trade_no:seno
@@ -119,7 +119,7 @@ $(function(){
        						success:function(){
        							layer.msg("充值成功");
        						}
-       					}) */
+       					})
     					layer.msg("审核通过",{end:function(){
         					var index = parent.layer.getFrameIndex(window.name);
         					parent.layer.close(index);

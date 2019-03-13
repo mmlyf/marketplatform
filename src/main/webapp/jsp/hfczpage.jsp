@@ -75,7 +75,7 @@ $(function(){
    			data:$('#msgedit').serialize(),
    			success:function(result){
    				if(result.code==0){
-   					/* var seno = result.seno;
+   					var seno = result.seno;
    					console.log(seno);
    					$.ajax({
    						url:'http://mobile99.uninforun.com/hst/index.php/api/hfcz/yycz',
@@ -85,7 +85,7 @@ $(function(){
    						success:function(){
    							layer.msg("充值成功");
    						}
-   					}) */
+   					})
    				}else if(result.code==2){
    					layer.msg("当前金额过大已提交审核，审核结果可在我的提交中进行查看！");
    				}else{

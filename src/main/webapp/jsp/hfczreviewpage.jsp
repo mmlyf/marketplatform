@@ -74,17 +74,18 @@
 												}, {
 													field : 'czamount',
 													title : '金额',
-													sort : true,
 													align : 'center',
 													width : 80
 												}, {
 													field : 'czreviewer',
 													title : '审核人员',
-													width : 170
+													width : 100,
+													align : 'center'
 												}, {
 													field : 'addman',
 													title : '创建者',
-													width : 170
+													width : 100,
+													align : 'center'
 												}, {
 													field : 'reviewstate',
 													title : '审核状态',
@@ -148,7 +149,12 @@
 													        		+","+data.reviewstate),
 													     end:function(){
 													        	//执行重载
-																table.reload('tasklist',{where : {}});
+																table.reload('hfczlist',{
+																	where : 
+																	{
+																		reviewname:'<%=session.getAttribute("username")%>'
+																	}
+																});
 													        }
 														});
 													}else{
@@ -156,52 +162,7 @@
 													}
 												}
 											});
-
-											var $ = layui.$, active = {
-												allreload : function() {
-													var dn = $('#phone').val();
-													var date_star = $('#date_star').val();
-													var date_end = $('#date_end').val();
-													var ddlx = $('#ddlx').val();
-													var cplx = $('#cplx').val();
-													var qudao = $('#qudao').val();
-													var yewu = $('#yewu').val();
-													//执行重载
-													table.reload('tasklist', {
-														where : {
-															dn : dn,
-															date_star : date_star,
-															date_end : date_end,
-															ddlx : ddlx,
-															cplx : cplx,
-															qudao : qudao,
-															yewu : yewu
-														}
-													});
-												}
-											};
-											$('.selectorder .layui-btn').on('click', function() {
-												var type = $(this).data('type');
-												active[type] ? active[type].call(this) : '';
-											});
 										});
-									</script>
-									<script type="text/javascript" src="../layer/layer.js"></script>
-									<script type="text/html" id="dntpl">
-									 	<a class="layui-table-link" href="javascript:dnFun({{d.dn}})">{{d.dn}}</a>
-									</script>
-									<script type="text/javascript">
-										function dnFun(dn) {
-											layer.open({
-												type : 2,
-												shade:[0.8, '#393D49'],
-												shadeClose:true,
-												title : '详情',
-												area : [ '800px', '700px' ],
-												scrollbar : false,//禁止浏览器滚动
-												content : 'busmoduledndetail.jsp?' + dn
-											});
-										}
 									</script>
 								</div>
 							</fieldset>
@@ -211,75 +172,5 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
-		layui.use('element', function() {
-			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-
-			//触发事件
-			var active = {
-				tabAdd : function() {
-					//新增一个Tab项
-					element.tabAdd('demo', {
-						title : '新选项' + (Math.random() * 1000 | 0) //用于演示
-						,
-						content : '内容' + (Math.random() * 1000 | 0),
-						id : new Date().getTime()
-					//实际使用一般是规定好的id，这里以时间戳模拟下
-					})
-				},
-				tabDelete : function(othis) {
-					//删除指定Tab项
-					element.tabDelete('demo', '44'); //删除：“商品管理”
-
-					othis.addClass('layui-btn-disabled');
-				},
-				tabChange : function() {
-					//切换到指定Tab项
-					element.tabChange('demo', '22'); //切换到：用户管理
-				}
-			};
-
-			$('.site-demo-active').on('click', function() {
-				var othis = $(this), type = othis.data('type');
-				active[type] ? active[type].call(this, othis) : '';
-			});
-
-			//Hash地址的定位
-			var layid = location.hash.replace(/^#test=/, '');
-			element.tabChange('test', layid);
-
-			element.on('tab(test)', function(elem) {
-				location.hash = 'test=' + $(this).attr('lay-id');
-			});
-
-		});
-
-		//监听指定开关
-
-		layui.use('form', function() {
-			var form = layui.form, layer = layui.layer;
-			form.on('switch(switchTest)', function(data) {
-				layer.msg('定时任务' + (this.checked ? '开' : '关'), {
-					offset : '6px'
-				});
-				if (this.checked) {
-					$('#timechoice').removeClass('layui-hide');
-				} else {
-					$('#timechoice').addClass('layui-hide');
-				}
-			});
-		});
-		layui.use('laydate', function() {
-			var laydate = layui.laydate;
-			//执行一个laydate实例
-			laydate.render({
-				elem : '#test1' //指定元素
-				,
-				position : 'abolute',
-				type : 'datetime'
-			});
-		});
-	</script>
 </body>
 </html>
