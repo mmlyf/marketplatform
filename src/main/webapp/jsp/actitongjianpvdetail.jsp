@@ -1,4 +1,4 @@
-<!-- 外呼信用卡页面浏览数 -->
+<!-- 通建浦发外呼信用卡浏览数 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -18,20 +18,20 @@
 					<div class="layui-tab-item layui-show" >
 						<div class="admin-main fadeInUp animated">
 							<fieldset class="layui-elem-field">
-								<legend>外呼信用卡页面浏览数</legend>
+								<legend>通建浦发外呼PV</legend>
 								<div class="layui-field-box">
-									<table class="layui-hide" id="outcallpv" lay-filter="outcallpv"></table>
+									<table class="layui-hide" id="tjpfpv" lay-filter="tjpfpv"></table>
 									<script>
 										layui.use('table',function() {
 															var table = layui.table;
 
 															table.render({
-																		elem : '#outcallpv',
-																		url : '../outcall/select',
+																		elem : '#tjpfpv',
+																		url : '../outcall/seltjpfpv',
 																		cellMinWidth : 80,
 																		width:760,
 																		height:420,
-																		title : '外呼信用卡页面浏览数',
+																		title : '通建浦发外呼PV',
 																		cols : [[ 
 																				{
 																					field : 'id',
@@ -52,7 +52,7 @@
 																				]] ,
 																		limit:10,
 																		page:true,
-																		id : 'outcallpv'
+																		id : 'tjpfpv'
 																		});
 														});
 									</script>
