@@ -56,6 +56,13 @@
 							                        "<td>" + data.mgtotal + "</td>" +  
 							                        "<td>" + data.txtotal + "</td>" +   
 							                        "</tr>";  
+							                      str += "<tr>" +  
+							                        "<td colspan=2 style=\"text-align:center;\">兑奖结果数</td>" +  
+							                        "<td>" + data.ykresult + "</td>" +  
+							                        "<td>" + data.aqyresult + "</td>" +  
+							                        "<td>" + data.mgresult + "</td>" +  
+							                        "<td>" + data.txresult + "</td>" +  
+							                        "</tr>"; 
 							                        console.log(str);
 												 tbody.innerHTML=str;
 											}

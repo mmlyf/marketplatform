@@ -1,11 +1,11 @@
-package com.mtpt.alidao;
+package com.mtpt.aliservice;
 
 import java.util.List;
 
 import com.mtpt.alibean.TBEquityResult;
 
-public interface TBEquityResultMapper {
-    int deleteByPrimaryKey(Integer id);
+public interface ITBEquityResultService {
+	int deleteByPrimaryKey(Integer id);
 
     int insert(TBEquityResult record);
 

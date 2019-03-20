@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type"
 	content="multipart/form-data; charset=utf-8" />
 <title></title>
+<script src="http://code.jquery.com/jquery-1.8.0.min.js"
+	type="text/javascript"></script>
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
 <script type="text/javascript" src="../layui/layui.js"></script>
 </head>
@@ -54,7 +56,7 @@
 											var width = window.innerWidth;
 											var height = window.innerHeight;
 											table.render({
-												elem : '#equitydata',
+												elem : '#equityres',
 												url : '../equitydata/selectdataresult',
 												cellMinWidth : 80,
 												width : window.innerWidth * 0.94,
@@ -92,89 +94,27 @@
 													title : '赠送时间',
 													sort : true
 												}, {
+													field : 'addtime',
+													title : '抽奖时间',
+													sort : true
+												}, {
 													field : 'zs_state',
 													title : '赠送状态',
 													sort : true
 												} ] ],
 												page : true,
 												limit : 10,
-												id : 'actlist',
+												id : 'equityreslist',
 												done : function(data) {
 													$('#num').text(data.count + "条");
 												}
 											});
-											table.on('toolbar(acti)', function(obj) {
-												switch (obj.event) {
-												case 'addActi':
-													layer.open({
-														type : 2,
-														title : '新增',
-														area : [ '800px', '600px' ],
-														scrollbar : false,//禁止浏览器滚动
-														content : 'addActivity.jsp',
-														end : function() {
-															table.reload('actlist', {
-																where : {}
-															});
-														}
-													});
-													break;
-												}
+											table.on('toolbar(equityreslist)', function(obj) {
+												
 											});
 											//监听行工具事件
-											table.on('tool(acti)', function(obj) {
-												var data = obj.data;
-												if (obj.event === 'detail') {
-													console.log(data.detail);
-													layer.open({
-														type : 2,
-														title : '详情',
-														area : [ '850px', '700px' ],
-														maxmin : true,
-														scrollbar : false,//禁止浏览器滚动
-														content : data.actpage,
-														end : function() {
-															//执行重载
-															table.reload('actlist', {
-																where : {}
-															});
-														}
-													});
-												}else if(obj.event === 'change'){
-													console.log(data.detail);
-													layer.open({
-														type : 2,
-														title : '修改',
-														area : [ '850px', '700px' ],
-														maxmin : true,
-														scrollbar : false,//禁止浏览器滚动
-														content : encodeURI('actiUpdate.jsp?'+data.actiid+"?"+data.actname),
-														end : function() {
-															//执行重载
-															table.reload('actlist', {
-																where : {}
-															});
-															table.reload('hisactlist', {
-																where : {}
-															});
-														}
-													});
-												}
-											});
-											var $ = layui.$, active = {
-												reload : function() {
-													var title = $('#actiReload').val();
-													//执行重载
-													table.reload('actlist', {
-														where : {
-															keyword : title
-														}
-													});
-												}
-											};
-											$('.actiTable .layui-btn').on('click', function() {
-												var type = $(this).data('type');
-												active[type] ? active[type].call(this) : '';
+											table.on('tool(equityreslist)', function(obj) {
+												
 											});
 										});
 									</script>

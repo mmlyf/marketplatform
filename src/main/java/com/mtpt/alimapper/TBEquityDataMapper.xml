@@ -59,12 +59,12 @@
 			</if>
 		</where>
 		GROUP BY c.dn
-		ORDER BY addtime
+		ORDER BY addtime DESC
 		LIMIT #{start},#{limit}
 	</select>
 	
 	<select id="selectDataAllCount" resultType="java.lang.Integer">
-		select count(1)
+		select count(DISTINCT dn)
 		from tb_equity_data
 	</select>
 	

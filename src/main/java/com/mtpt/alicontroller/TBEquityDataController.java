@@ -2,6 +2,7 @@ package com.mtpt.alicontroller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class TBEquityDataController {
 			}
 			value.put("zs_time", tbEquityData.getResultdata().getZsTime()!=null?tbEquityData.getResultdata().getZsTime():"");
 			value.put("zs_state", tbEquityData.getResultdata().getZsState()!=null?tbEquityData.getResultdata().getZsState():"");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String addtime = sdf.format(tbEquityData.getAddtime());
+			value.put("addtime", addtime);
 			count++;
 			jsonlist.add(value);
 		}

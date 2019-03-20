@@ -83,19 +83,21 @@ public class ExtendMethod {
 					for(int i=0;i<filelist.length;i++) {
 						if (filelist[i].isFile()) {
 							String filename = filelist[i].getName();
-							Date date = filelist[i].getTimestamp().getTime();
-							date = addDay(date, 1);//文件最后修改时间加一天
+							Date date = filelist[i].getTimestamp().getTime();//获取当前时间
+//							date = addDay(date, 1);//文件最后修改时间加一天
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							String datestr = sdf.format(date);
-							String nowstr = sdf.format(new Date());
+							Date nowdate = new Date();
+							String nowstr = sdf.format(nowdate);
+							long datedelay = nowdate.getTime() - date.getTime();//获取当前时间与ftp文件上的时间间隔
 							
-							localpath = BaseConfig.URLPATH+filename;
-							if (datestr.equals(nowstr)) {//判断当前时间与文件最后修改时间格式相同的时间是否相等
-								log.info("当前发送文件的属性有：文件名"+filename);
+							if (datedelay < 24*60*60*1000) {//判断当前时间与文件最后修改时间格式相同的时间是否相等
+								localpath = BaseConfig.URLPATH+filename;
+								log.debug("当前发送文件的属性有：文件名"+filename);
 								createFile(localpath);
 								File file = new File(localpath);
 								FileOutputStream fos = new FileOutputStream(file);
-								log.info("导出文件");
+								log.debug("导出文件");
 								ftpClient.retrieveFile(filename, fos);
 							}
 						}

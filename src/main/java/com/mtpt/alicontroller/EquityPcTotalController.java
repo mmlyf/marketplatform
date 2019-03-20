@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mtpt.alibean.TBEquityPcTotal;
+import com.mtpt.alibean.TBEquityResult;
 import com.mtpt.alibean.page.PublicPage;
 import com.mtpt.aliservice.ITBEquityPcTotalService;
+import com.mtpt.aliservice.ITBEquityResultService;
 
 /**
  * 
@@ -31,7 +33,9 @@ public class EquityPcTotalController {
 	private Logger log = Logger.getLogger(EquityPcTotalController.class);
 	@Resource 
 	private ITBEquityPcTotalService pcTotalService;
-	
+	@Resource 
+	private ITBEquityResultService resultService;
+
 	/**
 	 * 查询权益统计数据分页展示
 	 * @param page
@@ -72,7 +76,7 @@ public class EquityPcTotalController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 获取权益统计数据的总和
 	 * @param response
@@ -81,12 +85,14 @@ public class EquityPcTotalController {
 	private void selectAllDataTotal(HttpServletResponse response) {
 		response.setContentType("text/html;charset=utf-8");
 		List<TBEquityPcTotal> list = pcTotalService.selectAllData();
+		List<TBEquityResult> resultlist = resultService.selectAllData();
 		int pvcounttotal = 0;
 		int bccounttotal = 0;
 		int ykcounttotal = 0;
 		int aqycounttotal = 0 ;
 		int mgcounttotal = 0;
 		int txcounttotal = 0;
+
 		for(TBEquityPcTotal tbEquityPcTotal:list) {
 			pvcounttotal += tbEquityPcTotal.getPvCount();
 			bccounttotal += tbEquityPcTotal.getBcCount();
@@ -95,8 +101,35 @@ public class EquityPcTotalController {
 			mgcounttotal += tbEquityPcTotal.getMgCount();
 			txcounttotal += tbEquityPcTotal.getTxCount();
 		}
-		JSONObject json = new JSONObject();
-		List<JSONObject> jsonlist = new ArrayList<>();
+		int ykresultcount = 0;
+		int aqiresultcount = 0;
+		int mgresultcount = 0;
+		int txresultcount = 0;
+
+		for(TBEquityResult tbEquityResult:resultlist) {
+			String qynum = tbEquityResult.getQyNum()!=null?tbEquityResult.getQyNum():"";
+			if (qynum.equals("")) {
+				
+			}else {
+				switch (qynum) {
+				case "1000000000104610"://芒果
+					mgresultcount += 1;
+					break;
+				case "1000000000105003"://腾讯
+					txresultcount += 1;
+					break;
+				case "1000000000105204"://爱奇艺
+					aqiresultcount += 1;
+					break;
+				case "1000000000104609"://优酷
+					ykresultcount += 1;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
 		JSONObject value = new JSONObject();
 		value.put("pvtotal", pvcounttotal);
 		value.put("bctotal", bccounttotal);
@@ -104,7 +137,10 @@ public class EquityPcTotalController {
 		value.put("aqytotal", aqycounttotal);
 		value.put("mgtotal", mgcounttotal);
 		value.put("txtotal", txcounttotal);
-		
+		value.put("mgresult", mgresultcount);
+		value.put("txresult", txresultcount);
+		value.put("aqyresult", aqiresultcount);
+		value.put("ykresult", ykresultcount);
 		try {
 			PrintWriter pw = response.getWriter();
 			pw.write(value.toString());
