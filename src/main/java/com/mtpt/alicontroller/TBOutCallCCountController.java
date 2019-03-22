@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mtpt.alibean.TBGFCCTotal;
 import com.mtpt.alibean.TBOutCallCCount;
 import com.mtpt.alibean.TBTongjianpfPvcount;
 import com.mtpt.alibean.page.PublicPage;
+import com.mtpt.aliservice.ITBGFCCTotalService;
 import com.mtpt.aliservice.ITBOutCallCCountService;
 import com.mtpt.aliservice.ITBTongjianpfPvcountService;
 import com.mtpt.extend.OtherMethod;
@@ -28,6 +30,8 @@ public class TBOutCallCCountController {
 	private ITBOutCallCCountService outCallCCountService;
 	@Resource 
 	private ITBTongjianpfPvcountService tongjianpfPvcountService;
+	@Resource 
+	private ITBGFCCTotalService gfccTotalService;
 	
 	/**
 	 * 查询外呼的信用卡页面浏览数
@@ -89,4 +93,40 @@ public class TBOutCallCCountController {
 		}
 		OtherMethod.PrintFlush(response, json);
 	}
+	
+	/**
+	 * 获取广发外呼信用卡页面的PV数据
+	 * @param page
+	 * @param response
+	 */
+	@CrossOrigin
+	@RequestMapping(value="/selgfpv",method= {RequestMethod.POST,RequestMethod.GET})
+	private void selectGFCCPvcountData(PublicPage page,HttpServletResponse response) {
+		Integer totals = gfccTotalService.selectAllDataCount();
+		page.setTotalRecord(totals);
+		List<TBGFCCTotal> list = gfccTotalService.selectAllDataByPage(page);
+		JSONObject json = new JSONObject();
+		List<JSONObject> jsonlist = new ArrayList<>();
+		if (list.isEmpty()) {
+			log.debug("当前记录中无值");
+			json.put("code", 0);
+			json.put("msg", "当前无值");
+			json.put("data", "");
+			json.put("count", 0);	
+		}else {
+			for(TBGFCCTotal tbgfccTotal : list) {
+				JSONObject value = new JSONObject();
+				value.put("id", tbgfccTotal.getId());
+				value.put("pv", tbgfccTotal.getPv());
+				value.put("addtime", tbgfccTotal.getAddtime());
+				jsonlist.add(value);
+			}
+			json.put("code", 0);
+			json.put("msg", "");
+			json.put("count", totals);
+			json.put("data", jsonlist);
+		}
+		OtherMethod.PrintFlush(response, json);
+	}
+	
 }
