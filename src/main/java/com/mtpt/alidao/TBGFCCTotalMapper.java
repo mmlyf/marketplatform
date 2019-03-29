@@ -6,19 +6,28 @@ import com.mtpt.alibean.TBGFCCTotal;
 import com.mtpt.alibean.page.PublicPage;
 
 public interface TBGFCCTotalMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(TBGFCCTotal record);
+	int insert(TBGFCCTotal record);
 
-    int insertSelective(TBGFCCTotal record);
+	int insertSelective(TBGFCCTotal record);
 
-    TBGFCCTotal selectByPrimaryKey(Integer id);
+	TBGFCCTotal selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(TBGFCCTotal record);
+	int updateByPrimaryKeySelective(TBGFCCTotal record);
 
-    int updateByPrimaryKey(TBGFCCTotal record);
-    
-    List<TBGFCCTotal> selectAllDataByPage(PublicPage page);
-    
-    Integer selectAllDataCount();
+	int updateByPrimaryKey(TBGFCCTotal record);
+
+	List<TBGFCCTotal> selectAllDataByPage(PublicPage page);
+
+	Integer selectAllDataCount();
+
+	List<TBGFCCTotal> selectMoreCaseLanAllDataByPage(PublicPage page);
+
+	Integer selectMoreCaseLanAllDataCount();
+	
+	List<TBGFCCTotal> selectMoreCasePinAllDataByPage(PublicPage page);
+
+	Integer selectMoreCasePinAllDataCount();
+	
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mtpt.alidao.TBGFCCTotalMapper">
-  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBGFCCTotal">
+<mapper namespace="com.mtpt.alidao.TBOutCallCCountMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBOutCallCCount">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="pv" jdbcType="INTEGER" property="pv" />
     <result column="addtime" jdbcType="VARCHAR" property="addtime" />
@@ -12,61 +12,35 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_gfcc_total
+    from tb_outcall_ccount
     where id = #{id,jdbcType=INTEGER}
   </select>
   
   <select id="selectAllDataByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
-  	from tb_gfcc_total
+  	from tb_outcall_ccount
   	ORDER BY addtime DESC
   	LIMIT #{start},#{limit}
   </select>
   
-  <select id="selectAllDataCount" resultType="java.lang.Integer">
+  <select id="selectAllDataCountByPage" resultType="java.lang.Integer">
   	select count(1)
-  	from tb_gfcc_total
-  </select>
-  
-  <select id="selectMoreCaseLanAllDataByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tb_more_caselan
-  	ORDER BY addtime DESC
-  	LIMIT #{start},#{limit}
-  </select>
-  
-  <select id="selectMoreCaseLanAllDataCount" resultType="java.lang.Integer">
-  	select count(1)
-  	from tb_more_caselan
-  </select>
-  
-   <select id="selectMoreCasePinAllDataByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from tb_more_casepin
-  	ORDER BY addtime DESC
-  	LIMIT #{start},#{limit}
-  </select>
-  
-  <select id="selectMoreCasePinAllDataCount" resultType="java.lang.Integer">
-  	select count(1)
-  	from tb_more_casepin
+  	from tb_outcall_ccount
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_gfcc_total
+    delete from tb_outcall_ccount
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mtpt.alibean.TBGFCCTotal">
-    insert into tb_gfcc_total (id, pv, addtime
+  <insert id="insert" parameterType="com.mtpt.alibean.TBOutCallCCount">
+    insert into tb_outcall_ccount (id, pv, addtime
       )
     values (#{id,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{addtime,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBGFCCTotal">
-    insert into tb_gfcc_total
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBOutCallCCount">
+    insert into tb_outcall_ccount
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -90,8 +64,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBGFCCTotal">
-    update tb_gfcc_total
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBOutCallCCount">
+    update tb_outcall_ccount
     <set>
       <if test="pv != null">
         pv = #{pv,jdbcType=INTEGER},
@@ -102,8 +76,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBGFCCTotal">
-    update tb_gfcc_total
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBOutCallCCount">
+    update tb_outcall_ccount
     set pv = #{pv,jdbcType=INTEGER},
       addtime = #{addtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

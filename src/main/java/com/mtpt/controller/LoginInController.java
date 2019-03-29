@@ -39,8 +39,8 @@ import com.mysql.cj.xdevapi.JsonLiteral;
 public class LoginInController {
 	private Logger log = Logger.getLogger(LoginInController.class);
 	static {
-//		PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log.properties").getPath());
-		PropertyConfigurator.configure("D://NEW_HSDTMarket_Platform/config/log.properties");//河北
+		PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log.properties").getPath());
+//		PropertyConfigurator.configure("D://NEW_HSDTMarket_Platform/config/log.properties");//河北
 	}
 	@Resource
 	ITBSuserService service;

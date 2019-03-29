@@ -21,4 +21,12 @@ public interface ITBGFCCTotalService {
     List<TBGFCCTotal> selectAllDataByPage(PublicPage page);
     
     Integer selectAllDataCount();
+    
+    List<TBGFCCTotal> selectMoreCaseLanAllDataByPage(PublicPage page);
+
+	Integer selectMoreCaseLanAllDataCount();
+	
+	List<TBGFCCTotal> selectMoreCasePinAllDataByPage(PublicPage page);
+
+	Integer selectMoreCasePinAllDataCount();
 }

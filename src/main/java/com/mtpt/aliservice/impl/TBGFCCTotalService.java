@@ -63,4 +63,28 @@ public class TBGFCCTotalService implements ITBGFCCTotalService{
 		return mapper.selectAllDataCount();
 	}
 
+	@Override
+	public List<TBGFCCTotal> selectMoreCaseLanAllDataByPage(PublicPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectMoreCaseLanAllDataByPage(page);
+	}
+
+	@Override
+	public Integer selectMoreCaseLanAllDataCount() {
+		// TODO Auto-generated method stub
+		return mapper.selectMoreCaseLanAllDataCount();
+	}
+
+	@Override
+	public List<TBGFCCTotal> selectMoreCasePinAllDataByPage(PublicPage page) {
+		// TODO Auto-generated method stub
+		return mapper.selectMoreCasePinAllDataByPage(page);
+	}
+
+	@Override
+	public Integer selectMoreCasePinAllDataCount() {
+		// TODO Auto-generated method stub
+		return mapper.selectMoreCasePinAllDataCount();
+	}
+
 }
