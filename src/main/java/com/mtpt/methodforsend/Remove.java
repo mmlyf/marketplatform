@@ -10,15 +10,13 @@ import com.mtpt.alibean.TBRecord;
 import com.mtpt.bean.RepeatOpera;
 import com.mtpt.bean.TBBlackList;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.IProduceService;
-import com.mtpt.service.ITBBlackListService;
-import com.mtpt.service.impl.ProduceService;
-import com.mtpt.service.impl.TBBlackListService;
+import com.mtpt.service.impl.BlackListManageService;
+import com.mtpt.service.impl.OtherMethodForSend;
 
 public class Remove {
 	
-	static TBBlackListService blackListService = (TBBlackListService) SpringContextUtil.getBean("balckservice");
-	static ProduceService pService = (ProduceService) SpringContextUtil.getBean("pservice");
+	static BlackListManageService blackListService = (BlackListManageService) SpringContextUtil.getBean(BlackListManageService.class);
+	static OtherMethodForSend pService = (OtherMethodForSend) SpringContextUtil.getBean(OtherMethodForSend.class);
 	
 	public static List<String> blackList(List<String> phonelist) {
 		List<TBBlackList> list = blackListService.selectByAll();

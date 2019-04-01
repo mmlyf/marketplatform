@@ -82,4 +82,9 @@ public class BaseConfig {
      * 请求号码的详细内容的地址
      */
     public static final String DNDETAILPATH = "http://mobile99.uninforun.com/unicom-hb/api/Unicom/GetUserInfo";
+    
+    /**
+     * 营销任务数据文件存放在服务器上的位置
+     */
+    public static final String SCENE_MARKET_FILEPATH = "D://NEW_HSDTMarket_Platform/upload/scenedataup";
 }

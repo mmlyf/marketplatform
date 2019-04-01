@@ -29,17 +29,15 @@ import com.mtpt.bean.TBDsjIceAll;
 import com.mtpt.bean.TBMssage;
 import com.mtpt.bean.page.TBMessagePage;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.impl.TBDsjDxAllService;
-import com.mtpt.service.impl.TBDsjIceAllService;
-import com.mtpt.service.impl.TBMssageService;
+import com.mtpt.service.impl.MessageManageService;
+import com.mtpt.service.impl.OtherMethodForSend;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import sun.nio.ch.SelChImpl;
 
 public class SendModelIn {
-	private static TBMssageService mssageService = (TBMssageService) SpringContextUtil.getBean("tbMssageService");
-	private static TBDsjIceAllService iceAllService = (TBDsjIceAllService) SpringContextUtil.getBean("iceservice");
-	private static TBDsjDxAllService dxAllService	= (TBDsjDxAllService) SpringContextUtil.getBean("dxservice");
+	private static MessageManageService mssageService = (MessageManageService) SpringContextUtil.getBean(MessageManageService.class);
+	private static OtherMethodForSend othermethodService = (OtherMethodForSend) SpringContextUtil.getBean(OtherMethodForSend.class);
 	private static TBReviewService reviewService = (TBReviewService) SpringContextUtil.getBean("reservice");
 	private static Logger log = Logger.getLogger(SendFileIn.class);
 	private static BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
@@ -87,12 +85,12 @@ public class SendModelIn {
 		String sectime = sdf.format(tbReview.getSecTime());
 		review.setSecTime(sectime);
 		if (tbReview.getPrelx().equals("dsj_dx_all")) {
-			List<TBDsjDxAll> dxAlls = dxAllService.selectByReview(review);
+			List<TBDsjDxAll> dxAlls = othermethodService.selectDxByReview(review);
 			for(TBDsjDxAll tbDsjDxAll:dxAlls) {
 				queue.offer(tbDsjDxAll.getDxDn());
 			}
 		}else {
-			List<TBDsjIceAll> iceAlls = iceAllService.selectByReview(review);
+			List<TBDsjIceAll> iceAlls = othermethodService.selectIceByReview(review);
 			for (TBDsjIceAll tbDsjIceAll:iceAlls) {
 				queue.offer(tbDsjIceAll.getDxDn());
 			}

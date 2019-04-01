@@ -1,7 +1,9 @@
 package com.mtpt.aliservice.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,59 +17,72 @@ public class TBFlowredeveTotalService implements ITBFlowredeveTotalService{
 
 	@Autowired
 	private TBFlowredeveTotalMapper mapper;
+
+	@Override
+	public JSONObject selectFlowRedPackageDataByPage(PublicPage page) {
+		// TODO Auto-generated method stub
+		int records = mapper.selectAllDataCount();
+		page.setTotalRecord(records);
+		List<TBFlowredeveTotal> list = mapper.selectByPublicPage(page);
+		JSONObject json = new JSONObject();
+		List<JSONObject> jsonlist = new ArrayList<>();
+		for(TBFlowredeveTotal tbFlowredeveTotal:list) {
+			JSONObject value = new JSONObject();
+			value.put("id", tbFlowredeveTotal.getId());
+			value.put("pv", tbFlowredeveTotal.getPv());
+			value.put("liji_bc", tbFlowredeveTotal.getLijiBc());
+			value.put("comfir_bc", tbFlowredeveTotal.getComfirBc());
+			value.put("tx_count", tbFlowredeveTotal.getTxCount());
+			value.put("pp_count", tbFlowredeveTotal.getPpCount());
+			value.put("aqy_count", tbFlowredeveTotal.getAqyCount());
+			value.put("yk_count", tbFlowredeveTotal.getYkCount());
+			value.put("ordersuc_count", tbFlowredeveTotal.getOrdersucCount());
+			value.put("orderunsuc_count", tbFlowredeveTotal.getOrderunsucCount());
+			value.put("addtime", tbFlowredeveTotal.getAddtime());
+			jsonlist.add(value);
+		}
+		json.put("code", 0);
+		json.put("msg", "");
+		json.put("data", jsonlist);
+		json.put("count", records);
+		return json;
+	}
+
+	@Override
+	public JSONObject selectFlowRedPackageDataTotalCountByAll() {
+		// TODO Auto-generated method stub
+		List<TBFlowredeveTotal> list = mapper.selectAllData();
+		int pvtotal = 0;
+		int lijibctotal = 0;
+		int comfirbctotal = 0;
+		int txcounttotal = 0;
+		int ppcounttotal = 0;
+		int aqycounttotal = 0;
+		int ykcounttotal = 0;
+		int ordersuccounttotal = 0;
+		int orderunsuccounttotal = 0;
+		for(TBFlowredeveTotal tbFlowredeveTotal:list) {
+			pvtotal += tbFlowredeveTotal.getPv();
+			lijibctotal += tbFlowredeveTotal.getLijiBc();
+			comfirbctotal += tbFlowredeveTotal.getComfirBc();
+			txcounttotal += tbFlowredeveTotal.getTxCount();
+			ppcounttotal += tbFlowredeveTotal.getPpCount();
+			aqycounttotal += tbFlowredeveTotal.getAqyCount();
+			ykcounttotal += tbFlowredeveTotal.getYkCount();
+			ordersuccounttotal += tbFlowredeveTotal.getOrdersucCount();
+			orderunsuccounttotal += tbFlowredeveTotal.getOrderunsucCount();
+		}
+		JSONObject json = new JSONObject();
+		json.put("pvtotal", pvtotal);
+		json.put("lijibctotal", lijibctotal);
+		json.put("comfirbctotal", comfirbctotal);
+		json.put("txcounttotal", txcounttotal);
+		json.put("ppcounttotal", ppcounttotal);
+		json.put("aqycounttotal", aqycounttotal);
+		json.put("ykcounttotal", ykcounttotal);
+		json.put("ordersuccounttotal", ordersuccounttotal);
+		json.put("orderunsuccounttotal", orderunsuccounttotal);
+		return json;
+	}
 	
-	@Override
-	public int deleteByPrimaryKey(Integer id) {
-		// TODO Auto-generated method stub
-		return mapper.deleteByPrimaryKey(id);
-	}
-
-	@Override
-	public int insert(TBFlowredeveTotal record) {
-		// TODO Auto-generated method stub
-		return mapper.insert(record);
-	}
-
-	@Override
-	public int insertSelective(TBFlowredeveTotal record) {
-		// TODO Auto-generated method stub
-		return mapper.insertSelective(record);
-	}
-
-	@Override
-	public TBFlowredeveTotal selectByPrimaryKey(Integer id) {
-		// TODO Auto-generated method stub
-		return mapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public int updateByPrimaryKeySelective(TBFlowredeveTotal record) {
-		// TODO Auto-generated method stub
-		return mapper.updateByPrimaryKeySelective(record);
-	}
-
-	@Override
-	public int updateByPrimaryKey(TBFlowredeveTotal record) {
-		// TODO Auto-generated method stub
-		return mapper.updateByPrimaryKey(record);
-	}
-
-	@Override
-	public List<TBFlowredeveTotal> selectByPublicPage(PublicPage page) {
-		// TODO Auto-generated method stub
-		return mapper.selectByPublicPage(page);
-	}
-
-	@Override
-	public Integer selectAllDataCount() {
-		// TODO Auto-generated method stub
-		return mapper.selectAllDataCount();
-	}
-
-	@Override
-	public List<TBFlowredeveTotal> selectAllData() {
-		// TODO Auto-generated method stub
-		return mapper.selectAllData();
-	}
-
 }

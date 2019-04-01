@@ -2,25 +2,14 @@ package com.mtpt.aliservice;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.mtpt.alibean.TBEquityData;
 import com.mtpt.alibean.page.EquityDataPage;
 
 public interface ITBEquityDataService {
-	int deleteByPrimaryKey(Integer id);
-
-    int insert(TBEquityData record);
-
-    int insertSelective(TBEquityData record);
-
-    TBEquityData selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TBEquityData record);
-
-    int updateByPrimaryKey(TBEquityData record);
+    
+    JSONObject selectEquityDataWithResult(EquityDataPage page);
     
     List<TBEquityData> selectDataByAddtime(String sectime);
-    
-    List<TBEquityData> selectEquityAndResultData(EquityDataPage page);
-    
-    Integer selectDataAllCount();
 }

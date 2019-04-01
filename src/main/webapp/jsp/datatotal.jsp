@@ -3,7 +3,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.mtpt.bean.DataTotal"%>
-<%@page import="com.mtpt.service.impl.DataTotalService"%>
+<%@page import="com.mtpt.service.impl.OtherMethodForSend"%>
 <%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

@@ -2,23 +2,20 @@ package com.mtpt.aliservice;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.mtpt.alibean.TBOutCallCCount;
 import com.mtpt.alibean.page.PublicPage;
 
 public interface ITBOutCallCCountService {
-	int deleteByPrimaryKey(Integer id);
-
-    int insert(TBOutCallCCount record);
-
-    int insertSelective(TBOutCallCCount record);
-
-    TBOutCallCCount selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TBOutCallCCount record);
-
-    int updateByPrimaryKey(TBOutCallCCount record);
     
-    List<TBOutCallCCount> selectAllDataByPage(PublicPage	page);
+    JSONObject selectOutCallPvCount(PublicPage page);
     
-    Integer selectAllDataCountByPage();
+    JSONObject selectTongjianPfPvcountData(PublicPage page);
+    
+    JSONObject selectGFCCPvcountData(PublicPage page);
+    
+    JSONObject selectMoreCaseLanPvcountData(PublicPage page);
+    
+    JSONObject selectMoreCasePinPvcountData(PublicPage page);
 }

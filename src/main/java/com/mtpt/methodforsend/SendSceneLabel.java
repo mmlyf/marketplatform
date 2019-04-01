@@ -15,18 +15,16 @@ import org.apache.log4j.Logger;
 import com.mtpt.alibean.TBReview;
 import com.mtpt.alibean.TBSceneData;
 import com.mtpt.alibean.TBSceneJob;
-import com.mtpt.aliservice.impl.TBSceneDataService;
-import com.mtpt.aliservice.impl.TBSceneJobService;
+import com.mtpt.aliservice.impl.SceneMarketDataService;
 import com.mtpt.bean.RepeatOpera;
 import com.mtpt.bean.TBMssage;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.impl.TBMssageService;
+import com.mtpt.service.impl.MessageManageService;
 
 public class SendSceneLabel {
 	private static Logger log = Logger.getLogger(SendSceneLabel.class);
-	private static TBMssageService mssageService = (TBMssageService) SpringContextUtil.getBean("tbMssageService");
-	private static TBSceneJobService tbSceneJobService = (TBSceneJobService) SpringContextUtil.getBean("tbscenejobservice");
-	private static TBSceneDataService tbSceneDataService = (TBSceneDataService) SpringContextUtil.getBean("tbsceneService");
+	private static MessageManageService mssageService = (MessageManageService) SpringContextUtil.getBean(MessageManageService.class);
+	private static SceneMarketDataService sceneMarketDataService = (SceneMarketDataService) SpringContextUtil.getBean("sceneMarketDataService");
 	public static boolean isStop = false;
 	public static boolean isEnd = false;
 	private static int job_id;
@@ -51,7 +49,7 @@ public class SendSceneLabel {
 				TBSceneJob tbSceneJob = new TBSceneJob();
 				tbSceneJob.setId(id);
 				tbSceneJob.setState(3);
-				tbSceneJobService.updateByPrimaryKeySelective(tbSceneJob);		
+				sceneMarketDataService.updateByPrimaryKeySelective(tbSceneJob);		
 				runJob(job_id);
 			}
 		});
@@ -64,11 +62,11 @@ public class SendSceneLabel {
 	 * 
 	 */
 	private static void runJob(int job_id) {
-		TBSceneJob tbSceneJob = tbSceneJobService.selectByPrimaryKey(job_id);
+		TBSceneJob tbSceneJob = sceneMarketDataService.selectByPrimaryKey(job_id);
 		String[] labels = tbSceneJob.getSceneBq().split(",");
 		List<String> resultlist = new ArrayList<>();
 		for(int i = 0 ; i< labels.length; i++) {
-			List<TBSceneData> scenedatalist = tbSceneDataService.selectDataByLabel(labels[i]);
+			List<TBSceneData> scenedatalist = sceneMarketDataService.selectDataByLabel(labels[i]);
 			List<String> phonelist = new ArrayList<>();
 			for(TBSceneData tbSceneData:scenedatalist) {
 				phonelist.add(tbSceneData.getSceneDn());
@@ -156,7 +154,7 @@ public class SendSceneLabel {
 			
 			tbSceneJob.setId(job_id);
 			tbSceneJob.setState(4);
-			int result = tbSceneJobService.updateByPrimaryKeySelective(tbSceneJob);
+			int result = sceneMarketDataService.updateByPrimaryKeySelective(tbSceneJob);
 			Iterator<Integer> it = waitsend.iterator();
 			while (it.hasNext()) {
 				if (it.next()==job_id) {
@@ -171,7 +169,7 @@ public class SendSceneLabel {
 			for(Integer id:waitsend) {
 				tbSceneJob.setId(id);
 				tbSceneJob.setState(7);
-				tbSceneJobService.updateByPrimaryKeySelective(tbSceneJob);
+				sceneMarketDataService.updateByPrimaryKeySelective(tbSceneJob);
 			}
 			isEnd = false;
 			isStop = false;

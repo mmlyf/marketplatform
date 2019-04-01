@@ -22,9 +22,8 @@ import com.mtpt.alibean.page.TBRecordPage;
 import com.mtpt.bean.ActivityList;
 import com.mtpt.bean.TBHfcs;
 import com.mtpt.bean.page.ActivityPage;
-import com.mtpt.service.IActivityListService;
-import com.mtpt.service.ITBBlackListService;
-import com.mtpt.service.ITBHfcsService;
+import com.mtpt.extend.OtherMethod;
+import com.mtpt.service.IActivitiesService;
 
 import javafx.css.PseudoClass;
 import sun.util.logging.resources.logging_fr;
@@ -34,11 +33,9 @@ import sun.util.logging.resources.logging_fr;
 public class ActivitiesController {
 	
 	@Resource
-	IActivityListService activiService;
-	@Resource
-	ITBHfcsService hfcsService;
+	private IActivitiesService activityService;
 	
-	private SimpleDateFormat sdf = null;
+	
 	
 	/**
 	 * 查找活动未结束的活动并分页并将信息返回值前端
@@ -47,39 +44,9 @@ public class ActivitiesController {
 	 */
 	@RequestMapping(value="/selunendact",method = {RequestMethod.POST,RequestMethod.GET})
 	private void selectUnEndActByActivityPage(ActivityPage page,HttpServletResponse response) {
-		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		page.setSectime(sdf.format(date));
-		int totals = activiService.selectActiUnEndCount(page);
-		page.setTotalRecord(totals);
-		List<ActivityList> actlist = activiService.selectActiUnEndByPage(page);
-		JSONObject jsonmap = new JSONObject();
-		List<JSONObject> jsonlist = new ArrayList<>();
-		
-		for(ActivityList tbActivilist : actlist) {
-			JSONObject map = new JSONObject();
-			map.put("actiid", tbActivilist.getId());
-			map.put("actname", tbActivilist.getActName());
-			map.put("starttime", sdf.format(tbActivilist.getActStarttime()));
-			map.put("endtime", sdf.format(tbActivilist.getActEndtime()));
-			map.put("addtime", sdf.format(tbActivilist.getAddtime()));
-			map.put("actpage", tbActivilist.getActPage());
-			jsonlist.add(map);
-		}
-		jsonmap.put("code", 0);
-		jsonmap.put("msg", "");
-		jsonmap.put("count", totals);
-		jsonmap.put("data", jsonlist);
 		response.setContentType("text/html;charset=utf-8");
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(jsonmap.toString());
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONObject jsonmap = activityService.selectUnEndActivityByPage(page);
+		OtherMethod.PrintFlush(response, jsonmap);
 	}
 	/**
 	 * 查询已经结束的活动的数据并展示值前端
@@ -88,38 +55,9 @@ public class ActivitiesController {
 	 */
 	@RequestMapping(value="/selendact",method = {RequestMethod.POST,RequestMethod.GET})
 	private void selectEndActByActivityPage(ActivityPage page,HttpServletResponse response) {
-		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		page.setSectime(sdf.format(date));
-		int totals = activiService.selectActiEndCount(page);
-		page.setTotalRecord(totals);
-		List<ActivityList> actlist = activiService.selectActiEndByPage(page);
-		JSONObject jsonmap = new JSONObject();
-		List<JSONObject> jsonlist = new ArrayList<>();
-		for(ActivityList tbActivilist : actlist) {
-			JSONObject map = new JSONObject();
-			map.put("actiid", tbActivilist.getId());
-			map.put("actname", tbActivilist.getActName());
-			map.put("starttime", sdf.format(tbActivilist.getActStarttime()));
-			map.put("endtime", sdf.format(tbActivilist.getActEndtime()));
-			map.put("addtime", sdf.format(tbActivilist.getAddtime()));
-			map.put("actpage", tbActivilist.getActPage());
-			jsonlist.add(map);
-		}
-		jsonmap.put("code", 0);
-		jsonmap.put("msg", "");
-		jsonmap.put("count", totals);
-		jsonmap.put("data", jsonlist);
 		response.setContentType("text/html;charset=utf-8");
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(jsonmap.toString());
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONObject jsonmap = activityService.selectEndActivityByPage(page);
+		OtherMethod.PrintFlush(response, jsonmap);
 	}
 	
 	
@@ -131,22 +69,9 @@ public class ActivitiesController {
 	 */
 	@RequestMapping(value="/addact",method = {RequestMethod.GET,RequestMethod.POST})
 	private void addActivity(ActivityList actlist,HttpServletResponse response,HttpServletRequest request) {
-		int result = activiService.insertSelective(actlist);
-		JSONObject json = new JSONObject();
-		if(result>0) {
-			json.put("code", 0);
-		}else {
-			json.put("code", 1);
-		}
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(json.toString());
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		response.setContentType("text/html;charset=utf-8");
+		JSONObject json = activityService.insertActivityInfo(actlist);
+		OtherMethod.PrintFlush(response, json);
 	}
 	
 	/**
@@ -157,22 +82,7 @@ public class ActivitiesController {
 	@RequestMapping(value="/updateActInfo",method= {RequestMethod.GET,RequestMethod.POST})
 	private void updateActivityInfoById(ActivityList activityList,HttpServletResponse response) {
 		response.setContentType("text/html;charset=utf-8");
-		int upres = activiService.updateByPrimaryKeySelective(activityList);
-		JSONObject json = new JSONObject();
-		if (upres>0) {
-			json.put("code", 0);
-		}else {
-			json.put("code", 1);
-		}
-		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(json.toString());
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		JSONObject json = activityService.updateActivityInfoById(activityList);
+		OtherMethod.PrintFlush(response, json);
  	}
 }

@@ -16,14 +16,14 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.mtpt.alibean.TBSceneData;
-import com.mtpt.aliservice.ITBSceneDataService;
+import com.mtpt.aliservice.impl.SceneMarketDataService;
 import com.mtpt.config.BaseConfig;
 import com.mtpt.config.SpringContextUtil;
 
 
 public class SceneMarketExtendMethod {
 	private static Logger log = Logger.getLogger(SceneMarketExtendMethod.class);
-	private static ITBSceneDataService sceneDataService = (ITBSceneDataService) SpringContextUtil.getBean("tbsceneService");
+	private static SceneMarketDataService sceneMarketDataService = (SceneMarketDataService) SpringContextUtil.getBean("sceneMarketDataService");
 	
 	public static boolean uploadFileInput(String filepath,String bq,String opera) {
 		int result = 0;
@@ -62,15 +62,15 @@ public class SceneMarketExtendMethod {
 				list.add(tbSceneData);
 			}
 			if (opera.equals("add")) {
-				result = sceneDataService.insertIntoSceneDataByList(list);
+				result = sceneMarketDataService.insertIntoSceneDataByList(list);
 			}else if(opera.equals("update")) {
-				List<TBSceneData> scenelist = sceneDataService.selectDataByLabel(bqarray[i]);
+				List<TBSceneData> scenelist = sceneMarketDataService.selectDataByLabel(bqarray[i]);
 				if (scenelist.isEmpty()) {
-					result = sceneDataService.updateIntoSceneDataByList(list);
+					result = sceneMarketDataService.updateIntoSceneDataByList(list);
 				}else {
-					result = sceneDataService.deleteSceneDataByLabel(bqarray[i]);
+					result = sceneMarketDataService.deleteSceneDataByLabel(bqarray[i]);
 					if (result>0) {
-						result = sceneDataService.updateIntoSceneDataByList(list);
+						result = sceneMarketDataService.updateIntoSceneDataByList(list);
 					}else {
 						log.debug("更新失败");
 						result = 0;

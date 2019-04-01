@@ -16,7 +16,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.mtpt.bean.DataTotal"%>
-<%@page import="com.mtpt.service.impl.DataTotalService"%>
+<%@page import="com.mtpt.service.impl.OtherMethodForSend"%>
 <%@page
 	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.context.ApplicationContext"%>
@@ -42,8 +42,7 @@
 						<%
 							ServletContext sc = this.getServletContext();
 							ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
-							TBReviewService review = (TBReviewService) ac.getBean("reservice");
-							TBRecordService tbrecord = (TBRecordService) ac.getBean("tbrecord");
+							OtherMethodForSend otherMethodForSend = (OtherMethodForSend) ac.getBean("otherMethodForSend");
 							Date date = new Date();
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							String datestr = sdf.format(date);
@@ -51,14 +50,14 @@
 							TBRecordPage tbRecordPage = new TBRecordPage();
 							tbRecordPage.setKeyid(datestr);
 							tbRecordPage.setKeyidtype("addtime");
-							List<TBRecord> recordlilst = tbrecord.selectTaskByAddTime(tbRecordPage);
+							List<TBRecord> recordlilst = otherMethodForSend.selectRecordTaskByAddTime(tbRecordPage);
 							tbRecordPage.setKeystate("4");
-							List<TBRecord> recordsuclilst = tbrecord.selectTaskByAddTime(tbRecordPage);
+							List<TBRecord> recordsuclilst = otherMethodForSend.selectRecordTaskByAddTime(tbRecordPage);
 							tbRecordPage.setKeyid(datestr);
 							tbRecordPage.setKeyidtype("add_time");
-							List<TBReview> reviewlist = review.selectTaskByAddTime(tbRecordPage);
+							List<TBReview> reviewlist = otherMethodForSend.selectReviewTaskByAddTime(tbRecordPage);
 							tbRecordPage.setKeystate("4");
-							List<TBReview> reviewsuclist = review.selectTaskByAddTime(tbRecordPage);
+							List<TBReview> reviewsuclist = otherMethodForSend.selectReviewTaskByAddTime(tbRecordPage);
 							int phonecount = 0;//任务中号码的数量
 							int phonesuccount = 0;//成功下发的号码的数量
 							float tasksucrate = 0;//任务下发的成功率
@@ -248,7 +247,7 @@
 							</thead>
 							<tbody>
 							<%
-							DataTotalService ds = (DataTotalService)ac.getBean("dataTotalService");
+							OtherMethodForSend ds = (OtherMethodForSend)ac.getBean("otherMethodForSend");
 							Calendar calendar = Calendar.getInstance();
 							int year = calendar.get(Calendar.YEAR);
 							int month = calendar.get(Calendar.MONTH);
@@ -256,7 +255,7 @@
 							calendar.set(year, month, day-1);//昨天
 							date = calendar.getTime();
 							String adtime = sdf.format(date);
-							DataTotal yesdata = ds.selectByAddTime(adtime);
+							DataTotal yesdata = ds.selectDataTotalByAddTime(adtime);
 							NumberFormat nt = NumberFormat.getPercentInstance();//获取格式化对象
 						    nt.setMinimumFractionDigits(2);//设置百分数精确度2即保留两位小数
 						    if(yesdata!=null){

@@ -33,10 +33,10 @@ import com.mtpt.aliservice.impl.TBRecordService;
 import com.mtpt.bean.RepeatOpera;
 import com.mtpt.bean.TBMssage;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.impl.TBMssageService;
+import com.mtpt.service.impl.MessageManageService;
 public class SendFileIn {
 	
-	private static TBMssageService mssageService = (TBMssageService) SpringContextUtil.getBean("tbMssageService");
+	private static MessageManageService mssageService = (MessageManageService) SpringContextUtil.getBean(MessageManageService.class);
 	private static TBRecordService recordService = (TBRecordService) SpringContextUtil.getBean("tbrecord");
 	private static Logger log = Logger.getLogger(SendFileIn.class);
 	private static BlockingQueue<String> dataphonequeue = new LinkedBlockingQueue<String>();

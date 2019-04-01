@@ -25,8 +25,8 @@ import com.mtpt.bean.TBDsjIceAll;
 import com.mtpt.bean.TBUsers;
 import com.mtpt.config.BaseConfig;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.impl.TBDsjDxAllService;
-import com.mtpt.service.impl.TBDsjIceAllService;
+import com.mtpt.service.impl.MessageManageService;
+import com.mtpt.service.impl.OtherMethodForSend;
 
 
 public class OutputFile {
@@ -39,8 +39,7 @@ public class OutputFile {
 ////	private static String scenedatapath = "/Users/lvgordon/Downloads/little/";
 //	private static String icepath = "D://NEW_HSDTMarket_Platform/icedataexport/";//冰激凌数据导出
 ////	private static String icepath = "/Users/lvgordon/Downloads/little/";//ceshi
-	private static TBDsjDxAllService dxService = (TBDsjDxAllService) SpringContextUtil.getBean("dxservice");
-	private static TBDsjIceAllService iceService = (TBDsjIceAllService) SpringContextUtil.getBean("iceservice");
+	private static OtherMethodForSend otherMethodForSend = (OtherMethodForSend) SpringContextUtil.getBean(OtherMethodForSend.class);
 	private static TBReviewService reviewService = (TBReviewService) SpringContextUtil.getBean("reservice");
 	
 	/**
@@ -123,7 +122,7 @@ public class OutputFile {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bWriter = new BufferedWriter(fw);
 			if (review.getPrelx().equals("dsj_dx_all")) {
-				List<TBDsjDxAll> dxlist = dxService.selectByReview(review);
+				List<TBDsjDxAll> dxlist = otherMethodForSend.selectDxByReview(review);
 				if (dxlist==null) {
 					bWriter.write("空");
 				}else {
@@ -135,7 +134,7 @@ public class OutputFile {
 				bWriter.flush();
 				bWriter.close();
 			}else {
-				List<TBDsjIceAll> icelist = iceService.selectByReview(review);
+				List<TBDsjIceAll> icelist = otherMethodForSend.selectIceByReview(review);
 				if(icelist==null) {
 					bWriter.write("空");
 				}else {

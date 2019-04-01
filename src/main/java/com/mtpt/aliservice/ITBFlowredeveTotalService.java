@@ -2,25 +2,14 @@ package com.mtpt.aliservice;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.mtpt.alibean.TBFlowredeveTotal;
 import com.mtpt.alibean.page.PublicPage;
 
 public interface ITBFlowredeveTotalService {
-	int deleteByPrimaryKey(Integer id);
 
-    int insert(TBFlowredeveTotal record);
-
-    int insertSelective(TBFlowredeveTotal record);
-
-    TBFlowredeveTotal selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TBFlowredeveTotal record);
-
-    int updateByPrimaryKey(TBFlowredeveTotal record);
+    JSONObject selectFlowRedPackageDataByPage(PublicPage page);
     
-    List<TBFlowredeveTotal> selectByPublicPage(PublicPage page);
-    
-    Integer selectAllDataCount();
-    
-    List<TBFlowredeveTotal> selectAllData();
+    JSONObject selectFlowRedPackageDataTotalCountByAll();
 }

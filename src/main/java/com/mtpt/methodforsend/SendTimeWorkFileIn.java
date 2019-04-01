@@ -20,21 +20,19 @@ import org.apache.log4j.Logger;
 import com.mtpt.alibean.TBRecord;
 import com.mtpt.alibean.TBReview;
 import com.mtpt.alibean.TBSceneJob;
+import com.mtpt.aliservice.impl.SceneMarketDataService;
 import com.mtpt.aliservice.impl.TBRecordService;
 import com.mtpt.aliservice.impl.TBReviewService;
-import com.mtpt.aliservice.impl.TBSceneJobService;
 import com.mtpt.bean.TBMssage;
 import com.mtpt.config.SpringContextUtil;
-import com.mtpt.service.impl.TBDsjDxAllService;
-import com.mtpt.service.impl.TBDsjIceAllService;
-import com.mtpt.service.impl.TBMssageService;
+import com.mtpt.service.impl.MessageManageService;
 
 public class SendTimeWorkFileIn {
 	private static Logger log = Logger.getLogger(SendTimeWorkFileIn.class);
-	private static TBMssageService mssageService = (TBMssageService) SpringContextUtil.getBean("tbMssageService");
+	private static MessageManageService mssageService = (MessageManageService) SpringContextUtil.getBean(MessageManageService.class);
 	private static TBRecordService recordService = (TBRecordService) SpringContextUtil.getBean("tbrecord");
 	private static TBReviewService reviewService = (TBReviewService) SpringContextUtil.getBean("reservice");
-	private static TBSceneJobService sceneJobService = (TBSceneJobService) SpringContextUtil.getBean("tbscenejobservice");
+	private static SceneMarketDataService sceneMarketDataService = (SceneMarketDataService) SpringContextUtil.getBean("sceneMarketDataService");
 	private static ExecutorService filepool = Executors.newSingleThreadExecutor();
 	private static ExecutorService modelpool = Executors.newSingleThreadExecutor();
 	private static ExecutorService scenepool = Executors.newSingleThreadExecutor();
@@ -109,7 +107,7 @@ public class SendTimeWorkFileIn {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				TBSceneJob tbSceneJob = sceneJobService.selectByPrimaryKey(jobid);
+				TBSceneJob tbSceneJob = sceneMarketDataService.selectByPrimaryKey(jobid);
 				timer.schedule(new TimerTask() {
 					
 					@Override
@@ -118,7 +116,7 @@ public class SendTimeWorkFileIn {
 						TBSceneJob sceneJob = new TBSceneJob();
 						sceneJob.setId(jobid);
 						sceneJob.setState(5);
-						sceneJobService.updateByPrimaryKeySelective(sceneJob);
+						sceneMarketDataService.updateByPrimaryKeySelective(sceneJob);
 						SendSceneLabel.setJob_id(jobid);
 					}
 				}, tbSceneJob.getWorkTime());

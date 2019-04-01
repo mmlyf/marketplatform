@@ -1,5 +1,4 @@
 <!-- 支付宝管理界面 -->
-<%@page import="com.mtpt.service.impl.TBMssageService"%>
 <%@page
 	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.context.ApplicationContext"%>

@@ -2,25 +2,31 @@ package com.mtpt.aliservice;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.mtpt.alibean.TBTehuiFlowTotal;
 import com.mtpt.alibean.page.PublicPage;
 
 public interface ITBTehuiFlowTotalService {
-	int deleteByPrimaryKey(Integer id);
-
-    int insert(TBTehuiFlowTotal record);
-
-    int insertSelective(TBTehuiFlowTotal record);
-
-    TBTehuiFlowTotal selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TBTehuiFlowTotal record);
-
-    int updateByPrimaryKey(TBTehuiFlowTotal record);
+//	int deleteByPrimaryKey(Integer id);
+//
+//    int insert(TBTehuiFlowTotal record);
+//
+//    int insertSelective(TBTehuiFlowTotal record);
+//
+//    TBTehuiFlowTotal selectByPrimaryKey(Integer id);
+//
+//    int updateByPrimaryKeySelective(TBTehuiFlowTotal record);
+//
+//    int updateByPrimaryKey(TBTehuiFlowTotal record);
     
-    List<TBTehuiFlowTotal> selectDataByPublicPage(PublicPage page);
+//    List<TBTehuiFlowTotal> selectDataByPublicPage(PublicPage page);
+//    
+//    Integer	selectAllDataCount();
+//    
+//    List<TBTehuiFlowTotal> selectAllData();
     
-    Integer	selectAllDataCount();
+    JSONObject selectDataByPublicPageForTable(PublicPage page);
     
-    List<TBTehuiFlowTotal> selectAllData();
+    JSONObject selectDataTotal();
 }

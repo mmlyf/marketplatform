@@ -1,5 +1,4 @@
 <!-- 短信任务创建 -->
-<%@page import="com.mtpt.service.impl.TBProdLxService"%>
 <%@page import="java.util.List"%>
 <%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.context.ApplicationContext"%>
