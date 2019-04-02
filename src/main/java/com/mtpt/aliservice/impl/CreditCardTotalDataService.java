@@ -187,7 +187,7 @@ public class CreditCardTotalDataService implements ICreditCardTotalDataService{
 		json.put("icetotal", icetotal);
 		json.put("mutitotal", mutitotal);
 		json.put("tehuitotal", tehuitotal);
-		return null;
+		return json;
 	}
 
 }

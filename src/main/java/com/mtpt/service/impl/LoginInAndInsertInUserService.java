@@ -81,7 +81,6 @@ public class LoginInAndInsertInUserService implements ILoginInAndInsertInUserSer
 				// TODO: handle exception
 				per = 1001;
 			}
-			System.out.println("per的值是："+per);
 			if (per!=1001&&per==11) {
 				JSONObject map = new JSONObject();
 				map.put("id", tbSuser.getId());
@@ -100,7 +99,8 @@ public class LoginInAndInsertInUserService implements ILoginInAndInsertInUserSer
 				map.put("permission", perstr.toString());
 				jsonlist.add(map);
 			}else {
-				if(permission.indexOf("1")!=-1) {
+				String userpermission = tbSuser.getPermission()!=null?tbSuser.getPermission():"0";
+				if(userpermission.indexOf("1")!=-1) {
 					
 				}else {
 					JSONObject map = new JSONObject();
