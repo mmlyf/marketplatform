@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mtpt.alibean.page.PublicPage;
+import com.mtpt.aliservice.ICreditCardTotalDataService;
 import com.mtpt.aliservice.impl.CreditCardTotalDataService;
 import com.mtpt.extend.OtherMethod;
 
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/tbcctotalTwo")
 public class TBCCTotalTwoController {
 	@Resource
-	private CreditCardTotalDataService cctotalService;
+	private ICreditCardTotalDataService cctotalService;
 	
 	/**
 	 * 分页进行查询信用卡活动V2.0所有的数据并将数据通过json传至前端

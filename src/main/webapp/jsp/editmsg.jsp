@@ -10,7 +10,7 @@
 <script src="http://code.jquery.com/jquery-1.8.0.min.js"
 	type="text/javascript"></script>
 <link rel="stylesheet" href="../layui/css/layui.css" media="all">
-<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
 </head>
 <body class="layui-layout-body">
 	<div class="layui-fluid">
@@ -55,7 +55,7 @@
 	</div>
 
 	
-<script type="text/javascript" src="../layer/layer.js"></script>
+
 	<script type="text/javascript">
 $(function(){
     var str=window.location.href;

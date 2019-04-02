@@ -493,6 +493,10 @@
 																				} ]] ,
 																		page : true,
 																		limit:10,
+																		where:{
+																			keyword:'',
+																			keytype:''
+																		},
 																		id : 'modellist',
 																		done:function(data){
 																			$('#modelnum').text(data.count+"条");

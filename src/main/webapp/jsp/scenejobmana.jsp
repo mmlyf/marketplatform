@@ -53,8 +53,9 @@
 									
 									</script>
 									<script>
-										layui.use('table',function() {
-															var table = layui.table;
+										layui.use(['layer','table'],function() {
+											var  layer = layui.layer,table = layui.table;
+											 var index = layer.load(2);
 															table.render({
 																		elem : '#reviewtable',
 																		url : '../scenejob/selectscenejob',
@@ -172,6 +173,7 @@
 																		},
 																		id : 'scenelist',
 																		done:function(data){
+																			layer.close(index);
 																			$('#groupnum').text(data.count+"条");
 																		}
 																	});

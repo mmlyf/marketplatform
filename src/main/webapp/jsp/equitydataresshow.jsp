@@ -51,10 +51,11 @@
   										
 									</script>
 									<script>
-										layui.use('table', function() {
-											var table = layui.table;
+										layui.use(['table','layer'], function() {
+											var table = layui.table,layer = layui.layer;
 											var width = window.innerWidth;
 											var height = window.innerHeight;
+											var index = layer.load(2);
 											table.render({
 												elem : '#equityres',
 												url : '../equitydata/selectdataresult',
@@ -106,6 +107,7 @@
 												limit : 10,
 												id : 'equityreslist',
 												done : function(data) {
+													layer.close(index);
 													$('#num').text(data.count + "条");
 												}
 											});

@@ -75,8 +75,13 @@ public class SMSTaskUpdateService implements ISMSTaskUpdateService{
 			}
 			if (tbRecord.getMigId()!=null) {
 				TBMssage tbMssage = mssageMapper.selectByPrimaryKey(tbRecord.getMigId());
-				map.put("msgtitle", tbMssage.getMisTitle());
-				map.put("msgcontent", tbMssage.getMisContent());
+				if (tbMssage==null) {
+					map.put("msgtitle", "");
+					map.put("msgcontent", "");
+				}else {
+					map.put("msgtitle", tbMssage.getMisTitle()!=null?tbMssage.getMisTitle():"");
+					map.put("msgcontent", tbMssage.getMisContent()!=null?tbMssage.getMisContent():"");
+				}	
 			}else {
 				map.put("msgtitle", "");
 				map.put("msgcontent", "");

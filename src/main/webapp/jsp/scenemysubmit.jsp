@@ -60,11 +60,7 @@
 									%>
 										<a class="layui-btn layui-btn-xs" id="confirmsend" lay-event="send">发送</a>
 									<%}
-										if(permission.indexOf("1")!=-1||permission.indexOf("26")!=-1){
-									%>
-										<a class="layui-btn layui-btn-xs" id="confirmsend" lay-event="edit">修改</a>	
-									<%
-										}
+										
 										if(permission.indexOf("1")!=-1||permission.indexOf("27")!=-1){
 									%>
   										<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

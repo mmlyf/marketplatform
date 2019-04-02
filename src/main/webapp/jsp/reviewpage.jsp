@@ -491,8 +491,7 @@
 																	table.reload('modellist',{where : {
 																		keyid:id,
 																		keyidtype:'id',
-																		keyword:'<%=session.getAttribute("realname")%>
-										',
+																		keyword:'<%=session.getAttribute("realname")%>',
 															keytype : 're_user'
 														}
 													});

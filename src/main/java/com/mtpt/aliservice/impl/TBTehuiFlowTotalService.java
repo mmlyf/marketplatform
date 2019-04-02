@@ -109,7 +109,7 @@ public class TBTehuiFlowTotalService implements ITBTehuiFlowTotalService{
 		json.put("_40gunsuccounttotal", _40gunsuccounttotal);
 		json.put("allsuccounttotal", allsuccounttotal);
 		json.put("allunsuccounttotal", allunsuccounttotal);
-		return null;
+		return json;
 	}
 	
 	

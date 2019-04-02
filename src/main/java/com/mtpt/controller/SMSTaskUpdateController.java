@@ -79,9 +79,8 @@ public class SMSTaskUpdateController {
 			tbRecordPage.setKeyword(name);
 		}
 		JSONObject jsonmap = ismsTaskUpdateService.getFileInData(tbRecordPage);
-		JSONObject json = new JSONObject();
-		json.put("map", jsonmap);
-		OtherMethod.PrintFlush(response, json);
+		
+		OtherMethod.PrintFlush(response, jsonmap);
 	}
 
 	/**
@@ -102,9 +101,8 @@ public class SMSTaskUpdateController {
 			tbRecordPage.setKeyword(name);
 		}
 		JSONObject jsonmap = ismsTaskUpdateService.getModelInData(tbRecordPage);
-		JSONObject json = new JSONObject();
-		json.put("map", jsonmap);
-		OtherMethod.PrintFlush(response, json);
+	
+		OtherMethod.PrintFlush(response, jsonmap);
 	}
 
 

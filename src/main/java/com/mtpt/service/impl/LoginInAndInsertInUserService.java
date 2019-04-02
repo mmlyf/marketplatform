@@ -77,7 +77,7 @@ public class LoginInAndInsertInUserService implements ILoginInAndInsertInUserSer
 			int per;
 			try {
 				per = Integer.parseInt(permission);
-			}catch (NumberFormatException e) {
+			}catch (Exception e) {
 				// TODO: handle exception
 				per = 1001;
 			}
@@ -100,7 +100,7 @@ public class LoginInAndInsertInUserService implements ILoginInAndInsertInUserSer
 				map.put("permission", perstr.toString());
 				jsonlist.add(map);
 			}else {
-				if(tbSuser.getPermission().indexOf("1")!=-1) {
+				if(permission.indexOf("1")!=-1) {
 					
 				}else {
 					JSONObject map = new JSONObject();
