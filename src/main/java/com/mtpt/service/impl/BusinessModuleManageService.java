@@ -27,6 +27,7 @@ import com.mtpt.extend.HttpRequest;
 import com.mtpt.extend.OutputFile;
 import com.mtpt.extend.ProductNameType;
 import com.mtpt.service.IBusinessModuleManageService;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 @Service("budinessModuleManageService")
 public class BusinessModuleManageService implements IBusinessModuleManageService{
@@ -357,5 +358,19 @@ public class BusinessModuleManageService implements IBusinessModuleManageService
 			
 		}
 		return jsonvalue;
+	}
+
+	/**
+	 * 导出订单数据并返回数据的文件地址
+	 */
+	@Override
+	public JSONObject outputOrdersDataByPage(OrdersPage page) {
+		// TODO Auto-generated method stub
+		List<Orders> list = ordersMapper.selectByOrdersPageNoLimit(page);
+		String filepath = OutputFile.outputOrdersData(list);
+		JSONObject json = new JSONObject();
+		json.put("path", filepath);
+		json.put("code", 0);
+		return json;
 	}
 }

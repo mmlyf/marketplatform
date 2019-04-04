@@ -23,5 +23,6 @@ public interface IBusinessModuleManageService {
 	
 	JSONObject selectOrdersPhoneForDetail(String phone);	
 	
+	JSONObject outputOrdersDataByPage(OrdersPage page);
 	
 }

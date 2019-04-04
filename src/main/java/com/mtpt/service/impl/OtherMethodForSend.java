@@ -11,12 +11,14 @@ import com.mtpt.alibean.page.TBRecordPage;
 import com.mtpt.alidao.TBRecordMapper;
 import com.mtpt.alidao.TBReviewMapper;
 import com.mtpt.bean.DataTotal;
+import com.mtpt.bean.Products;
 import com.mtpt.bean.RepeatOpera;
 import com.mtpt.bean.Review;
 import com.mtpt.bean.TBDsjDxAll;
 import com.mtpt.bean.TBDsjIceAll;
 import com.mtpt.dao.DataTotalMapper;
 import com.mtpt.dao.ProduceMapper;
+import com.mtpt.dao.ProductsMapper;
 import com.mtpt.dao.TBDsjDxAllMapper;
 import com.mtpt.dao.TBDsjIceAllMapper;
 import com.mtpt.service.IOtherMethodForSend;
@@ -36,6 +38,8 @@ public class OtherMethodForSend implements IOtherMethodForSend{
 	private TBReviewMapper reviewMapper;
 	@Autowired
 	private DataTotalMapper dataTotalMapper;
+	@Autowired
+	private ProductsMapper productsMapper;
 	
 	@Override
 	public List<String> selectThreeday(RepeatOpera repeat) {
@@ -71,6 +75,12 @@ public class OtherMethodForSend implements IOtherMethodForSend{
 	public DataTotal selectDataTotalByAddTime(String addtime) {
 		// TODO Auto-generated method stub
 		return dataTotalMapper.selectByAddTime(addtime);
+	}
+
+	@Override
+	public Products selectProductsDataById(String id) {
+		// TODO Auto-generated method stub
+		return productsMapper.selectByPrimaryKey(id);
 	}
 
 }

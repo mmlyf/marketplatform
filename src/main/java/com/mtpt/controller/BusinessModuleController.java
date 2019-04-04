@@ -1,5 +1,7 @@
 package com.mtpt.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -233,5 +235,21 @@ public class BusinessModuleController {
 		log.info(name+"查询手机号"+phone+"的详细数据信息");
 		JSONObject jsonvalue = businessModuleManageService.selectOrdersPhoneForDetail(phone);
 		OtherMethod.PrintFlush(response, jsonvalue);
+	}
+	
+	/**
+	 * 导出当前订单中指定要求的数据
+	 * @param page
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/outorders",method= {RequestMethod.GET,RequestMethod.POST})
+	private void outputOrdersDataByPage(OrdersPage page,HttpServletRequest request,HttpServletResponse response) {
+		response.setContentType("text/html;charset=utf-8");
+		session = request.getSession();
+		String name = (String) session.getAttribute("realname");
+		log.info(name+"导出订单指定类型的数据");
+		JSONObject json = businessModuleManageService.outputOrdersDataByPage(page);
+		OtherMethod.PrintFlush(response, json);
 	}
 }

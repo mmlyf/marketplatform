@@ -87,4 +87,10 @@ public class BaseConfig {
      * 营销任务数据文件存放在服务器上的位置
      */
     public static final String SCENE_MARKET_FILEPATH = "D://NEW_HSDTMarket_Platform/upload/scenedataup";
+    
+    /**
+     * 订单导出数据文件的存储位置
+     */
+    public static final String ORDERS_OUTFILE_PATH = "D://NEW_HSDTMarket_Platform/ordersfile";
+    public static final String ORDERS_TEST_PATH = "/Users/lvgordon/Downloads/little";
 }

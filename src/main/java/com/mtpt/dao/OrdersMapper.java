@@ -28,4 +28,6 @@ public interface OrdersMapper {
     Integer selectByOrdersCount(OrdersPage page);
     
     Integer selectCountAllByPage(TotalPage page);
+    
+    List<Orders> selectByOrdersPageNoLimit(OrdersPage page);
 }

@@ -71,6 +71,38 @@
     limit #{start},#{limit}
   </select>
   
+  <select id="selectByOrdersPageNoLimit" parameterType="com.mtpt.bean.page.OrdersPage" resultMap="ResultMapWithBLOBs">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from orders
+    <where>
+    		<if test="dn!=null and dn!=''">
+    			and Mobile like '%${dn}%'
+    		</if>
+    		<if test="date_star!=null and date_star!='' and date_end!=null and date_end!=''">
+    			and AddTime between #{date_star} and #{date_end}
+    		</if>
+    		<if test="ddlx!=null and ddlx!='' and ddlx!='-1'" >
+    			and BssState=#{ddlx}
+    		</if>
+    		<if test="ddlx!=null and ddlx!='-1' and ddlx==''">
+    			and (BssState is null or BssState!='0')    			
+    		</if>
+    		<if test="qudao!=null and qudao!=''">
+    			and Lsource=#{qudao}
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==1">
+    			and ProductId In (select Id from products where ProductName like '%月包%' or ProductName like '%日包%' or ProductName like '%流量包%' or ProductName like '%闲时包%' or ProductName like '%流量月包%' or ProductName like '%天包%' or ProductName like '%特惠包%' or ProductName like '%半年包%')
+    		</if>
+    		<if test="yewu!=null and yewu!='' and yewu==2">
+    			and ProductId In (select Id from products where ProductName like '%低消%')
+    		</if>
+    </where>
+    order by AddTime DESC
+  </select>
+  
   <select id="selectByOrdersCount" parameterType="com.mtpt.bean.page.OrdersPage" resultType="java.lang.Integer">
   	select count(1)
   	from orders

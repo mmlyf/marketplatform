@@ -89,6 +89,7 @@
 
 									</form>
 									<button class="layui-btn" data-type="allreload">搜索</button>
+									<button class="layui-btn" data-type="output">导出</button>
 								</div>
 								<script type="text/javascript" src="../layui/layui.js"></script>
 								<script type="text/javascript">
@@ -121,7 +122,7 @@
 									</script>
 									<script type="text/html" id="barDemo">
 									<%String permision = (String) session.getAttribute("permision");
-			if (permision.indexOf("1") != -1 || permision.indexOf("29") != -1) {%>
+									if (permision.indexOf("1") != -1 || permision.indexOf("29") != -1) {%>
  									 	<a class="layui-btn layui-btn-xs" lay-event="reorder">补订</a>
 										<a class="layui-btn layui-btn-xs" lay-event="outorder">退订</a>
 									<%}%>
@@ -281,6 +282,47 @@
 															cplx : cplx,
 															qudao : qudao,
 															yewu : yewu
+														}
+													});
+												},
+												output : function(){
+													var dn = $('#phone').val();
+													var date_star = $('#date_star').val();
+													var date_end = $('#date_end').val();
+													var ddlx = $('#ddlx').val();
+													var cplx = $('#cplx').val();
+													var qudao = $('#qudao').val();
+													var yewu = $('#yewu').val();
+													//执行重载
+													table.reload('tasklist', {
+														where : {
+															dn : dn,
+															date_star : date_star,
+															date_end : date_end,
+															ddlx : ddlx,
+															cplx : cplx,
+															qudao : qudao,
+															yewu : yewu
+														}
+													});
+													$.ajax({
+														url : '../buscontro/outorders',
+														dataType : 'json',
+														data : {
+															dn : dn,
+															date_star : date_star,
+															date_end : date_end,
+															ddlx : ddlx,
+															cplx : cplx,
+															qudao : qudao,
+															yewu : yewu
+														},
+														success : function(result) {
+															if(result.code==0){
+																//window.location.href="http://localhost:8085/HSDT_Market_Platform/buscontro/download?filepath="+result.path;
+																window.location.href="http://aimk.mobile99.cn:8089/HSDT_Market_Platform/buscontro/download?filepath="+result.path;
+															}
+															
 														}
 													});
 												}

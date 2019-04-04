@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -19,6 +20,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.mtpt.aliservice.impl.TBReviewService;
 import com.mtpt.bean.CustomService;
 import com.mtpt.bean.IceDsjOrders;
+import com.mtpt.bean.Orders;
+import com.mtpt.bean.Products;
 import com.mtpt.bean.Review;
 import com.mtpt.bean.TBDsjDxAll;
 import com.mtpt.bean.TBDsjIceAll;
@@ -31,17 +34,16 @@ import com.mtpt.service.impl.OtherMethodForSend;
 
 public class OutputFile {
 	private static Logger log = Logger.getLogger(OutputFile.class);
-////	private static String alipath = "/Users/lvgordon/Downloads/little/";//测试环境
-//	private static String alipath = "D://NEW_HSDTMarket_Platform/aliuserexport/";//支付宝用户导出路径河北
-////	private static String modeldatapath = "/Users/lvgordon/Downloads/little/";//测试环境
-//	private static String modeldatapath = "D://NEW_HSDTMarket_Platform/modeldataexport/";//河北维度筛选数据导出
-//	private static String scenedatapath = "D://NEW_HSDTMarket_Platform/exportscenedata/";//河北标签数据导出
-////	private static String scenedatapath = "/Users/lvgordon/Downloads/little/";
-//	private static String icepath = "D://NEW_HSDTMarket_Platform/icedataexport/";//冰激凌数据导出
-////	private static String icepath = "/Users/lvgordon/Downloads/little/";//ceshi
+	////	private static String alipath = "/Users/lvgordon/Downloads/little/";//测试环境
+	//	private static String alipath = "D://NEW_HSDTMarket_Platform/aliuserexport/";//支付宝用户导出路径河北
+	////	private static String modeldatapath = "/Users/lvgordon/Downloads/little/";//测试环境
+	//	private static String modeldatapath = "D://NEW_HSDTMarket_Platform/modeldataexport/";//河北维度筛选数据导出
+	//	private static String scenedatapath = "D://NEW_HSDTMarket_Platform/exportscenedata/";//河北标签数据导出
+	////	private static String scenedatapath = "/Users/lvgordon/Downloads/little/";
+	//	private static String icepath = "D://NEW_HSDTMarket_Platform/icedataexport/";//冰激凌数据导出
+	////	private static String icepath = "/Users/lvgordon/Downloads/little/";//ceshi
 	private static OtherMethodForSend otherMethodForSend = (OtherMethodForSend) SpringContextUtil.getBean(OtherMethodForSend.class);
 	private static TBReviewService reviewService = (TBReviewService) SpringContextUtil.getBean("reservice");
-	
 	/**
 	 * 
 	 * @param userlist
@@ -94,8 +96,8 @@ public class OutputFile {
 		}
 		return alifilepath;
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @param re_id
@@ -152,7 +154,7 @@ public class OutputFile {
 		}
 		return allpath;
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -255,7 +257,7 @@ public class OutputFile {
 		}
 		return alifilepath;
 	}
-	
+
 	/**
 	 * 
 	 * @param list
@@ -303,5 +305,70 @@ public class OutputFile {
 			e.printStackTrace();
 		}
 		return scenefilepath;
+	}
+
+
+	/**
+	 * 订单数据保存至文件并返回文件路径
+	 * @param list
+	 * @return
+	 */
+	public static String outputOrdersData(List<Orders> list) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String filename = sdf.format(date) + ".xlsx";
+		String allpath = BaseConfig.ORDERS_OUTFILE_PATH + "/" + filename;
+		File file = new File(allpath);
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+		XSSFSheet xssfSheet = xssfWorkbook.createSheet();
+		XSSFRow titleRow = xssfSheet.createRow(0);
+		String[] cellstitle = {"id","agw","productname","BssState","Mobile","source","addtime"};
+		Cell[] cells = new Cell[7];
+		for(int i=0;i<7;i++) {
+			cells[i] = titleRow.createCell(i);
+			cells[i].setCellValue(cellstitle[i]);
+		}
+		int count = 1;
+		for(Orders orders:list) {
+			XSSFRow xssfRow = xssfSheet.createRow(count);
+			Cell[] valuecells = new Cell[7];
+			for(int j = 0; j<7;j++) {
+				valuecells[j] = xssfRow.createCell(j);
+			}
+			valuecells[0].setCellValue(orders.getId());
+			valuecells[1].setCellValue(orders.getSerialno());
+			Products products = otherMethodForSend.selectProductsDataById(orders.getProductid());
+			valuecells[2].setCellValue(products.getProductname());
+			if (orders.getBssstate()!=null) {
+				valuecells[3].setCellValue(orders.getBssstate());
+			}else {
+				valuecells[3].setCellValue(" ");
+			}
+			valuecells[4].setCellValue(orders.getMobile());
+			valuecells[5].setCellValue(ProductNameType.getSource(orders.getLsource()));
+			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			valuecells[6].setCellValue(sdf.format(orders.getAddtime()));
+			count++;
+		}
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			xssfWorkbook.write(fileOutputStream);
+			xssfWorkbook.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return allpath;
 	}
 }
