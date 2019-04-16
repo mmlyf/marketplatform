@@ -13,6 +13,7 @@ import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,8 +76,15 @@ public class SMSTaskUpdateController {
 		HttpSession session = request.getSession();
 		String name = (String) session.getAttribute("realname");
 		log.info(name+"访问下发管理中的\"文件导入\"任务列表");
-		if (tbRecordPage.getKeytype().equals("addman")||tbRecordPage.getKeytype().equals("reviewman")) {
-			tbRecordPage.setKeyword(name);
+		if (tbRecordPage.getKeyword()!=null&&!tbRecordPage.getKeyword().equals("")) {
+			String decodekeyword = URLDecoder.decode(tbRecordPage.getKeyword(),"utf-8");
+			log.debug("keyword的值是："+decodekeyword);
+			tbRecordPage.setKeyword(decodekeyword);
+		}
+		if (tbRecordPage.getKeyid()!=null&&!tbRecordPage.getKeyid().equals("")) {
+			String decodekeyid = URLDecoder.decode(tbRecordPage.getKeyid(),"utf-8");
+			log.debug("keyid的值是："+decodekeyid);
+			tbRecordPage.setKeyid(decodekeyid);
 		}
 		JSONObject jsonmap = ismsTaskUpdateService.getFileInData(tbRecordPage);
 		
@@ -89,16 +97,24 @@ public class SMSTaskUpdateController {
 	 * @param response
 	 * 获取维度筛选的数据
 	 * 并以json的数据返回至前端页面
+	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
 	@RequestMapping(value="/getmodeldata",method = {RequestMethod.POST,RequestMethod.GET})
-	private void getModelInData(TBRecordPage tbRecordPage,HttpServletResponse response,HttpServletRequest request) {
+	private void getModelInData(TBRecordPage tbRecordPage,HttpServletResponse response,HttpServletRequest request) throws UnsupportedEncodingException {
 		response.setContentType("text/html; charset=UTF-8");
 		HttpSession session = request.getSession();
 		String name = (String) session.getAttribute("realname");
 		log.info(name+"访问了下发管理的\"维度筛选\"任务列表");
-		if(tbRecordPage.getKeytype().equals("rd_user")||tbRecordPage.getKeytype().equals("re_user")) {
-			tbRecordPage.setKeyword(name);
+		if (tbRecordPage.getKeyword()!=null&&!tbRecordPage.getKeyword().equals("")) {
+			String decodekeyword = URLDecoder.decode(tbRecordPage.getKeyword(),"utf-8");
+			log.debug("keyword的值是："+decodekeyword);
+			tbRecordPage.setKeyword(decodekeyword);
+		}
+		if (tbRecordPage.getKeyid()!=null&&!tbRecordPage.getKeyid().equals("")) {
+			String decodekeyid = URLDecoder.decode(tbRecordPage.getKeyid(),"utf-8");
+			log.debug("keyid的值是："+decodekeyid);
+			tbRecordPage.setKeyid(decodekeyid);
 		}
 		JSONObject jsonmap = ismsTaskUpdateService.getModelInData(tbRecordPage);
 	
@@ -148,7 +164,6 @@ public class SMSTaskUpdateController {
 	 */
 	@RequestMapping(value="/upstatefile",method = {RequestMethod.POST,RequestMethod.GET})
 	private void updateStateFileTask(TBRecord tbRecord,HttpServletResponse response) {
-
 		log.debug("当前的审核的状态是："+tbRecord.getState());
 		log.info(tbRecord.getReviewman()+"执行文件导入任务审核，对任务ID为："+tbRecord.getId()+"审核。\n审核状态为："+tbRecord.getState());
 		JSONObject json = ismsTaskUpdateService.updateStateFileTask(tbRecord);

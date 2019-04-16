@@ -22,6 +22,6 @@ public interface TBEquityDataMapper {
     
     List<TBEquityData> selectEquityAndResultData(EquityDataPage page);
     
-    Integer selectDataAllCount();
+    Integer selectDataAllCount(EquityDataPage page);
     
 }

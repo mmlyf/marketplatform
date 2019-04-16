@@ -2,6 +2,8 @@ package com.mtpt.alicontroller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +54,22 @@ public class SceneMarketJobController {
 	 * @param request
 	 * @param response
 	 * 查询获取场景营销任务的数据。并可以根据条件进行查询
+	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
 	@RequestMapping(value="/selectscenejob",method = {RequestMethod.GET,RequestMethod.POST})
-	private void selectSceneJobData(SceneJobPage page,HttpServletRequest request,HttpServletResponse response) {
+	private void selectSceneJobData(SceneJobPage page,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
 		HttpSession session = request.getSession();
 		String name = (String) session.getAttribute("realname");
-		if(page.getKeytype().equals("add_man")||page.getKeytype().equals("review_man")) {
-			page.setKeyword(name);
+		if (page.getKeyword()!=null&&!page.getKeyword().equals("")) {
+			String decodekeyword = URLDecoder.decode(page.getKeyword(),"utf-8");
+			log.debug("keyword的值是："+decodekeyword);
+			page.setKeyword(decodekeyword);
+		}
+		if (page.getKeyid()!=null&&!page.getKeyid().equals("")) {
+			String decodekeyid = URLDecoder.decode(page.getKeyid(),"utf-8");
+			log.debug("keyid的值是："+decodekeyid);
+			page.setKeyid(decodekeyid);
 		}
 		JSONObject jsonmap = sceneMarketJobService.selectSceneJobData(page);
 		OtherMethod.PrintFlush(response, jsonmap);

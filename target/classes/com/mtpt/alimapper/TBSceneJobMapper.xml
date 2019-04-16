@@ -55,6 +55,12 @@
   		<if test="keyword!=null and keyword!='' and keytype=='id'">
   			AND id = #{keyword}
   		</if>
+  		<if test="keyword!=null and keyword!='' and keytype=='add_man'">
+  			AND add_man = #{keyword}
+  		</if>
+  		<if test="keyword!=null and keyword!='' and keytype=='review_man'">
+  			AND review_man = #{keyword}
+  		</if>
   	</where>
   	ORDER BY add_time DESC
   </select>

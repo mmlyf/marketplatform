@@ -201,7 +201,7 @@
 																	table.reload('msglist',
 																					{
 																						where : {
-																							keyword : title,
+																							keyword : encodeURI(title),
 																							keytype:'mis_title'
 																						}
 																					});

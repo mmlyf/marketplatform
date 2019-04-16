@@ -45,6 +45,9 @@
 			<if test="dn!=null and dn!=''">
 				and a.dn = #{dn}
 			</if>
+			<if test="starttime!=null and starttime!='' and endtime!=null and endtime!=''">
+				and a.addtime<![CDATA[>=]]>#{starttime} and a.addtime <![CDATA[<=]]>#{endtime}
+			</if>
 		</where>
 		GROUP BY a.dn,b.cj_dn
 		UNION
@@ -57,15 +60,26 @@
 			<if test="dn!=null and dn!=''">
 				AND c.dn = #{dn}
 			</if>
+			<if test="starttime!=null and starttime!='' and endtime!=null and endtime!=''">
+				and c.addtime<![CDATA[>=]]>#{starttime} and c.addtime <![CDATA[<=]]>#{endtime}
+			</if>
 		</where>
 		GROUP BY c.dn
 		ORDER BY addtime DESC
 		LIMIT #{start},#{limit}
 	</select>
 	
-	<select id="selectDataAllCount" resultType="java.lang.Integer">
+	<select id="selectDataAllCount" parameterType="com.mtpt.alibean.page.EquityDataPage" resultType="java.lang.Integer">
 		select count(DISTINCT dn)
 		from tb_equity_data
+		<where>
+			<if test="dn!=null and dn!=''">
+				and dn = #{dn}
+			</if>
+			<if test="starttime!=null and starttime!='' and endtime!=null and endtime!=''">
+				and addtime<![CDATA[>=]]>#{starttime} and addtime <![CDATA[<=]]>#{endtime}
+			</if>
+		</where>
 	</select>
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

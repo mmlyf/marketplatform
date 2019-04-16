@@ -21,7 +21,7 @@ public class TBEquityDataService implements ITBEquityDataService{
 	@Override
 	public JSONObject selectEquityDataWithResult(EquityDataPage page) {
 		// TODO Auto-generated method stub
-		Integer records = mapper.selectDataAllCount();
+		Integer records = mapper.selectDataAllCount(page);
 		page.setTotalRecord(records);
 		List<TBEquityData> list = mapper.selectEquityAndResultData(page);
 		JSONObject json = new JSONObject();

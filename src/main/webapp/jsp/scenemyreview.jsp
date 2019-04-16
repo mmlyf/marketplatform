@@ -23,12 +23,7 @@
 						<div class="admin-main fadeInUp animated">
 							<blockquote class="layui-elem-quote">
 								<div class="demoTable">
-									搜索：
-									<div class="layui-inline">
-										<input class="layui-input" name="id" id="demoReload"
-											autocomplete="off" placeholder="请输入群组名">
-									</div>
-									<button class="layui-btn" data-type="reload">搜索</button>
+									列表记录数：
 									<div class="layui-inline">
 										<label class="layui-form-label"
 											style="color: red; font-weight: bold; font-size: 16px; text-align: left;"><span
@@ -167,7 +162,7 @@
 																		page : true,
 																		limit:10,
 																		where:{
-																			keyword:'<%=session.getAttribute("realname") %>',
+																			keyword:encodeURI('<%=session.getAttribute("realname") %>'),
 																			keytype:'review_man'
 																		},
 																		id : 'scenelist',
@@ -216,25 +211,6 @@
 																			layer.msg('当前状态不符合审核标准！');
 																		}
 																	}
-																});
-
-															var $ = layui.$, active = {
-																reload : function() {
-																	var id = $('#demoReload').val();
-																	//执行重载
-																	table.reload('scenelist',{
-																		where : {
-																			keyword : id,
-																			keytype : 'groupname'
-																		}
-																	});
-																}
-															};
-															$('.demoTable .layui-btn').on('click',
-																function() {
-																var type = $(this).data(	'type');
-																	layer.msg(type);
-																	active[type] ? active[type].call(this): '';
 																});
 														});
 									</script>

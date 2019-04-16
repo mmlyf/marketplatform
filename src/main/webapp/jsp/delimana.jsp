@@ -279,7 +279,7 @@
 																					'tasklist',
 																					{
 																						where : {
-																							keyword : id,
+																							keyword : encodeURI(id),
 																							keytype : 'groupname'
 																						}
 																					});
@@ -586,7 +586,7 @@
 																	//执行重载
 																	table.reload('modellist',{
 																		where : {
-																			keyword:id,
+																			keyword:encodeURI(id),
 																			keytype:'id'
 																			}
 																	});

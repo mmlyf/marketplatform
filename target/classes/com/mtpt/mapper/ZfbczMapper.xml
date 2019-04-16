@@ -50,9 +50,21 @@
   	LIMIT #{start},#{limit}
   </select>
   
-  <select id="selectAllDataCount" resultType="java.lang.Integer">
+  <select id="selectAllDataCountByPage" parameterType="com.mtpt.bean.page.ZfbczPage" resultType="java.lang.Integer">
    	select count(1)
    	from zfbcz
+   	<where>
+  		<if test="dn!=null and dn!=''">
+  			AND py_dn=#{dn}
+  		</if>
+  		<if test="startime!=null and startime!='' and endtime!=null and endtime!=''">
+  			AND py_creatime<![CDATA[>=]]>#{startime} AND py_creatime<![CDATA[<=]]>#{endtime}
+  		</if>
+  		<if test="orderno!=null and orderno!=''">
+  			AND py_seno like '%${orderno}%'
+  		</if>
+  	</where>
+  	ORDER BY py_creatime DESC
    </select>
    
   <insert id="insertSelective" parameterType="com.mtpt.bean.Zfbcz">

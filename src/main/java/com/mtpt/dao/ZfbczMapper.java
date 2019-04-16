@@ -13,5 +13,5 @@ public interface ZfbczMapper {
     
     List<Zfbcz> selectAllData(ZfbczPage page);
     
-    Integer selectAllDataCount();
+    Integer selectAllDataCountByPage(ZfbczPage page);
 }

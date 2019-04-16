@@ -2,6 +2,8 @@ package com.mtpt.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +47,18 @@ public class MessageManageController {
 	 * @param page
 	 * @param response
 	 * @param request
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/select",method = {RequestMethod.POST,RequestMethod.GET})
-	private void selectMessage(TBMessagePage page,HttpServletResponse response,HttpServletRequest request) {
+	private void selectMessage(TBMessagePage page,HttpServletResponse response,HttpServletRequest request) throws UnsupportedEncodingException {
 		response.setContentType("text/html;charset=utf-8");
 		session = request.getSession();
 		String name = (String) session.getAttribute("realname");
 		log.info(name+"访问运营消息列表！");
+		if (page.getKeyword()!=null&&!page.getKeyword().equals("")) {
+			String decodekeyword = URLDecoder.decode(page.getKeyword(),"utf-8");
+			page.setKeyword(decodekeyword);
+		}
 		JSONObject jsonmap = messageManageService.selectAllMessageDataByPage(page);
 		OtherMethod.PrintFlush(response, jsonmap);
 	}

@@ -209,7 +209,7 @@
 																		page : true,
 																		limit:10,
 																		where:{
-																			keyword:'<%=session.getAttribute("realname") %>',
+																			keyword:encodeURI('<%=session.getAttribute("realname") %>'),
 																			keytype:'addman'
 																		},
 																		id : 'tasklist',
@@ -321,9 +321,9 @@
 																	//执行重载
 																	table.reload('tasklist',{
 																		where : {
-																			keyid : id,
+																			keyid : encodeURI(id),
 																			keyidtype : 'groupname',
-																			keyword:'<%=session.getAttribute("realname") %>',
+																			keyword:encodeURI('<%=session.getAttribute("realname") %>'),
 																			keytype:'addman'
 																		}
 																	});
@@ -601,7 +601,7 @@
 																		page : true,
 																		limit:10,
 																		where:{
-																			keyword:'<%=session.getAttribute("realname") %>',
+																			keyword:encodeURI('<%=session.getAttribute("realname") %>'),
 																			keytype:'rd_user'
 																		},
 																		id : 'modellist',
@@ -712,9 +712,9 @@
 																			.val();
 																	//执行重载
 																	table.reload('modellist',{where : {
-																		keyid:id,
+																		keyid:encodeURI(id),
 																		keyidtype:'id',
-																		keyword:'<%=session.getAttribute("realname") %>',
+																		keyword:encodeURI('<%=session.getAttribute("realname") %>'),
 																		keytype:'rd_user'
 																	}});
 																}

@@ -136,7 +136,7 @@
 							</dl>
 						</li>
 						<li class="layui-nav-item">
-							<a href="javascript:;" title="模板消息"><i class="layui-icon layui-icon-user"></i><cite>模板消息</cite></a>
+							<a href="javascript:;" title="模板消息"><i class="layui-icon layui-icon-dialogue"></i><cite>模板消息</cite></a>
 							<dl class="layui-nav-child">
 								<dd><a href="javascript:;" lay-href="http://mobile99.uninforun.com/Hst/Tpl/index.php/Home/Tpl/index.html">任务创建</a></dd>
 								<dd><a href="javascript:;" lay-href="http://mobile99.uninforun.com/Hst/Tpl/index.php/Home/Moment/index.html">任务管理</a></dd>
@@ -146,7 +146,7 @@
 						</li>
 						
 						<li class="layui-nav-item">
-							<a href="javascript:;" title="充值模块"><i class="layui-icon layui-icon-user"></i><cite>充值模块</cite></a>
+							<a href="javascript:;" title="充值模块"><i class="layui-icon layui-icon-cellphone"></i><cite>充值模块</cite></a>
 							<dl class="layui-nav-child">
 								<% if(permission.indexOf("1")!=-1||permission.indexOf("43")!=-1){ %>
 									<dd><a href="javascript:;" lay-href="../jsp/hfczpage.jsp">话费充值</a></dd>
@@ -159,7 +159,13 @@
 							</dl>
 						</li>
 						<li class="layui-nav-item">
-							<a href="javascript:;" title="扩展模块"><i class="layui-icon layui-icon-user"></i><cite>扩展模块</cite></a>
+							<a href="javascript:;" title="扩展模块"><i class="layui-icon layui-icon-log"></i><cite>抽奖结果</cite></a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;" lay-href="../jsp/equitydataresshow.jsp">抽奖管理</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;" title="扩展模块"><i class="layui-icon layui-icon-app"></i><cite>扩展模块</cite></a>
 							<dl class="layui-nav-child">
 								<dd><a href="javascript:;" lay-href="../jsp/equitydataresshow.jsp">抽奖管理</a></dd>
 							</dl>

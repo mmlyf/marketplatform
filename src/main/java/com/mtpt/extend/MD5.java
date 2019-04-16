@@ -1,9 +1,14 @@
 package com.mtpt.extend;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base32;
 
@@ -36,9 +41,64 @@ public class MD5 {
 		String resultstr = encoder.encode(md5str.getBytes());//使用base64将加密后所得的字符串在进行加密一次
 		return resultstr;
 	}
-	
-	
+
+
 	public static void main(String[] args) {
 		System.out.println(Integer.parseInt("adb"));
+	}
+
+
+	public static String md(String eString) {
+		BigInteger bigInteger = null;
+		StringBuffer buf = new StringBuffer("");
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			byte[] pass = eString.getBytes("utf-8");
+			md5.update(pass);
+			byte b[] = md5.digest();
+			int i;
+			for(int offset=0; offset<b.length; offset++){
+				i = b[offset];
+				if(i<0){
+					i+=256;
+				}
+				if(i<16){
+					buf.append("0");
+				}
+				buf.append(Integer.toHexString(i));
+			}
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return buf.toString().toUpperCase();
+	}
+
+	public static String encryptDES(String encryptString, String encryptKey) throws Exception {
+		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding"); 
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(getKey(encryptKey), "DES"));
+		byte[] encryptedData = cipher.doFinal(encryptString.getBytes("UTF-8")); 
+		return Base64.getEncoder().encodeToString(encryptedData);
+	}
+	public static byte[] getKey(String keyRule) { 
+		Key key = null;
+		byte[] keyByte = keyRule.getBytes(); 
+		byte[] byteTemp = new byte[8]; 
+		for (int i = 0; i < byteTemp.length && i < keyByte.length; i++) { 
+			byteTemp[i] = keyByte[i]; 
+		}
+		key = new SecretKeySpec(byteTemp, "DES"); 
+		return key.getEncoded(); 
+	} 
+
+	public static String decryptDES(String decryptString, String decryptKey) throws Exception { 
+		byte[] sourceBytes = Base64.getDecoder().decode(decryptString); 
+		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(getKey(decryptKey), "DES")); 
+		byte[] decoded = cipher.doFinal(sourceBytes);
+		return new String(decoded, "UTF-8");	 
 	}
 }

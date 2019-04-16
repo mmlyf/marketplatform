@@ -92,5 +92,23 @@ public class BaseConfig {
      * 订单导出数据文件的存储位置
      */
     public static final String ORDERS_OUTFILE_PATH = "D://NEW_HSDTMarket_Platform/ordersfile";
-    public static final String ORDERS_TEST_PATH = "/Users/lvgordon/Downloads/little";
+    
+    //public static final String ORDERS_TEST_PATH = "/Users/lvgordon/Downloads/little";
+    
+    /**
+     * 协尔平台二次确认接口参数
+     */
+    //二次确认账号
+    public static final String XIEER_ACCOUNT = "HSDT"; 
+    
+    //二次确认请求接口的密码
+    public static final String XIEER_PASSWORD = "1097467";
+    
+    //二次确认请求接口的秘钥
+    public static final String XIEER_SCRIPT = "hsdt2019)$!^";
+    
+    //二次确认请求接口的地址
+    public static final String XIEER_URL = "http://221.192.155.55:8082/impgw-api/api";
+    
+    
 }

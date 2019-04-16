@@ -22,11 +22,19 @@
 					<div class="layui-tab-item layui-show">
 						<div class="admin-main fadeInUp animated">
 							<blockquote class="layui-elem-quote">
-								<div class="actiTable">
+								<div class="equityTable">
 									搜索：
 									<div class="layui-inline">
-										<input class="layui-input" name="id" id="actiReload"
-											autocomplete="off">
+										<input class="layui-input" name="phone" id="equityreload"
+											autocomplete="off" placeholder="输入查询的手机号">
+									</div>
+									<div class="layui-input-inline">
+										<input type="text" name="date_star" id="date_star"
+											lay-verify="date" placeholder="开始日期" class="layui-input">
+									</div>
+									<div class="layui-input-inline">
+										<input type="text" name="date_end" id="date_end"
+											lay-verify="date" placeholder="结束日期" class="layui-input">
 									</div>
 									<button class="layui-btn" data-type="reload">搜索</button>
 									<div class="layui-inline">
@@ -37,6 +45,25 @@
 								</div>
 								<div
 									style="width: 100%; height: 1px; border-bottom: 1px solid #F7B824; margin-top: 2px;"></div>
+									<script type="text/javascript" src="../layui/layui.js"></script>
+								<script type="text/javascript">
+									//实现时间的选框的效果
+									layui.use('laydate', function() {
+										var laydate = layui.laydate;
+										//执行一个laydate实例
+										laydate.render({
+											elem : '#date_star' //指定元素
+											,
+											position : 'abolute',
+											type : 'datetime'
+										});
+										laydate.render({
+											elem : '#date_end',
+											position : 'ablute',
+											type : 'datetime'
+										});
+									});
+								</script>
 							</blockquote>
 							<fieldset class="layui-elem-field">
 								<legend>活动列表</legend>
@@ -51,8 +78,8 @@
   										
 									</script>
 									<script>
-										layui.use(['table','layer'], function() {
-											var table = layui.table,layer = layui.layer;
+										layui.use([ 'table', 'layer' ], function() {
+											var table = layui.table, layer = layui.layer;
 											var width = window.innerWidth;
 											var height = window.innerHeight;
 											var index = layer.load(2);
@@ -90,7 +117,7 @@
 													field : 'source',
 													title : '渠道',
 													sort : true
-												},{
+												}, {
 													field : 'zs_time',
 													title : '赠送时间',
 													sort : true
@@ -112,11 +139,31 @@
 												}
 											});
 											table.on('toolbar(equityreslist)', function(obj) {
-												
+
 											});
 											//监听行工具事件
 											table.on('tool(equityreslist)', function(obj) {
-												
+
+											});
+
+											var $ = layui.$, active = {
+												reload : function() {
+													var id = $('#equityreload').val();
+													var date_star = $('#date_star').val();
+													var date_end = $('#date_end').val();
+													//执行重载
+													table.reload('equityreslist', {
+														where : {
+															dn : id,
+															starttime : date_star,
+															endtime : date_end
+														}
+													});
+												}
+											};
+											$('.equityTable .layui-btn').on('click', function() {
+												var type = $(this).data('type');
+												active[type] ? active[type].call(this) : '';
 											});
 										});
 									</script>

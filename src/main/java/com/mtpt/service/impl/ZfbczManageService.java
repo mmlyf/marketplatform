@@ -21,7 +21,7 @@ public class ZfbczManageService implements IZfbczManageService{
 	@Override
 	public JSONObject selectAllDataByPage(ZfbczPage page) {
 		// TODO Auto-generated method stub
-		int totals = zfbczMapper.selectAllDataCount();
+		int totals = zfbczMapper.selectAllDataCountByPage(page);
 		page.setTotalRecord(totals);
 		List<Zfbcz> list = zfbczMapper.selectAllData(page);
 		int i = 1;

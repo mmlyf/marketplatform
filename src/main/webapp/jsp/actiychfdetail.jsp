@@ -154,8 +154,8 @@
 																		table.reload('ychflist',{
 																			where:{
 																				dn : dn ,
-																				date_star : date_star,
-																				date_end : date_end,
+																				startime : date_star,
+																				endtime : date_end,
 																				orderno:orderno
 																				}
 																			});
