@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mtpt.alibean.TBSecondConfirm;
+import com.mtpt.alidao.TBSecondConfirmMapper;
 import com.mtpt.bean.CustomService;
 import com.mtpt.bean.IceDsjOrders;
 import com.mtpt.bean.Orders;
@@ -42,6 +44,9 @@ public class BusinessModuleManageService implements IBusinessModuleManageService
 	private IceDsjOrdersMapper icedsjOrdersMapper;
 	@Autowired
 	private CustomServiceMapper customServiceMapper;
+	@Autowired
+	private TBSecondConfirmMapper secondConfirmMapper;
+	
 	private SimpleDateFormat sdf = null;
 	
 	/**
@@ -72,6 +77,22 @@ public class BusinessModuleManageService implements IBusinessModuleManageService
 			map.put("ordertime", sdf.format(orders.getPurchasetime()));
 			map.put("state", orders.getBssstate());
 			map.put("agw", orders.getSerialno());
+			TBSecondConfirm tbSecondConfirm = secondConfirmMapper.selectConfirmDataByAgw(orders.getSerialno());
+			String confirm = "";
+			if (tbSecondConfirm==null) {
+				map.put("confirm_code", "无");
+				map.put("confirm_content", "无");
+				map.put("confirm_time", "无");
+			}else {
+				if (tbSecondConfirm.getCode().equals("0")) {
+					confirm = "是";
+				}else {
+					confirm = "否";
+				}
+				map.put("confirm_code", confirm);
+				map.put("confirm_content", tbSecondConfirm.getContent()!=null?tbSecondConfirm.getContent():"");
+				map.put("confirm_time", tbSecondConfirm.getConfirmTime()!=null?tbSecondConfirm.getConfirmTime():"");
+			}
 			map.put("source", ProductNameType.getSource(orders.getLsource()));
 			jsonlist.add(map);
 			i++;

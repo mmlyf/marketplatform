@@ -17,7 +17,7 @@ public interface IAlipayBindUserManageService {
 	JSONObject selectAlipayBindUserUnGiftFlowByPage(AlipayPage page,HttpServletRequest request);
 	
 	//给特定的支付宝绑定用户赠送流量
-	JSONObject submitAlipayBindUserGiftFlow(String phonenum,String flow,HttpServletRequest request);
+	JSONObject submitAlipayBindUserGiftFlow(String phonenum,String flow);
 	
 	String outputAlipayBindUserInfo();
 	

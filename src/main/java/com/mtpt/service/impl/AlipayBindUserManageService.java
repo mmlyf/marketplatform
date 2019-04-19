@@ -125,11 +125,8 @@ public class AlipayBindUserManageService implements IAlipayBindUserManageService
 	}
 
 	@Override
-	public JSONObject submitAlipayBindUserGiftFlow(String phonenum, String flow,HttpServletRequest request) {
+	public JSONObject submitAlipayBindUserGiftFlow(String phonenum, String flow) {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
-		String name = (String) session.getAttribute("realname");
-		log.info(name+"执行赠送流量操作！为号码为："+phonenum+"赠送"+flow+"MB");
 		String path = "http://mobile99.uninforun.com/unicom-hb/api/Unicom/PresendFlow";
 		JSONObject paramjson = new JSONObject();
 		List<JSONObject> listjson  = new ArrayList<JSONObject>();

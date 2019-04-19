@@ -2,6 +2,8 @@ package com.mtpt.extend;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +14,8 @@ import javax.persistence.criteria.CriteriaBuilder.Case;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
+
+import com.mtpt.config.BaseConfig;
 
 public class OtherMethod {
 	/**
@@ -120,17 +124,29 @@ public class OtherMethod {
 		
 	}
 	
-	public static void main(String[] args) throws ParseException {
-		//20180731102901
-		//1564540141
-		//1564540141000
-		String times = "2018-07-31 10:29:01";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = sdf.parse(times);
-		String timestr = addYearTime(date);
-		System.out.println(timestr);
-		sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String string = "H"+sdf.format(date)+"-"+(11+(int)(Math.random()*89))+"20180730"+(1+(int)(Math.random()*9));
-		System.out.println(string);
+	/**
+	 * 查询协尔平台进行二次确认的内容
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String selectSecondConfirmForXier(String agwvalue) throws UnsupportedEncodingException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String datestr = simpleDateFormat.format(new Date());
+		System.out.println(datestr);
+		String pwd = datestr + MD5.md(BaseConfig.XIEER_PASSWORD);
+		String mdpwd = MD5.md(pwd);
+		String params = "{" + 
+				"\"method\": \"order.confirm.result\"," + 
+				"\"version\":\"1\"," + 
+				"\"timestamp\":\""+datestr+"\"," + 
+				"\"app_key\":\""+BaseConfig.XIEER_ACCOUNT+"\"," + 
+				"\"app_pwd\":\""+mdpwd+"\"," + 
+				"\"transaction_id\": \""+agwvalue+"\"" + 
+				"}" ;
+		String result = HttpRequest.sendPostForSelectSecConfirm(BaseConfig.XIEER_URL, params);
+		MyDesUtils myDesUtils = new MyDesUtils(BaseConfig.XIEER_SCRIPT);
+		String dString = myDesUtils.decrypt(result);
+		String decodestr = URLDecoder.decode(dString, "utf-8");
+		return decodestr;
 	}
 }

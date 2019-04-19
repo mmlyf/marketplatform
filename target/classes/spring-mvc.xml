@@ -34,11 +34,13 @@
   <bean id="stopwork" class="com.mtpt.timework.StopWorkTimeTask"/>
   <bean id="startwork" class="com.mtpt.timework.StartWorkTimeTask"/>
   <bean id="download" class="com.mtpt.timework.DownloadTimeTask"/>
+  <bean id="ordersTask" class="com.mtpt.timework.OrderResultTimeTask"/>
   <task:scheduled-tasks>
   	<!-- <task:scheduled ref="totalcount" method="totalCount" cron="0 0 8 * * ?"/> -->
   	<task:scheduled ref="stopwork" method="stopSendMessage" cron="0 0 22 * * ?"/>
   	<task:scheduled ref="startwork" method="startSendMessage" cron="0 0 9 * * ?"/>
   	<task:scheduled ref="download" method="downloadFtpFile" cron="0 30 8 * * ?"/>
+  	<task:scheduled ref="ordersTask" method="runSelectSecondConfirm" cron="59 59 23 * * ?"/>
   </task:scheduled-tasks>
 
 	<!-- 静态资源处理 css js imgs -->

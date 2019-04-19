@@ -23,7 +23,7 @@ public class MainClass {
 				"\"transaction_id\": \"AGW20190415133059352\"" + 
 				"}" ;
 		System.out.println(params);
-		String result = HttpRequest.sendPostd(BaseConfig.XIEER_URL, params);
+		String result = HttpRequest.sendPostForSelectSecConfirm(BaseConfig.XIEER_URL, params);
 		MyDesUtils myDesUtils = new MyDesUtils(BaseConfig.XIEER_SCRIPT);
 		System.out.println("jieguo shi "+result);
 		String dString = myDesUtils.decrypt(result);

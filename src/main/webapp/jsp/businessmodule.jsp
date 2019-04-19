@@ -130,8 +130,9 @@
 									</script>
 
 									<script>
-										layui.use('table', function() {
-											var table = layui.table;
+										layui.use(['table','layer'], function() {
+											var table = layui.table,layer = layui.layer;
+											var index = layer.load(2);
 											table.render({
 												elem : '#busimodel',
 												url : '../buscontro/selectbypage',
@@ -165,17 +166,16 @@
 												}, {
 													field : 'price',
 													title : '价格',
-													sort : true,
 													align : 'center',
 													width : 80
 												}, {
 													field : 'ordertime',
 													title : '订购时间',
+													sort : true,
 													width : 170
 												}, {
 													field : 'state',
 													title : '状态',
-													sort : true,
 													width : 80,
 													align : 'center'
 												}, {
@@ -183,7 +183,23 @@
 													title : 'AGW',
 													width : 200,
 													align : 'center'
+												},{
+													field : 'confirm_code',
+													title : '二次确认',
+													width : 100,
+													align : 'center'
+												},{
+													field : 'confirm_content',
+													title : '二次确认内容',
+													width : 140,
+													align : 'center'
 												}, {
+													field : 'confirm_time',
+													title : '二次确认时间',
+													width : 140,
+													align : 'center'
+												},  {
+													fixed : 'right',
 													field : 'source',
 													title : '渠道',
 													width : 80
@@ -198,6 +214,7 @@
 												limit : 10,
 												id : 'tasklist',
 												done : function(data) {
+													layer.close(index);
 													$('#listnum').text(data.count + "条");
 												}
 											});

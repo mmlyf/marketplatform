@@ -26,18 +26,21 @@ public class TimeToOutputEquityData {
 	@Resource
 	private ITBEquityDataService service;
 	public void outputEquityData() {
-		log.debug("执行文件上传ftp的定时任务");
-		Date date = new Date();
-		long datetime = date.getTime() - 18*60*60*1000;
-		date = new Date(datetime);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String sectime = sdf.format(date);
-		List<TBEquityData> list = service.selectDataByAddtime(sectime);
-		sdf = new SimpleDateFormat("yyyyMMdd");
-		String filename = sdf.format(date)+".txt";
-		String filepath = ExtendMethod.outputDataToFTP(list,filename);
-		String message = "Today's equity data already in FTP Service,It Service path is in "+filepath;
-		log.debug(message);
-		SendMail.sendMailForCommon(message, "", SendMailType.DEVELOP);
+		log.debug("开始执行定时任务outputequity");
+		EquityDataPage page = new EquityDataPage();
+		log.debug(service.selectEquityDataWithResult(page));
+//		log.debug("执行文件上传ftp的定时任务");
+//		Date date = new Date();
+//		long datetime = date.getTime() - 18*60*60*1000;
+//		date = new Date(datetime);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		String sectime = sdf.format(date);
+//		List<TBEquityData> list = service.selectDataByAddtime(sectime);
+//		sdf = new SimpleDateFormat("yyyyMMdd");
+//		String filename = sdf.format(date)+".txt";
+//		String filepath = ExtendMethod.outputDataToFTP(list,filename);
+//		String message = "Today's equity data already in FTP Service,It Service path is in "+filepath;
+//		log.debug(message);
+//		SendMail.sendMailForCommon(message, "", SendMailType.DEVELOP);
 	}
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBSecondConfirmMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBSecondConfirm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dn" jdbcType="VARCHAR" property="dn" />
+    <result column="agw" jdbcType="VARCHAR" property="agw" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="confirm_time" jdbcType="VARCHAR" property="confirmTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dn, agw, order_time, code, content, confirm_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_second_confirm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectConfirmDataByAgw" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from tb_second_confirm
+  	where agw = #{agw}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_second_confirm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBSecondConfirm">
+    insert into tb_second_confirm (id, dn, agw, 
+      order_time, code, content, 
+      confirm_time)
+    values (#{id,jdbcType=INTEGER}, #{dn,jdbcType=VARCHAR}, #{agw,jdbcType=VARCHAR}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{confirmTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBSecondConfirm">
+    insert into tb_second_confirm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dn != null">
+        dn,
+      </if>
+      <if test="agw != null">
+        agw,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dn != null">
+        #{dn,jdbcType=VARCHAR},
+      </if>
+      <if test="agw != null">
+        #{agw,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBSecondConfirm">
+    update tb_second_confirm
+    <set>
+      <if test="dn != null">
+        dn = #{dn,jdbcType=VARCHAR},
+      </if>
+      <if test="agw != null">
+        agw = #{agw,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBSecondConfirm">
+    update tb_second_confirm
+    set dn = #{dn,jdbcType=VARCHAR},
+      agw = #{agw,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      confirm_time = #{confirmTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

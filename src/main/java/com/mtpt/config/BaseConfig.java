@@ -1,6 +1,5 @@
 package com.mtpt.config;
 
-import com.sun.org.glassfish.external.statistics.Statistic;
 
 public class BaseConfig {
 	/**
@@ -95,20 +94,35 @@ public class BaseConfig {
     
     //public static final String ORDERS_TEST_PATH = "/Users/lvgordon/Downloads/little";
     
-    /**
+    
+    
+    
+    /**********************
      * 协尔平台二次确认接口参数
+     *************************/
+    /**
+     * 二次确认账号
      */
-    //二次确认账号
     public static final String XIEER_ACCOUNT = "HSDT"; 
     
-    //二次确认请求接口的密码
+    /**
+     * 二次确认请求接口的密码
+     */
     public static final String XIEER_PASSWORD = "1097467";
     
-    //二次确认请求接口的秘钥
+    /**
+     * 二次确认请求接口的秘钥
+     */
     public static final String XIEER_SCRIPT = "hsdt2019)$!^";
     
-    //二次确认请求接口的地址
+    /**
+     * 二次确认请求接口的地址
+     */
     public static final String XIEER_URL = "http://221.192.155.55:8082/impgw-api/api";
     
+    /**
+     * 执行二次确认的接口连接
+     */
+    public static final String RUN_SELECT_CONFIRM = "http://aimk.mobile99.cn:8089/HSDT_Market_Platform/ordermanage/selectconfirm";
     
 }

@@ -160,7 +160,14 @@ public class HttpRequest {
 		return result;
     } 
     
-    public static String sendPostd(String path,String params) {
+    
+    /**
+     * 调用协尔平台接口查询二次确认的内容
+     * @param path
+     * @param params
+     * @return
+     */
+    public static String sendPostForSelectSecConfirm(String path,String params) {
 		HttpURLConnection connection = null;
 		BufferedReader reader = null;
 		StringBuilder stringBuilder = new StringBuilder();

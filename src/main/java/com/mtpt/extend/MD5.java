@@ -24,6 +24,12 @@ import sun.misc.BASE64Encoder;
  */
 public class MD5 {
 	private static String TYPE = "MD5";
+	
+	/**
+	 * 对用户的密码进行加密
+	 * @param password
+	 * @return
+	 */
 	public static String encrypt(String password) {
 		BigInteger bigInteger = null;
 		password = password + password;//将原来密码的值重复一次
@@ -48,12 +54,17 @@ public class MD5 {
 	}
 
 
-	public static String md(String eString) {
+	/**
+	 * md5的加密方式
+	 * @param mdstr 加密的明文文本
+	 * @return
+	 */
+	public static String md(String mdstr) {
 		BigInteger bigInteger = null;
 		StringBuffer buf = new StringBuffer("");
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			byte[] pass = eString.getBytes("utf-8");
+			byte[] pass = mdstr.getBytes("utf-8");
 			md5.update(pass);
 			byte b[] = md5.digest();
 			int i;
@@ -75,30 +86,5 @@ public class MD5 {
 			e.printStackTrace();
 		}
 		return buf.toString().toUpperCase();
-	}
-
-	public static String encryptDES(String encryptString, String encryptKey) throws Exception {
-		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding"); 
-		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(getKey(encryptKey), "DES"));
-		byte[] encryptedData = cipher.doFinal(encryptString.getBytes("UTF-8")); 
-		return Base64.getEncoder().encodeToString(encryptedData);
-	}
-	public static byte[] getKey(String keyRule) { 
-		Key key = null;
-		byte[] keyByte = keyRule.getBytes(); 
-		byte[] byteTemp = new byte[8]; 
-		for (int i = 0; i < byteTemp.length && i < keyByte.length; i++) { 
-			byteTemp[i] = keyByte[i]; 
-		}
-		key = new SecretKeySpec(byteTemp, "DES"); 
-		return key.getEncoded(); 
-	} 
-
-	public static String decryptDES(String decryptString, String decryptKey) throws Exception { 
-		byte[] sourceBytes = Base64.getDecoder().decode(decryptString); 
-		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(getKey(decryptKey), "DES")); 
-		byte[] decoded = cipher.doFinal(sourceBytes);
-		return new String(decoded, "UTF-8");	 
 	}
 }

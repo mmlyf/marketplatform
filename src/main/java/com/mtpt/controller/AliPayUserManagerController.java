@@ -99,7 +99,10 @@ public class AliPayUserManagerController {
 	@RequestMapping(value="/flowgift",method = {RequestMethod.POST,RequestMethod.GET})
 	private void submitFlowGift(String phonenum,String flow,HttpServletResponse response,HttpServletRequest request) {
 		response.setContentType("text/html;charset=utf-8");
-		JSONObject json = alipaybindusermanageService.submitAlipayBindUserGiftFlow(phonenum, flow, request);
+		HttpSession session = request.getSession();
+		String name = (String) session.getAttribute("realname");
+		log.info(name+"执行赠送流量操作！为号码为："+phonenum+"赠送"+flow+"MB");
+		JSONObject json = alipaybindusermanageService.submitAlipayBindUserGiftFlow(phonenum, flow);
 		OtherMethod.PrintFlush(response, json);
 	}
 	

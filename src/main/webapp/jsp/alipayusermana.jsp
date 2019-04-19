@@ -26,10 +26,10 @@
 	<div class="layui-fluid">
 		<div class="layui-row ">
 			<div class="layui-tab layui-tab-card" lay-filter="demo">
-				
-				<div class="layui-tab-content" >
+
+				<div class="layui-tab-content">
 					<!-- 文件导入数据展示 -->
-					<div class="layui-tab-item layui-show" >
+					<div class="layui-tab-item layui-show">
 						<div class="admin-main fadeInUp animated">
 							<blockquote class="layui-elem-quote">
 								<div class="demoTable">
@@ -42,8 +42,7 @@
 									<div class="layui-inline">
 										<label class="layui-form-label"
 											style="color: red; font-weight: bold; font-size: 16px; text-align: left;"><span
-											class="num_peo" id="num"> 
-										</span>
+											class="num_peo" id="num"> </span>
 									</div>
 								</div>
 								<div
@@ -52,7 +51,8 @@
 							<fieldset class="layui-elem-field">
 								<legend>支付宝用户列表</legend>
 								<div class="layui-field-box">
-									<table class="layui-hide" id="alipayuser" lay-filter="alipayuser"></table>
+									<table class="layui-hide" id="alipayuser"
+										lay-filter="alipayuser"></table>
 									<% String permision = (String)session.getAttribute("permision"); %>
 									<script type="text/html" id="toolbarDemo">
   										<div class="layui-btn-container">
@@ -77,129 +77,128 @@
 									<%}%>
 									</script>
 									<script>
-										layui
-												.use(
-														'table',
-														function() {
-															var table = layui.table;
-
-															table
-																	.render({
-																		elem : '#alipayuser',
-																		url : '../alipayuser/selectbypage',
-																		cellMinWidth : 80,
-																		height:550,
-																		toolbar: '#toolbarDemo',
-																		title : '支付宝用户列表',
-																		loading:true,
-																		cols : [[ 
-																				{
-																					type : 'checkbox',
-																					fixed : 'left'
-																				},
-																				{
-																					field : 'id',
-																					title : 'ID',
-																					sort : true,
-																					unresize : true,
-																					fixed : 'left',
-																					width:80,
-																					align : 'center'
-																				},
-																				{
-																					field:'uid',
-																					title:'用户ID',
-																					sort:true,
-																					width:300,
-																					align : 'center'
-																				},
-																				{
-																					field : 'dn',
-																					title : '号码',
-																					align : 'center'
-																				},
-																				{
-																					field : 'openId',
-																					title : '支付宝ID',
-																					width:200,
-																					align : 'center'
-																				},
-																				{
-																					fixed : 'right',
-																					title : '操作',
-																					toolbar : '#barDemo',
-																					width : 200,
-																					align : 'center'
-																				} ]] ,
-																		page : true,
-																		limit:10,
-																		id : 'userlist',
-																		done:function(data){
-																			$('#num').text(data.count+"条");
-																		}
-																	});
-															/* 表格中头部的按钮事件  */
-															table.on('toolbar(alipayuser)',function(obj){
-																switch(obj.event){
-																case 'output'://导出
-																/* 	window.location.href="http://localhost:8085/HSDT_Market_Platform/alipayuser/output"; */
-																	 window.location.href = "http://221.192.138.29:8089/HSDT_Market_Platform/alipayuser/output"; 
-																	break;
-																case 'notgift':
-																	layer.open({
-																		type: 2,
-																        title: '漏赠',
-																        area : ['1000px' , '700px'], 
-																        scrollbar: false,//禁止浏览器滚动
-																        content: 'alipayregift.jsp',
-																        end:function(){
-																        		table.reload('userlist',{where : {}});
-																        }
-																	});
-																	break;
-																}
+										layui.use(['table','layer'],function() {
+											var table = layui.table,layer = layui.layer;
+											var index = layer.load(2);
+											table.render({
+												elem : '#alipayuser',
+												url : '../alipayuser/selectbypage',
+												cellMinWidth : 80,
+												height:550,
+												toolbar: '#toolbarDemo',
+												title : '支付宝用户列表',
+												loading:true,
+												cols : [[ 
+													{
+														type : 'checkbox',
+														fixed : 'left'
+													},
+													{
+														field : 'id',
+														title : 'ID',
+														sort : true,
+														unresize : true,
+														fixed : 'left',
+														width:80,
+														align : 'center'
+													},
+													{
+														field:'uid',
+														title:'用户ID',
+														sort:true,
+														width:300,
+														align : 'center'
+													},
+													{
+														field : 'dn',
+														title : '号码',
+														align : 'center'
+													},
+													{
+														field : 'openId',
+														title : '支付宝ID',
+														width:200,
+														align : 'center'
+													},
+													{
+														fixed : 'right',
+														title : '操作',
+														toolbar : '#barDemo',
+														width : 200,
+														align : 'center'
+													} ]] ,
+													page : true,
+													limit:10,
+													id : 'userlist',
+													done:function(data){
+														$('#num').text(data.count+"条");
+														layer.close(index);
+													}
+											});
+											/* 表格中头部的按钮事件  */
+											table.on('toolbar(alipayuser)', function(obj) {
+												switch (obj.event) {
+												case 'output'://导出
+													/* 	window.location.href="http://localhost:8085/HSDT_Market_Platform/alipayuser/output"; */
+													window.location.href = "http://221.192.138.29:8089/HSDT_Market_Platform/alipayuser/output";
+													break;
+												case 'notgift':
+													layer.open({
+														type : 2,
+														title : '漏赠',
+														area : [ '1000px', '700px' ],
+														scrollbar : false,//禁止浏览器滚动
+														content : 'alipayregift.jsp',
+														end : function() {
+															table.reload('userlist', {
+																where : {}
 															});
-															
-															//监听行工具事件
-															table.on('tool(alipayuser)',function(obj) {
-																var data = obj.data;
-																//console.log(obj)
-																if (obj.event === 'flowgift') {
-																	layer.open({
-																		type:2,
-																		title:'赠送',
-																		area:['700px','500px'],
-																		scrollbar:false,
-																		content:'alipayflowgift.jsp?'+data.dn
-																	});
-																}else if(obj.event=='detail'){
-																		layer.open({
-																			type:2,
-																			title:'查看',
-																			area:['1000px','600px'],
-																			scrollbar:false,
-																			content:'alipayuserdetail.jsp?'+data.dn
-																		});
-																	}
-																});
+														}
+													});
+													break;
+												}
+											});
 
-															var $ = layui.$, active = {
-																reload : function() {
-																	var dn = $('#demoReload').val();
-																	//执行重载
-																	table.reload('userlist',{
-																		where : {
-																			keyword : dn,
-																			keytype:'Mobile'
-																			}
-																	});
-																}
-															};
-															$('.demoTable .layui-btn').on('click',function() {
-																var type = $(this).data(	'type');
-																active[type] ? active[type].call(this): '';
-															});
-														});
+											//监听行工具事件
+											table.on('tool(alipayuser)', function(obj) {
+												var data = obj.data;
+												//console.log(obj)
+												if (obj.event === 'flowgift') {
+													layer.open({
+														type : 2,
+														title : '赠送',
+														area : [ '700px', '500px' ],
+														scrollbar : false,
+														content : 'alipayflowgift.jsp?' + data.dn
+													});
+												} else if (obj.event == 'detail') {
+													layer.open({
+														type : 2,
+														title : '查看',
+														area : [ '1000px', '600px' ],
+														scrollbar : false,
+														content : 'alipayuserdetail.jsp?' + data.dn
+													});
+												}
+											});
+
+											var $ = layui.$, active = {
+												reload : function() {
+													var dn = $('#demoReload').val();
+													//执行重载
+													table.reload('userlist', {
+														where : {
+															keyword : dn,
+															keytype : 'Mobile'
+														}
+													});
+												}
+											};
+											$('.demoTable .layui-btn').on('click', function() {
+												var type = $(this).data('type');
+												active[type] ? active[type].call(this) : '';
+											});
+										});
 									</script>
 								</div>
 
@@ -207,11 +206,11 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>
