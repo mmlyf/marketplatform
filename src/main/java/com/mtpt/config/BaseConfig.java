@@ -124,5 +124,7 @@ public class BaseConfig {
      * 执行二次确认的接口连接
      */
     public static final String RUN_SELECT_CONFIRM = "http://aimk.mobile99.cn:8089/HSDT_Market_Platform/ordermanage/selectconfirm";
+   
+    public static final String RUN_ORDERSUC_FLOWGIFT = "http://aimk.mobile99.cn:8089/HSDT_Market_Platform/ordermanage/ordergiftflow";
     
 }

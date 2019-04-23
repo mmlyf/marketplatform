@@ -65,7 +65,7 @@ public class OrdersResultManageService implements IOrdersResultManageService{
 				tbOrderFlowgift.setOrderFlowno(orders.getSerialno());
 				Products products = productsMapper.selectByPrimaryKey(orders.getProductid());
 				tbOrderFlowgift.setProdName(products.getProductname());
-				JSONObject json = alipayBindUserManageService.submitAlipayBindUserGiftFlow(orders.getMobile(), "10");
+				JSONObject json = alipayBindUserManageService.submitAlipayBindUserGiftFlow(orders.getMobile(), "500");
 				if (json.getInt("code")==0) {
 					tbOrderFlowgift.setIsGift(0);
 					int inres = orderflowgiftMapper.insertSelective(tbOrderFlowgift);
