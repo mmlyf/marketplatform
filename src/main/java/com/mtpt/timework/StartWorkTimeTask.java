@@ -15,7 +15,7 @@ import com.mtpt.extend.SendMail;
 import com.mtpt.methodforsend.SendFileIn;
 import com.mtpt.methodforsend.SendModelIn;
 
-@Component("startwork")
+//@Component("startwork")
 public class StartWorkTimeTask {
 	private Logger log = Logger.getLogger(StartWorkTimeTask.class);
 	

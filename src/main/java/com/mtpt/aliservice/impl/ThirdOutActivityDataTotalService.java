@@ -7,10 +7,12 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mtpt.alibean.TBCouponCount;
 import com.mtpt.alibean.TBDxThirdPageTotal;
 import com.mtpt.alibean.TBIcePageTotal;
 import com.mtpt.alibean.TBIceThirdPageTotal;
 import com.mtpt.alibean.page.PublicPage;
+import com.mtpt.alidao.TBCouponCountMapper;
 import com.mtpt.alidao.TBDxThirdPageTotalMapper;
 import com.mtpt.alidao.TBIcePageTotalMapper;
 import com.mtpt.alidao.TBIceThirdPageTotalMapper;
@@ -25,6 +27,8 @@ public class ThirdOutActivityDataTotalService implements IThirdOutActivityDataTo
 	private TBIcePageTotalMapper icepageTotalMapper;
 	@Autowired
 	private TBIceThirdPageTotalMapper icethirdPageTotalMapper;
+	@Autowired
+	private TBCouponCountMapper couponcountMapper;
 	
 	@Override
 	public JSONObject selectDxThirdDataByPage(PublicPage page) {
@@ -89,6 +93,27 @@ public class ThirdOutActivityDataTotalService implements IThirdOutActivityDataTo
 		json.put("msg", "");
 		json.put("count", totals);
 		json.put("data", jsonlist);
+		return json;
+	}
+
+	@Override
+	public JSONObject selectCouponDataByAll() {
+		// TODO Auto-generated method stub
+		TBCouponCount tbCouponCount = couponcountMapper.selectByPrimaryKey(1);
+		List<JSONObject> list = new ArrayList<>();
+		JSONObject value = new JSONObject();
+		value.put("id", tbCouponCount.getId());
+		value.put("pv", tbCouponCount.getPv());
+		value.put("coupon", tbCouponCount.getCoupon());
+		value.put("pv_d", tbCouponCount.getPvD());
+		value.put("pu", tbCouponCount.getPu());
+		value.put("xing_coupon", tbCouponCount.getXingCoupon());
+		list.add(value);
+		JSONObject json = new JSONObject();
+		json.put("code", 0);
+		json.put("msg", "");
+		json.put("count", 1);
+		json.put("data", list);
 		return json;
 	}
 

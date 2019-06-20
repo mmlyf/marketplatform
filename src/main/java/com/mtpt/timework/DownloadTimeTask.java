@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.mtpt.bean.enumerate.SendMailType;
 import com.mtpt.extend.SendMail;
 
-@Component("dowmload")
+//@Component("download")
 public class DownloadTimeTask {
 	private Logger log = Logger.getLogger(DownloadTimeTask.class);
  	/**

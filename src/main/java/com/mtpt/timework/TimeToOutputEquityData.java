@@ -27,8 +27,6 @@ public class TimeToOutputEquityData {
 	private ITBEquityDataService service;
 	public void outputEquityData() {
 		log.debug("开始执行定时任务outputequity");
-		EquityDataPage page = new EquityDataPage();
-		log.debug(service.selectEquityDataWithResult(page));
 //		log.debug("执行文件上传ftp的定时任务");
 //		Date date = new Date();
 //		long datetime = date.getTime() - 18*60*60*1000;

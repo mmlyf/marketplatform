@@ -26,21 +26,20 @@ import com.sun.mail.util.MailSSLSocketFactory;
 public class SendMail {
 	private static Logger log = Logger.getLogger(SendMail.class);
 	private static String host = "smtp.mobile99.cn";
-	private static String hostname = "lvyf@mobile99.cn";
-	private static String hostPassword = "Lyfl6511102516";
+	private static String hostname = "yingy@mobile99.cn";
+	private static String hostPassword = "hsdt@2018";
 	private static Address[] sendDataMailTo ;
 	private static Address[] mailTo;
 	private static Address[] developTo;
 	static {
 		try {
-			mailTo = InternetAddress.parse("1453806177@qq.com,"
-					+ "32223815@qq.com,"
+			mailTo = InternetAddress.parse("32223815@qq.com,"
 					+ "zhaoq@mobile99.cn,"
 					+ "liuzw@mobile99.cn,"
 					+ "benl@mobile99.cn");//,32223815@qq.com运营数据统计
 //			mailTo = InternetAddress.parse("1453806177@qq.com");//测试环境
-			sendDataMailTo = InternetAddress.parse("32223815@qq.com,1453806177@qq.com");//运营
-			developTo = InternetAddress.parse("1453806177@qq.com");
+			sendDataMailTo = InternetAddress.parse("32223815@qq.com,yingy@mobile99.cn");//运营
+			developTo = InternetAddress.parse("yingy@mobile99.cn");
 //			sendDataMailTo = InternetAddress.parse("1453806177@qq.com");//测试环境
 		}catch(Exception e) {
 			log.error("解析发送邮箱群组失败");

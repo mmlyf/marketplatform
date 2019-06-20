@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtpt.alidao.TBCouponCountMapper">
+  <resultMap id="BaseResultMap" type="com.mtpt.alibean.TBCouponCount">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="coupon" jdbcType="INTEGER" property="coupon" />
+    <result column="pv_d" jdbcType="INTEGER" property="pvD" />
+    <result column="pu" jdbcType="INTEGER" property="pu" />
+    <result column="xing_coupon" jdbcType="VARCHAR" property="xingCoupon" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pv, coupon, pv_d, pu, xing_coupon
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_coupon_count
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_coupon_count
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mtpt.alibean.TBCouponCount">
+    insert into tb_coupon_count (id, pv, coupon, 
+      pv_d, pu, xing_coupon
+      )
+    values (#{id,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{coupon,jdbcType=INTEGER}, 
+      #{pvD,jdbcType=INTEGER}, #{pu,jdbcType=INTEGER}, #{xingCoupon,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mtpt.alibean.TBCouponCount">
+    insert into tb_coupon_count
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="coupon != null">
+        coupon,
+      </if>
+      <if test="pvD != null">
+        pv_d,
+      </if>
+      <if test="pu != null">
+        pu,
+      </if>
+      <if test="xingCoupon != null">
+        xing_coupon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="coupon != null">
+        #{coupon,jdbcType=INTEGER},
+      </if>
+      <if test="pvD != null">
+        #{pvD,jdbcType=INTEGER},
+      </if>
+      <if test="pu != null">
+        #{pu,jdbcType=INTEGER},
+      </if>
+      <if test="xingCoupon != null">
+        #{xingCoupon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mtpt.alibean.TBCouponCount">
+    update tb_coupon_count
+    <set>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="coupon != null">
+        coupon = #{coupon,jdbcType=INTEGER},
+      </if>
+      <if test="pvD != null">
+        pv_d = #{pvD,jdbcType=INTEGER},
+      </if>
+      <if test="pu != null">
+        pu = #{pu,jdbcType=INTEGER},
+      </if>
+      <if test="xingCoupon != null">
+        xing_coupon = #{xingCoupon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mtpt.alibean.TBCouponCount">
+    update tb_coupon_count
+    set pv = #{pv,jdbcType=INTEGER},
+      coupon = #{coupon,jdbcType=INTEGER},
+      pv_d = #{pvD,jdbcType=INTEGER},
+      pu = #{pu,jdbcType=INTEGER},
+      xing_coupon = #{xingCoupon,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

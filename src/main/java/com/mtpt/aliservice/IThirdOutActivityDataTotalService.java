@@ -13,4 +13,6 @@ public interface IThirdOutActivityDataTotalService {
 	
 	//冰淇淋第三方数据统计展示
 	JSONObject selectIceThirdDataByPage(PublicPage page);
+	
+	JSONObject selectCouponDataByAll();
 }

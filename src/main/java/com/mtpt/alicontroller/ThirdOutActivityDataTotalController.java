@@ -44,4 +44,12 @@ public class ThirdOutActivityDataTotalController {
 		JSONObject json = thirdOutActivityDataTotalService.selectIceThirdDataByPage(page);
 		OtherMethod.PrintFlush(response, json);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value="/selectcoupon",method= {RequestMethod.GET,RequestMethod.POST})
+	private void selectCouponData(HttpServletResponse response) {
+		response.setContentType("text/html;charset=utf-8");
+		JSONObject json = thirdOutActivityDataTotalService.selectCouponDataByAll();
+		OtherMethod.PrintFlush(response, json);
+	}
 }

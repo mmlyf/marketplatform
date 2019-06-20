@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans    
                         http://www.springframework.org/schema/beans/spring-beans.xsd    
                         http://www.springframework.org/schema/context    
@@ -12,44 +11,51 @@
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd
                         http://www.springframework.org/schema/task
 					http://www.springframework.org/schema/task/spring-task.xsd">
-					
+
 	<!-- 自动扫描控制器包 -->
-	<context:component-scan base-package="com.mtpt.controller"/>
-	<context:component-scan base-package="com.mtpt.alicontroller"/>
+	<context:component-scan base-package="com.mtpt.controller" />
+	<context:component-scan base-package="com.mtpt.alicontroller" />
 	<context:component-scan base-package="com.mtpt.timework" />
 	<context:component-scan base-package="com.mtpt.config" />
-	
+	<context:component-scan base-package="com.mtpt.hkalicontroller"/>
+
 	<!-- 扩充注解，可以将请求参数绑定到控制器参数 -->
 	<mvc:annotation-driven>
-    <!-- 消息转换器 -->
-    <mvc:message-converters register-defaults="true">
-      <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-        <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
-      </bean>
-    </mvc:message-converters>
-  </mvc:annotation-driven>
-  <task:annotation-driven/> 
- <!--  <bean id="totalcount" class="com.mtpt.timework.TotalCountTimerTask"/> -->
-  <bean id="stopwork" class="com.mtpt.timework.StopWorkTimeTask"/>
-  <bean id="startwork" class="com.mtpt.timework.StartWorkTimeTask"/>
-  <bean id="download" class="com.mtpt.timework.DownloadTimeTask"/>
-  <bean id="ordersTask" class="com.mtpt.timework.OrderResultTimeTask"/>
-  <bean id="flowgift" class="com.mtpt.timework.OrderSuccessaFlowGiftTimeTask"/>
-  <task:scheduled-tasks>
-  	<!-- <task:scheduled ref="totalcount" method="totalCount" cron="0 0 8 * * ?"/> -->
-  	<task:scheduled ref="stopwork" method="stopSendMessage" cron="0 0 22 * * ?"/>
-  	<task:scheduled ref="startwork" method="startSendMessage" cron="0 0 9 * * ?"/>
-  	<task:scheduled ref="download" method="downloadFtpFile" cron="0 30 8 * * ?"/>
-  	<task:scheduled ref="ordersTask" method="runSelectSecondConfirm" cron="59 59 23 * * ?"/>
-  	<task:scheduled ref="flowgift" method="runOrderSucceccFlowGift" cron="0 59 8 * * ?"/>
-  </task:scheduled-tasks>
+		<!-- 消息转换器 -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/html;charset=UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<task:annotation-driven/>
+	<!-- <bean id="totalcount" class="com.mtpt.timework.TotalCountTimerTask"/> -->
+	<!-- <bean id="stopwork" class="com.mtpt.timework.StopWorkTimeTask" />
+	<bean id="startwork" class="com.mtpt.timework.StartWorkTimeTask" />
+	<bean id="download" class="com.mtpt.timework.DownloadTimeTask" />
+	<bean id="ordersTask" class="com.mtpt.timework.OrderResultTimeTask" />
+	<bean id="flowgift" class="com.mtpt.timework.OrderSuccessaFlowGiftTimeTask" />
+	<task:scheduled-tasks>
+		<task:scheduled ref="totalcount" method="totalCount" cron="0 0 8 * 
+			* ?"/>
+		<task:scheduled ref="stopwork" method="stopSendMessage"
+			cron="0 0 22 * * ?" />
+		<task:scheduled ref="startwork" method="startSendMessage"
+			cron="0 0 9 * * ?" />
+		<task:scheduled ref="download" method="downloadFtpFile"
+			cron="0 30 8 * * ?" />
+		<task:scheduled ref="ordersTask" method="runSelectSecondConfirm"
+			cron="59 59 23 * * ?" />
+		<task:scheduled ref="flowgift" method="runOrderSucceccFlowGift"
+			cron="0 59 8 * * ?" />
+	</task:scheduled-tasks> -->
 
 	<!-- 静态资源处理 css js imgs -->
 	<mvc:resources location="/resources/**" mapping="/resources" />
 	<mvc:resources location="/js/**" mapping="/js" />
 	<mvc:resources location="/css/**" mapping="/css" />
 	<mvc:default-servlet-handler />
-	
+
 
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 	<bean id="mappingJackson2HttpMessageConverter"
@@ -72,18 +78,18 @@
 	</bean>
 	<!-- 配置前端至后端日期格式数据的转换 -->
 	<bean id="conversionService"
-        class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <set>
-                <!-- 指定自定义转换器的全路径名称 -->
-                <bean class="com.mtpt.extend.CustomGlobalStrToDateConverter"/>
-            </set>
-        </property>
-    </bean>
-   <!--  自定义的转换器配置到注解驱动上 -->
-    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<!-- 指定自定义转换器的全路径名称 -->
+				<bean class="com.mtpt.extend.CustomGlobalStrToDateConverter" />
+			</set>
+		</property>
+	</bean>
+	<!-- 自定义的转换器配置到注解驱动上 -->
+	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 
- <!-- 配置ViewResolver 。可用多个ViewResolver 。使用order属性排序。 InternalResourceViewResolver 
+	<!-- 配置ViewResolver 。可用多个ViewResolver 。使用order属性排序。 InternalResourceViewResolver 
 		放在最后 -->
 	<bean id="contentNegotiationManager"
 		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -108,14 +114,14 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 
-	
-	 <bean
+
+	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址
-		地址的前缀 -->
+		<!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 地址的前缀 -->
 		<property name="prefix" value="/jsp/" />
 		<!-- 地址的后缀 -->
 		<property name="suffix" value=".jsp" />
-	</bean> 
-	<bean id="SpringContextUtil" class="com.mtpt.config.SpringContextUtil" scope="singleton"></bean>
+	</bean>
+	<bean id="SpringContextUtil" class="com.mtpt.config.SpringContextUtil"
+		scope="singleton"></bean>
 </beans>
