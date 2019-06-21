@@ -35,7 +35,7 @@
     LIMIT #{start},#{limit}
   </select>
   
-  <select id="selectCouponOrderAllCountByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultMap="BaseResultMap">
+  <select id="selectCouponOrderAllCountByPage" parameterType="com.mtpt.alibean.page.PublicPage" resultType="java.lang.Integer">
   	select count(1)
   	from tb_coupon_order
   </select>

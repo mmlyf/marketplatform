@@ -27,7 +27,7 @@
 
 															table.render({
 																		elem : '#couponorder',
-																		url : '../thirdouttotal/selectcoupon',
+																		url : '../couponorder/selectdata',
 																		cellMinWidth : 80,
 																		width:760,
 																		height:420,

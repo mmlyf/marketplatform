@@ -37,14 +37,19 @@ public class CouponOrderDataService implements ICouponOrderDataService{
 			value.put("out_trade_on", tbCouponOrder.getOutTradeNo());
 			value.put("subject", tbCouponOrder.getSubject());
 			value.put("total_amount", tbCouponOrder.getTotalAmount());
-			Integer payid = Integer.parseInt(tbCouponOrder.getPayid());
+			String payidstr = tbCouponOrder.getPayid()!=null?(tbCouponOrder.getPayid().equals("")?"1":tbCouponOrder.getPayid()):"1";
+			Integer payid = Integer.parseInt(payidstr);
 			value.put("payid", payid==1?"支付宝":"微信");
-			Integer addid = Integer.parseInt(tbCouponOrder.getAddrId());
-			TBCouponAddr tbCouponAddr = couponAddrMapper.selectByPrimaryKey(addid);
-			if (tbCouponAddr==null) {
+			if (tbCouponOrder.getAddrId()!=null&&!tbCouponOrder.equals("")) {
 				value.put("address", "");
 			}else {
-				value.put("address", tbCouponAddr.getAddr()!=null?tbCouponAddr.getAddr():"");
+				Integer addid = Integer.parseInt(tbCouponOrder.getAddrId());
+				TBCouponAddr tbCouponAddr = couponAddrMapper.selectByPrimaryKey(addid);
+				if (tbCouponAddr==null) {
+					value.put("address", "");
+				}else {
+					value.put("address", tbCouponAddr.getAddr()!=null?tbCouponAddr.getAddr():"");
+				}
 			}
 			value.put("body", tbCouponOrder.getBody()!=null?tbCouponOrder.getBody():"");
 			Integer status = tbCouponOrder.getStatus()!=null?tbCouponOrder.getStatus():1;
