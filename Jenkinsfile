@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                echo "start build project...."
-                mvn clean install
+                echo 'start build project....'
+                sh 'mvn clean install'
             }
         }
     }
