@@ -1,9 +1,12 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven'
+    }
     stages {
         stage('build') {
             steps {
-                echo '${env.MAVEN_HOME}
+                echo 'mvn --version'
             }
         }
     }
