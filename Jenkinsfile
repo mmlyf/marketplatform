@@ -1,13 +1,22 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven'
+  agent any
+  stages {
+    stage('check') {
+      steps {
+        sh '''echo $JAVA_HOME
+echo $MAVEN_HOME
+'''
+      }
     }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
+
+    stage('build') {
+      steps {
+        sh 'mvn clean package'
+      }
     }
+
+  }
+  tools {
+    maven 'maven'
+  }
 }
